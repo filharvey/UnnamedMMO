@@ -1,0 +1,133 @@
+fileFormatVersion: 2
+guid: 16839a05daab08342ac55243d4d94ccc
+ModelImporter:
+  serializedVersion: 18
+  fileIDToRecycleName:
+    100000: Cylinder001
+    100002: //RootNode
+    100004: Treasure Chest Monster
+    100006: Rig
+    100008: RigBottom
+    100010: RigBottomGizmo
+    100012: RigCover
+    100014: RigCoverGizmo
+    100016: RigLHandle
+    100018: RigLHandleGizmo
+    100020: RigRHandle
+    100022: RigRHandleGizmo
+    100024: RigTongue1
+    100026: RigTongue1Gizmo
+    100028: RigTongue2
+    100030: RigTongue2Gizmo
+    100032: RigTongue3
+    100034: RigTongue3Gizmo
+    100036: RigTongue4
+    100038: RigTongue4Gizmo
+    100040: RigTongue5
+    100042: RigTongue5Gizmo
+    100044: RigTongue6
+    100046: RigTongue6Gizmo
+    100048: RigSpine
+    100050: RigTop
+    100052: RigTopGizmo
+    400000: Cylinder001
+    400002: //RootNode
+    400004: Treasure Chest Monster
+    400006: Rig
+    400008: RigBottom
+    400010: RigBottomGizmo
+    400012: RigCover
+    400014: RigCoverGizmo
+    400016: RigLHandle
+    400018: RigLHandleGizmo
+    400020: RigRHandle
+    400022: RigRHandleGizmo
+    400024: RigTongue1
+    400026: RigTongue1Gizmo
+    400028: RigTongue2
+    400030: RigTongue2Gizmo
+    400032: RigTongue3
+    400034: RigTongue3Gizmo
+    400036: RigTongue4
+    400038: RigTongue4Gizmo
+    400040: RigTongue5
+    400042: RigTongue5Gizmo
+    400044: RigTongue6
+    400046: RigTongue6Gizmo
+    400048: RigSpine
+    400050: RigTop
+    400052: RigTopGizmo
+    2300000: Cylinder001
+    2300002: Treasure Chest Monster
+    2300004: //RootNode
+    3300000: Cylinder001
+    3300002: Treasure Chest Monster
+    3300004: //RootNode
+    4300000: Treasure Chest Monster
+    4300002: Cylinder001
+    9500000: //RootNode
+    13700000: Treasure Chest Monster
+  materials:
+    importMaterials: 0
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: .00999999978
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: Treasure Chest Monster
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

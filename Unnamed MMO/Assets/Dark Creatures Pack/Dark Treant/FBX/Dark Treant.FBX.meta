@@ -1,0 +1,207 @@
+fileFormatVersion: 2
+guid: baa0e86298a1c7141aaf3ddea03cdf01
+ModelImporter:
+  serializedVersion: 18
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: Dark Treant
+    100004: Leaf
+    100006: Leaf 1
+    100008: Plane001
+    100010: RigHeadGizmo
+    100012: RigLArm1Gizmo
+    100014: RigLArm2Gizmo
+    100016: RigMouthLowGizmo
+    100018: RigMouthUpGizmo
+    100020: RigPelvisGizmo
+    100022: RigRArm1Gizmo
+    100024: RigRArm2Gizmo
+    100026: w
+    100028: wHead
+    100030: wLArm1
+    100032: wLArm2
+    100034: wLLegBack1
+    100036: wLLegBack2
+    100038: wLLegBackAnkle
+    100040: wLLegBackPlatform
+    100042: wLLegFront1
+    100044: wLLegFront2
+    100046: wLLegFrontAnkle
+    100048: wLLegFrontPlatform
+    100050: wPelvis
+    100052: wRArm1
+    100054: wRArm2
+    100056: wRLegBack1
+    100058: wRLegBack2
+    100060: wRLegBackAnkle
+    100062: wRLegBackPlatform
+    100064: wRLegFront1
+    100066: wRLegFront2
+    100068: wRLegFrontAnkle
+    100070: wRLegFrontPlatform
+    100072: wSpine
+    100074: Rig
+    100076: RigHead
+    100078: RigLArm1
+    100080: RigLArm2
+    100082: RigLLegBack1
+    100084: RigLLegBack2
+    100086: RigLLegBackAnkle
+    100088: RigLLegBackPlatform
+    100090: RigLLegFront1
+    100092: RigLLegFront2
+    100094: RigLLegFrontAnkle
+    100096: RigLLegFrontPlatform
+    100098: RigPelvis
+    100100: RigRArm1
+    100102: RigRArm2
+    100104: RigRLegBack1
+    100106: RigRLegBack2
+    100108: RigRLegBackAnkle
+    100110: RigRLegBackPlatform
+    100112: RigRLegFront1
+    100114: RigRLegFront2
+    100116: RigRLegFrontAnkle
+    100118: RigRLegFrontPlatform
+    100120: RigSpine
+    400000: //RootNode
+    400002: Dark Treant
+    400004: Leaf
+    400006: Leaf 1
+    400008: Plane001
+    400010: RigHeadGizmo
+    400012: RigLArm1Gizmo
+    400014: RigLArm2Gizmo
+    400016: RigMouthLowGizmo
+    400018: RigMouthUpGizmo
+    400020: RigPelvisGizmo
+    400022: RigRArm1Gizmo
+    400024: RigRArm2Gizmo
+    400026: w
+    400028: wHead
+    400030: wLArm1
+    400032: wLArm2
+    400034: wLLegBack1
+    400036: wLLegBack2
+    400038: wLLegBackAnkle
+    400040: wLLegBackPlatform
+    400042: wLLegFront1
+    400044: wLLegFront2
+    400046: wLLegFrontAnkle
+    400048: wLLegFrontPlatform
+    400050: wPelvis
+    400052: wRArm1
+    400054: wRArm2
+    400056: wRLegBack1
+    400058: wRLegBack2
+    400060: wRLegBackAnkle
+    400062: wRLegBackPlatform
+    400064: wRLegFront1
+    400066: wRLegFront2
+    400068: wRLegFrontAnkle
+    400070: wRLegFrontPlatform
+    400072: wSpine
+    400074: Rig
+    400076: RigHead
+    400078: RigLArm1
+    400080: RigLArm2
+    400082: RigLLegBack1
+    400084: RigLLegBack2
+    400086: RigLLegBackAnkle
+    400088: RigLLegBackPlatform
+    400090: RigLLegFront1
+    400092: RigLLegFront2
+    400094: RigLLegFrontAnkle
+    400096: RigLLegFrontPlatform
+    400098: RigPelvis
+    400100: RigRArm1
+    400102: RigRArm2
+    400104: RigRLegBack1
+    400106: RigRLegBack2
+    400108: RigRLegBackAnkle
+    400110: RigRLegBackPlatform
+    400112: RigRLegFront1
+    400114: RigRLegFront2
+    400116: RigRLegFrontAnkle
+    400118: RigRLegFrontPlatform
+    400120: RigSpine
+    2300000: Dark Treant
+    2300002: Leaf
+    2300004: Leaf 1
+    2300006: Plane001
+    2300008: //RootNode
+    3300000: Dark Treant
+    3300002: Leaf
+    3300004: Leaf 1
+    3300006: Plane001
+    3300008: //RootNode
+    4300000: Plane001
+    4300002: Dark Treant
+    4300004: Leaf
+    4300006: Leaf
+    9500000: //RootNode
+    13700000: Dark Treant
+  materials:
+    importMaterials: 0
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: .00999999978
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

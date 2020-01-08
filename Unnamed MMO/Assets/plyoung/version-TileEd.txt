@@ -1,0 +1,6 @@
+﻿Version 1.3.7
+
+- Update notes available at http://forum.plyoung.com/t/tileed-updates/
+- Documentation: https://plyoung.github.io/tile-ed.html
+- Support: http://forum.plyoung.com/c/tile-ed
+
