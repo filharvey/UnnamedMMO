@@ -222,7 +222,10 @@ namespace Acemobe.MMO
                                     amount = 1
                                 };
 
-                                inventory.addItem(item);
+                                if (!inventory.addItem(item))
+                                {
+                                    // drop on floor
+                                }
 
                                 if (mouseDownTarget.health <= 0)
                                 {

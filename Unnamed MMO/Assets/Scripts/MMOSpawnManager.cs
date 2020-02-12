@@ -63,17 +63,20 @@ namespace Acemobe.MMO
             if (checks >= 5)
                 return;
 
-            GameObject obj = Instantiate(spawnObj, pos, rotation);
-            MMOObject mmoObj = obj.GetComponent<MMOObject>();
+            if (MMOTerrainManager.instance.getChunk ((int)pos.x, (int)pos.z))
+            {
+                GameObject obj = Instantiate(spawnObj, pos, rotation);
+                MMOObject mmoObj = obj.GetComponent<MMOObject>();
 
-            // give link to manager
-            mmoObj.manager = this;
+                // give link to manager
+                mmoObj.manager = this;
 
-            MMOTerrainManager.instance.addObject((int)pos.x, (int)pos.z, mmoObj);
+                MMOTerrainManager.instance.addObject((int)pos.x, (int)pos.z, mmoObj);
 
-            objects.Add(mmoObj);
+                objects.Add(mmoObj);
 
-            NetworkServer.Spawn(obj);
+                NetworkServer.Spawn(obj);
+            }
         }
 
         public void killObject (MMOObject obj)

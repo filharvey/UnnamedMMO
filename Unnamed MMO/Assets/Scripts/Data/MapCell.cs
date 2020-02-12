@@ -4,6 +4,12 @@ using UnityEngine;
 
 namespace Acemobe.MMO
 {
+    public struct MapInfo
+    {
+        public Vector2Int pos;
+        public int type;
+    }
+
     public class MapCell
     {
         public int x;
@@ -12,19 +18,41 @@ namespace Acemobe.MMO
         public MMOObject obj;
         public GameObject terrain;
 
-        public int tileType;
+        public MapInfo info;
 
-        public MapCell (int posX, int posZ)
+        public MapChunk parent;
+
+        public MapCell (MapChunk parent, int posX, int posZ)
         {
+            this.parent = parent;
+
             x = posX;
             z = posZ;
 
-            tileType = 0;
+            info.pos = new Vector2Int (posX, posZ);
+            info.type = 0;
+
             obj = null;
+            terrain = null;
         }
 
-        public void setTerrain (GameObject terrain)
+        public void setTerrain (int type)
         {
+            info.type = type;
+            GameObject prefab;
+
+            switch (type)
+            {
+                case 0:
+                default:
+                    prefab = MMOTerrainManager.instance.grass[0];
+                    break;
+            }
+
+            Vector3 pos = new Vector3(x, 0, z);
+            Quaternion rotation = new Quaternion();
+            GameObject terrain = parent.CreatePrefab(prefab, pos, rotation);
+
             this.terrain = terrain;
         }
 

@@ -37,11 +37,11 @@ namespace Acemobe.MMO
             base.OnStartClient();
         }
 
-        void OnActionBarUpdated(SyncListItem.Operation op, int index, Item item)
+        void OnActionBarUpdated(SyncListItem.Operation op, int index, Item oldItem, Item newItem)
         {
         }
 
-        void OnInventoryUpdated(SyncListItem.Operation op, int index, Item item)
+        void OnInventoryUpdated(SyncListItem.Operation op, int index, Item oldItem, Item newItem)
         {
             switch (op)
             {
@@ -71,7 +71,7 @@ namespace Acemobe.MMO
             }
         }
 
-        public void addItem (Item item)
+        public bool addItem (Item item)
         {
             if (isServer)
             {
@@ -82,15 +82,19 @@ namespace Acemobe.MMO
                     {
                         item.amount += inventory[i].amount;
                         inventory[i] = item;
-                        found = true;
+                        return true;
                     }
                 }
 
                 if (!found)
                 {
+                    // only add if there is enough room
                     inventory.Add(item);
+                    return true;
                 }
             }
+
+            return false;
         }
     }
 }
