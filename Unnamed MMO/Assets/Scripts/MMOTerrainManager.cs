@@ -58,30 +58,31 @@ namespace Acemobe.MMO
 
         public void createTerrain ()
         {
-            int size = 2;
+            /*int size = 2;
 
-            for (int x = -size; x <= size; x++)
-            {
-                for (int z = -size; z <= size; z++)
-                {
-                    int xPos = x * chunkWidth;
-                    int zPos = z * chunkHeight;
+                        for (int x = -size; x <= size; x++)
+                        {
+                            for (int z = -size; z <= size; z++)
+                            {
+                                int xPos = x * chunkWidth;
+                                int zPos = z * chunkHeight;
 
-                    // create Map Chunk 
-                    Vector3 pos = new Vector3(xPos, 0, zPos);
-                    Quaternion rotation = new Quaternion();
+                                // create Map Chunk 
+                                Vector3 pos = new Vector3(xPos, 0, zPos);
+                                Quaternion rotation = new Quaternion();
 
-                    GameObject gameobject = Instantiate(mapChunkPrefab, pos, rotation);
-                    MapChunk chunk = gameobject.GetComponent<MapChunk>();
-                    chunk.init(xPos, zPos, chunkWidth, chunkHeight);
-                    chunk.name = x + ":" + z;
+                                GameObject gameobject = Instantiate(mapChunkPrefab, pos, rotation);
+                                MapChunk chunk = gameobject.GetComponent<MapChunk>();
+                                chunk.init(xPos, zPos, chunkWidth, chunkHeight);
+                                chunk.name = x + ":" + z;
 
-                    NetworkServer.Spawn(gameobject);
+                                NetworkServer.Spawn(gameobject);
 
-                    chunk.create();
-                    mapChunks.Add (chunk.name, chunk);
-                }
-            }
+                                chunk.create();
+                                mapChunks.Add (chunk.name, chunk);
+                            }
+                        }
+            */
         }
 
         internal void addObj(float x, float z, MMOObject mmoObj)

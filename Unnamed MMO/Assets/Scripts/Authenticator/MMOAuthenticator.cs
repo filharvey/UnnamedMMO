@@ -50,8 +50,8 @@ namespace Acemobe.MMO
         {
             AuthRequestMessage authRequestMessage = new AuthRequestMessage
             {
-                authUsername = UILogin.instance.username.text,
-                authPassword = UILogin.instance.password.text
+//                authUsername = UILogin.instance.username.text,
+//                authPassword = UILogin.instance.password.text
             };
 
             NetworkClient.Send(authRequestMessage);
@@ -61,6 +61,18 @@ namespace Acemobe.MMO
         {
             Debug.LogFormat("Authentication Request: {0} {1}", msg.authUsername, msg.authPassword);
 
+            AuthResponseMessage authResponseMessage = new AuthResponseMessage
+            {
+                code = 100,
+                message = "Success"
+            };
+
+            conn.Send(authResponseMessage);
+
+            // Invoke the event to complete a successful authentication
+            base.OnServerAuthenticated.Invoke(conn);
+
+#if PHIL
             HTTPRequest request = new HTTPRequest(new System.Uri("https://gnash.io/login"), HTTPMethods.Post, (request2, response) =>
             {
                 if (response.IsSuccess)
@@ -143,6 +155,7 @@ namespace Acemobe.MMO
             request.AddField("username", msg.authUsername);
             request.AddField("password", msg.authPassword);
             request.Send();
+#endif
         }
 
         public void OnAuthResponseMessage(NetworkConnection conn, AuthResponseMessage msg)
