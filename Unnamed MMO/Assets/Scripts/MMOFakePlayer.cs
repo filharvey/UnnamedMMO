@@ -42,6 +42,8 @@ namespace Acemobe.MMO
         public float moveHoriz = 0f;
         [SyncVar]
         public float moveVert = 0f;
+        [SyncVar]
+        public float lookAngle = 0f;
 
         public float cameraRotation = 0;
 
@@ -149,7 +151,6 @@ namespace Acemobe.MMO
             Vector3 up = quatUp * Vector3.forward;
             Vector3 left = quatLeft * Vector3.forward;
 
-            //            moveHoriz = 1f;
             Vector3 move = (up * moveVert) + (left * moveHoriz);
             move.Normalize();
             move *= (speed * Time.fixedDeltaTime);
@@ -163,6 +164,42 @@ namespace Acemobe.MMO
                 isMoving = newMove;
                 animator.SetBool("Walk", isMoving);
             }
+
+            var rotation = transform.rotation;
+            if (!newMove)
+            {
+                rotation.eulerAngles = new Vector3(0, lookAngle, 0);
+            }
+            else
+            {
+                if (moveVert < 0)
+                {
+                    if (moveHoriz > 0)
+                        rotation.eulerAngles = new Vector3(0, 45, 0);
+                    else if (moveHoriz < 0)
+                        rotation.eulerAngles = new Vector3(0, 135, 0);
+                    else
+                        rotation.eulerAngles = new Vector3(0, 90, 0);
+                }
+                else if (moveVert > 0)
+                {
+                    if (moveHoriz > 0)
+                        rotation.eulerAngles = new Vector3(0, 315, 0);
+                    else if (moveHoriz < 0)
+                        rotation.eulerAngles = new Vector3(0, 225, 0);
+                    else
+                        rotation.eulerAngles = new Vector3(0, 270, 0);
+                }
+                else
+                {
+                    if (moveHoriz > 0)
+                        rotation.eulerAngles = new Vector3(0, 0, 0);
+                    else if (moveHoriz < 0)
+                        rotation.eulerAngles = new Vector3(0, 180, 0);
+                }
+            }
+
+            transform.rotation = rotation;
         }
 
         [ServerCallback]

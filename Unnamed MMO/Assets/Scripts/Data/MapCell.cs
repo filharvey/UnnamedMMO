@@ -4,25 +4,31 @@ using UnityEngine;
 
 namespace Acemobe.MMO
 {
-    public struct MapInfo
+    public class MapInfo
     {
         public Vector2Int pos;
-        public int type;
+        public int type = -1;
+        public int rotation = 0;
     }
 
     public class MapCell
     {
+        public string name;
+
         public int x;
         public int z;
 
         public MMOObject obj;
         public GameObject terrain;
 
-        public MapInfo info;
-
+        public MapInfo info = new MapInfo ();
         public MapChunk parent;
 
-        public MapCell (MapChunk parent, int posX, int posZ)
+        bool isDirty = false;
+
+        public int type = -1;
+
+        public MapCell (MapChunk parent, int posX, int posZ, int type)
         {
             this.parent = parent;
 
@@ -30,30 +36,55 @@ namespace Acemobe.MMO
             z = posZ;
 
             info.pos = new Vector2Int (posX, posZ);
-            info.type = 0;
 
             obj = null;
             terrain = null;
+
+            this.type = type;
+            info.type = type;
+            isDirty = true;
         }
 
-        public void setTerrain (int type)
+        public void setTerrain(int type)
         {
+            if (info.type == type)
+                return;
+
+            isDirty = true;
             info.type = type;
-            GameObject prefab;
+        }
 
-            switch (type)
+        public void createTerrain ()
+        {
+
+            if (isDirty)
             {
-                case 0:
-                default:
-                    prefab = MMOTerrainManager.instance.grass[0];
-                    break;
+                parent.DestroyPrefab(terrain);
+
+                GameObject prefab;
+                Quaternion rotation = new Quaternion();
+
+                switch (info.type)
+                {
+                    case 1:
+                        prefab = MMOTerrainManager.instance.grass;                      break;
+
+                    case 2:
+                        prefab = MMOTerrainManager.instance.grassWaterCorner;
+                        break;
+
+                    case 0: // water
+                    default:
+                        prefab = MMOTerrainManager.instance.water;
+                        break;
+                }
+
+                float posX = x + parent.bound.min.x + 0.5f;
+                float posZ = z + parent.bound.min.z + 0.5f;
+                Vector3 pos = new Vector3(posX, 0, posZ);
+                terrain = parent.CreatePrefab(prefab, pos, rotation);
+                isDirty = false;
             }
-
-            Vector3 pos = new Vector3(x, 0, z);
-            Quaternion rotation = new Quaternion();
-            GameObject terrain = parent.CreatePrefab(prefab, pos, rotation);
-
-            this.terrain = terrain;
         }
 
         public void setObj (MMOObject obj)

@@ -65,7 +65,7 @@ namespace Acemobe.MMO
 
             if (MMOTerrainManager.instance.getChunk ((int)pos.x, (int)pos.z))
             {
-                GameObject obj = Instantiate(spawnObj, pos, rotation);
+                GameObject obj = Instantiate(spawnObj, pos + new Vector3 (0.5f, 0, 0.5f), rotation);
                 MMOObject mmoObj = obj.GetComponent<MMOObject>();
 
                 // give link to manager

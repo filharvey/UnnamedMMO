@@ -1,4 +1,5 @@
 ﻿using Mirror;
+using SimpleJSON;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,7 +13,7 @@ namespace Acemobe.MMO
         public SyncListMapInfo chunk = new SyncListMapInfo();
 
         [SyncVar]
-        public string name;
+        public string chunkName;
 
         [SyncVar]
         public Vector2Int pos;
@@ -58,8 +59,8 @@ namespace Acemobe.MMO
 
                         if (idx < chunk.Count)
                         {
-                            mapCells[x, z] = new MapCell(this, chunk[idx].pos.x, chunk[idx].pos.y);
-                            mapCells[x, z].setTerrain (chunk[idx].type);
+                            mapCells[x, z] = new MapCell(this, chunk[idx].pos.x, chunk[idx].pos.y, chunk[idx].type);
+                            mapCells[x, z].createTerrain();
                         }
                     }
                 }
@@ -92,10 +93,7 @@ namespace Acemobe.MMO
             this.width = width;
             this.height = height;
 
-            float xStart = x - width / 2;
-            float zStart = z - height / 2;
-
-            this.pos = new Vector2Int((int)xStart, (int)zStart);
+            pos = new Vector2Int((int)x, (int)z);
 
             mapCells = new MapCell[width, height];
 
@@ -104,15 +102,22 @@ namespace Acemobe.MMO
             bound.max = new Vector3Int(pos.x + width / 2, 0, pos.y + height / 2);
         }
 
-        public void create()
+        public void create(JSONNode mapData, int offX, int offZ)
         {
             // create 
-            for (int x1 = 0; x1 < width; x1++)
+            for (int z1 = 0; z1 < height; z1++)
             {
-                for (int z1 = 0; z1 < height; z1++)
+                var data = mapData[z1 + offZ].AsArray;
+
+                for (int x1 = 0; x1 < width; x1++)
                 {
-                    mapCells[x1, z1] = new MapCell(this, (int)(this.pos.x + x1), (int)(this.pos.y + z1));
-                    mapCells[x1, z1].setTerrain(0);
+                    int type = data[x1 + offX].AsInt;
+                    int x = (pos.x + x1 - width / 2);
+                    int z = (pos.y + z1 - height / 2);
+
+                    mapCells[x1, z1] = new MapCell(this, x1, z1, type);
+                    mapCells[x1, z1].name = x + ":" + z;
+                    mapCells[x1, z1].createTerrain();
 
                     chunk.Add(mapCells[x1, z1].info);
                 }
@@ -123,38 +128,47 @@ namespace Acemobe.MMO
         {
             GameObject obj = Instantiate(prefab, pos, rotation);
 
-            obj.transform.SetParent(MMOTerrainManager.instance.terrainBase.transform);
-
+            obj.transform.SetParent(transform);
             return obj;
+        }
+
+        public void DestroyPrefab(GameObject obj)
+        {
+            if (obj != null)
+                Destroy(obj);
         }
 
         void OnChunkUpdated(SyncListMapInfo.Operation op, int index, MapInfo oldItem, MapInfo newItem)
         {
-            int x = newItem.pos.x - this.pos.x;
-            int z = newItem.pos.y - this.pos.y;
+            int x = newItem.pos.x;
+            int z = newItem.pos.y;
 
             switch (op)
             {
                 case SyncListMapInfo.Operation.OP_ADD:
                     // index is where it got added in the list
                     // item is the new item
-                    if (isClient)
-                    {
-                        mapCells[x, z] = new MapCell(this, newItem.pos.x, newItem.pos.y);
+                    if (mapCells[x, z] == null)
+                        mapCells[x, z] = new MapCell(this, newItem.pos.x, newItem.pos.y, newItem.type);
+                    else
                         mapCells[x, z].setTerrain(newItem.type);
-                    }
+
+                    mapCells[x, z].createTerrain();
                     break;
                 case SyncListMapInfo.Operation.OP_CLEAR:
                     // list got cleared
+                    mapCells[x, z].createTerrain();
+                    mapCells[x, z].terrain = null;
+
                     if (isClient)
                     {
-                        Destroy(mapCells[x, z].terrain);
-                        mapCells[x, z].terrain = null;
                     }
                     break;
                 case SyncListMapInfo.Operation.OP_INSERT:
                     // index is where it got added in the list
                     // item is the new item
+
+                    // should not happen
                     if (isClient)
                     {
 
@@ -163,6 +177,8 @@ namespace Acemobe.MMO
                 case SyncListMapInfo.Operation.OP_REMOVEAT:
                     // index is where it got removed in the list
                     // item is the item that was removed
+
+                    // should not happen
                     if (isClient)
                     {
 
@@ -171,25 +187,17 @@ namespace Acemobe.MMO
                 case SyncListMapInfo.Operation.OP_SET:
                     // index is the index of the item that was updated
                     // item is the previous item
-                    if (isClient)
-                    {
-
-                    }
-                    break;
-                case SyncListMapInfo.Operation.OP_DIRTY:
-                    // index is the index of the item that was updated
-                    // item is the previous item
-                    if (isClient)
-                    {
-                        Destroy(mapCells[x, z].terrain);
-                        mapCells[x, z].setTerrain(newItem.type);
-                    }
+                    mapCells[x, z].setTerrain(newItem.type);
+                    mapCells[x, z].createTerrain();
                     break;
             }
         }
 
         public bool checkPosition(int x, int z)
         {
+            if (mapCells[x, z].type != 1)
+                return false;
+
             if (mapCells[x, z].obj != null)
                 return false;
 

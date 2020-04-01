@@ -346,10 +346,7 @@ namespace Acemobe.MMO
         {
             if (serverobj)
             {
-                var rotation = serverobj.transform.rotation;
-                rotation.eulerAngles = new Vector3(0, angle / 10, 0);
-                serverobj.transform.rotation = rotation;
-
+                serverobj.lookAngle = angle / 10;
                 serverobj.moveHoriz = horiz;
                 serverobj.moveVert = vert;
                 serverobj.movePlayer(0);

@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 402889513183739905}
   - component: {fileID: -4120994942450784478}
   - component: {fileID: -1010020442217145016}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Stone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -58,6 +58,8 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -69,6 +71,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -81,6 +84,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &-6778122314835287689
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -93,9 +97,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sceneId: 0
   serverOnly: 0
-  m_AssetId: 6ddc17ecf7df70f47ac7f3c871177906
-  m_SceneId: 0
+  m_AssetId: 
 --- !u!114 &402889513183739905
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -112,12 +116,7 @@ MonoBehaviour:
   syncInterval: 0.1
   health: 1
   maxHealth: 1
-  life: 1
   type: 3
-  lifeTime: 0
-  growthTime: 20
-  startScale: 1
-  variation: 0.2
   manager: {fileID: 0}
 --- !u!114 &-4120994942450784478
 MonoBehaviour:
@@ -133,6 +132,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  clientAuthority: 0
+  localPositionSensitivity: 0.01
+  localRotationSensitivity: 0.01
+  localScaleSensitivity: 0.01
   compressRotation: 1
 --- !u!114 &-1010020442217145016
 MonoBehaviour:
@@ -148,7 +151,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  visRange: 10
+  visRange: 30
   visUpdateInterval: 1
   checkMethod: 0
   forceHidden: 0

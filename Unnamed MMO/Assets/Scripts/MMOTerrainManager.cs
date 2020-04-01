@@ -1,4 +1,5 @@
 ﻿using Mirror;
+using SimpleJSON;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,11 +12,9 @@ namespace Acemobe.MMO
         static MMOTerrainManager _instance;
 
         [Header("Tiles")]
-        public List<GameObject> grass;
-
-        public List<GameObject> dirt;
-
-        public List<GameObject> water;
+        public GameObject grass;
+        public GameObject water;
+        public GameObject grassWaterCorner;
 
         [Header("MapChunk")]
         public GameObject mapChunkPrefab;
@@ -26,6 +25,9 @@ namespace Acemobe.MMO
         public GameObject terrainBase;  // holds all the 
 
         public Dictionary<string, MapChunk> mapChunks = new Dictionary<string, MapChunk>();
+
+        float offX = 0;
+        float offZ = 0;
 
         public static MMOTerrainManager instance
         {
@@ -58,31 +60,50 @@ namespace Acemobe.MMO
 
         public void createTerrain ()
         {
-            /*int size = 2;
+            TextAsset jsonData = Resources.Load<TextAsset>("Maps/Map1");
 
-                        for (int x = -size; x <= size; x++)
+            if (jsonData)
+            {
+                JSONNode json = JSON.Parse(jsonData.text);
+
+                JSONNode mapData = json["data"].AsArray;
+
+                if (mapData != null)
+                {
+                    int height = mapData.Count;
+                    int width = mapData[0].AsArray.Count;
+
+                    offX = -width / 2;
+                    offZ = -height / 2;
+
+                    height = (int)Mathf.Ceil(height / chunkWidth);
+                    width = (int)Mathf.Ceil(width / chunkWidth);
+
+                    for (int x = 0; x <= width; x++)
+                    {
+                        for (int z = 0; z <= height; z++)
                         {
-                            for (int z = -size; z <= size; z++)
-                            {
-                                int xPos = x * chunkWidth;
-                                int zPos = z * chunkHeight;
+                            int xPos = (int)(x * chunkWidth + offX) + chunkWidth / 2;
+                            int zPos = (int)(z * chunkHeight + offZ) + chunkHeight / 2;
 
-                                // create Map Chunk 
-                                Vector3 pos = new Vector3(xPos, 0, zPos);
-                                Quaternion rotation = new Quaternion();
+                            // create Map Chunk 
+                            Vector3 pos = new Vector3(xPos, 0, zPos);
+                            Quaternion rotation = new Quaternion();
 
-                                GameObject gameobject = Instantiate(mapChunkPrefab, pos, rotation);
-                                MapChunk chunk = gameobject.GetComponent<MapChunk>();
-                                chunk.init(xPos, zPos, chunkWidth, chunkHeight);
-                                chunk.name = x + ":" + z;
+                            GameObject gameobject = Instantiate(mapChunkPrefab, pos, rotation);
+                            MapChunk chunk = gameobject.GetComponent<MapChunk>();
+                            chunk.init(xPos, zPos, chunkWidth, chunkHeight);
 
-                                NetworkServer.Spawn(gameobject);
+                            NetworkServer.Spawn(gameobject);
+                            gameobject.transform.SetParent(MMOTerrainManager.instance.terrainBase.transform);
+                            gameobject.name = chunk.chunkName = xPos + ":" + zPos;
 
-                                chunk.create();
-                                mapChunks.Add (chunk.name, chunk);
-                            }
+                            chunk.create(mapData, (int)(x * chunkWidth), (int)(z * chunkHeight));
+                            mapChunks.Add(chunk.name, chunk);
                         }
-            */
+                    }
+                }
+            }
         }
 
         internal void addObj(float x, float z, MMOObject mmoObj)
@@ -92,13 +113,16 @@ namespace Acemobe.MMO
 
         public MapChunk getChunk(float x, float z)
         {
-            float x1 = (x + chunkWidth / 2);
-            float z1 = (z + chunkHeight / 2);
+            float x1 = (x - offX);
+            float z1 = (z - offZ);
 
             int cellX = (int)Math.Floor(x1 / chunkWidth);
             int cellZ = (int)Math.Floor(z1 / chunkHeight);
 
-            var name = cellX + ":" + cellZ;
+            int xPos = (int)(cellX * chunkWidth + offX) + chunkWidth / 2;
+            int zPos = (int)(cellZ * chunkHeight + offZ) + chunkHeight / 2;
+
+            var name = xPos + ":" + zPos;
 
             if (mapChunks.ContainsKey (name))
                 return mapChunks[name];
@@ -120,8 +144,8 @@ namespace Acemobe.MMO
                     if (chunk)
                     {
                         // adjust depending on position on chunk
-                        posX -= chunk.pos.x;
-                        posZ -= chunk.pos.y;
+                        posX -= chunk.bound.min.x;
+                        posZ -= chunk.bound.min.z;
 
                         return chunk.checkPosition(posX, posZ);
                     }
@@ -147,8 +171,8 @@ namespace Acemobe.MMO
             if (chunk)
             {
                 // adjust depending on position on chunk
-                x -= chunk.pos.x;
-                z -= chunk.pos.y;
+                x -= chunk.bound.min.x;
+                z -= chunk.bound.min.z;
 
                 return chunk.getObject(x, z);
             }
@@ -162,8 +186,8 @@ namespace Acemobe.MMO
             if (chunk)
             {
                 // adjust depending on position on chunk
-                x -= chunk.pos.x;
-                z -= chunk.pos.y;
+                x -= chunk.bound.min.x;
+                z -= chunk.bound.min.z;
 
                 chunk.mapCells[x, z].setObj(obj);
             }
@@ -176,8 +200,8 @@ namespace Acemobe.MMO
             if (chunk)
             {
                 // adjust depending on position on chunk
-                x -= chunk.pos.x;
-                z -= chunk.pos.y;
+                x -= chunk.bound.min.x;
+                z -= chunk.bound.min.z;
 
                 chunk.mapCells[x, z].setObj(null);
             }
