@@ -47,9 +47,13 @@ namespace Acemobe.MMO
 
             if (isClientOnly)
             {
-                MMOTerrainManager.instance.mapChunks.Add(this.name, this);
+                MMOTerrainManager.instance.mapChunks.Add(chunkName, this);
 
                 mapCells = new MapCell[width, height];
+
+                bound = new BoundsInt();
+                bound.min = new Vector3Int(pos.x - width / 2, 0, pos.y - height / 2);
+                bound.max = new Vector3Int(pos.x + width / 2, 0, pos.y + height / 2);
 
                 for (int x = 0; x < width; x++)
                 {
@@ -64,10 +68,6 @@ namespace Acemobe.MMO
                         }
                     }
                 }
-
-                bound = new BoundsInt();
-                bound.min = new Vector3Int(pos.x - width / 2, 0, pos.y - height / 2);
-                bound.max = new Vector3Int(pos.x + width / 2, 0, pos.y + height / 2);
             }
         }
 

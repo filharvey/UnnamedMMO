@@ -93,13 +93,13 @@ namespace Acemobe.MMO
                             GameObject gameobject = Instantiate(mapChunkPrefab, pos, rotation);
                             MapChunk chunk = gameobject.GetComponent<MapChunk>();
                             chunk.init(xPos, zPos, chunkWidth, chunkHeight);
+                            gameobject.name = chunk.chunkName = xPos + ":" + zPos;
 
                             NetworkServer.Spawn(gameobject);
                             gameobject.transform.SetParent(MMOTerrainManager.instance.terrainBase.transform);
-                            gameobject.name = chunk.chunkName = xPos + ":" + zPos;
 
                             chunk.create(mapData, (int)(x * chunkWidth), (int)(z * chunkHeight));
-                            mapChunks.Add(chunk.name, chunk);
+                            mapChunks.Add(chunk.chunkName, chunk);
                         }
                     }
                 }

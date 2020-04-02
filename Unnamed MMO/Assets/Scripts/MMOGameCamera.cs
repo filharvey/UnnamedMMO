@@ -63,8 +63,8 @@ namespace Acemobe.MMO
                         // Does the ray intersect any objects excluding the player layer
                         if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
                         {
-                            int x = (int)Mathf.Floor(hit.point.x + 0.5f);
-                            int z = (int)Mathf.Floor(hit.point.z + 0.5f);
+                            int x = (int)Mathf.Floor(hit.point.x);
+                            int z = (int)Mathf.Floor(hit.point.z);
 
                             // send to server command mouse down
                             MMOPlayer.localPlayer.mouseDown(x, z);
@@ -83,8 +83,8 @@ namespace Acemobe.MMO
                         // Does the ray intersect any objects excluding the player layer
                         if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
                         {
-                            int x = (int)Mathf.Floor(hit.point.x + 0.5f);
-                            int z = (int)Mathf.Floor(hit.point.z + 0.5f);
+                            int x = (int)Mathf.Floor(hit.point.x);
+                            int z = (int)Mathf.Floor(hit.point.z);
 
                             // send to server command mouse down
                             MMOPlayer.localPlayer.CmdMouseUpdate(x, z);

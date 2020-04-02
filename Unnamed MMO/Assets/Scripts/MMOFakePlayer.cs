@@ -168,7 +168,7 @@ namespace Acemobe.MMO
             var rotation = transform.rotation;
             if (!newMove)
             {
-                rotation.eulerAngles = new Vector3(0, lookAngle, 0);
+//                rotation.eulerAngles = new Vector3(0, lookAngle, 0);
             }
             else
             {
