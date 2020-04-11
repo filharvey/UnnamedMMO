@@ -1,33 +1,15 @@
 ﻿using Mirror;
-using SimpleJSON;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Acemobe.MMO.MapData;
+using Acemobe.MMO.MMOObjects;
 
 namespace Acemobe.MMO
 {
     public class MMOTerrainManager : NetworkBehaviour
     {
         static MMOTerrainManager _instance;
-
-        [Header("Tiles")]
-        public GameObject grass;
-        public GameObject water;
-        public GameObject grassWaterCorner;
-
-        [Header("MapChunk")]
-        public GameObject mapChunkPrefab;
-        public int chunkWidth;
-        public int chunkHeight;
-
-        [Header("Components")]
-        public GameObject terrainBase;  // holds all the 
-
-        public Dictionary<string, MapChunk> mapChunks = new Dictionary<string, MapChunk>();
-
-        float offX = 0;
-        float offZ = 0;
 
         public static MMOTerrainManager instance
         {
@@ -41,11 +23,43 @@ namespace Acemobe.MMO
             }
         }
 
-        public override void OnStartServer()
+        [Header("Components")]
+        public GameObject terrainBase;  // holds all the 
+        public Dictionary<string, MapData.TerrainData> terrain = new Dictionary<string, MapData.TerrainData>();
+        public MapData.TerrainData[,] mapData;
+
+        // map loaded in
+        GameObject map;
+        Bounds bounds;
+        int mapWidth;
+        int mapDepth;
+
+        private void Awake()
         {
             _instance = this;
+        }
 
+        public void registerTerrainData (MapData.TerrainData terrainData)
+        {
+            string name = terrainData.transform.localPosition.x + ":" + terrainData.transform.localPosition.y + ":" + terrainData.transform.localPosition.z;
+
+            if (terrain.ContainsKey(name))
+            {
+                Debug.Log(name);
+                terrainData.transform.parent.gameObject.SetActive(false);
+            }
+            else
+                terrain.Add(name, terrainData);
+        }
+
+        public override void OnStartServer()
+        {
             base.OnStartServer();
+
+            map = Resources.Load<GameObject>("Maps/Map1");
+
+            GameObject obj = Instantiate(map);
+            obj.transform.SetParent(terrainBase.transform);
 
             this.createTerrain();
         }
@@ -53,81 +67,110 @@ namespace Acemobe.MMO
         // on client
         public override void OnStartClient()
         {
-            _instance = this;
-
             base.OnStartClient();
+
+            if (isClientOnly)
+            {
+
+            }
         }
 
         public void createTerrain ()
         {
-            TextAsset jsonData = Resources.Load<TextAsset>("Maps/Map1");
+            bounds = new Bounds();
 
-            if (jsonData)
+            foreach (var k in terrain)
             {
-                JSONNode json = JSON.Parse(jsonData.text);
+                MapData.TerrainData terrain = k.Value;
 
-                JSONNode mapData = json["data"].AsArray;
+                bounds.Encapsulate(terrain.transform.localPosition);
+            }
 
-                if (mapData != null)
+            mapWidth = (int)(bounds.max.x - bounds.min.x) + 1;
+            mapDepth = (int)(bounds.max.z - bounds.min.z) + 1;
+
+            mapData = new MapData.TerrainData[mapWidth, mapDepth];
+
+            foreach (var k in terrain)
+            {
+                MapData.TerrainData terrain = k.Value;
+                int x = (int)(terrain.transform.localPosition.x - bounds.min.x);
+                int z = (int)(terrain.transform.localPosition.z - bounds.min.z);
+
+                if (mapData[x,z] == null)
                 {
-                    int height = mapData.Count;
-                    int width = mapData[0].AsArray.Count;
-
-                    offX = -width / 2;
-                    offZ = -height / 2;
-
-                    height = (int)Mathf.Ceil(height / chunkWidth);
-                    width = (int)Mathf.Ceil(width / chunkWidth);
-
-                    for (int x = 0; x <= width; x++)
+                    mapData[x, z] = terrain;
+                }
+                else
+                {
+                    if (terrain.transform.localPosition.y > mapData[x,z].transform.localPosition.y)
                     {
-                        for (int z = 0; z <= height; z++)
-                        {
-                            int xPos = (int)(x * chunkWidth + offX) + chunkWidth / 2;
-                            int zPos = (int)(z * chunkHeight + offZ) + chunkHeight / 2;
-
-                            // create Map Chunk 
-                            Vector3 pos = new Vector3(xPos, 0, zPos);
-                            Quaternion rotation = new Quaternion();
-
-                            GameObject gameobject = Instantiate(mapChunkPrefab, pos, rotation);
-                            MapChunk chunk = gameobject.GetComponent<MapChunk>();
-                            chunk.init(xPos, zPos, chunkWidth, chunkHeight);
-                            gameobject.name = chunk.chunkName = xPos + ":" + zPos;
-
-                            NetworkServer.Spawn(gameobject);
-                            gameobject.transform.SetParent(MMOTerrainManager.instance.terrainBase.transform);
-
-                            chunk.create(mapData, (int)(x * chunkWidth), (int)(z * chunkHeight));
-                            mapChunks.Add(chunk.chunkName, chunk);
-                        }
+                        mapData[x, z] = terrain;
                     }
                 }
             }
+
+            for (int x = 0; x < mapWidth; x++)
+            {
+                for (int z = 0; z < mapDepth; z++)
+                {
+                    if (mapData[x, z] != null)
+                    {
+                    }
+                }
+            }
+
+
+            /*            TextAsset jsonData = Resources.Load<TextAsset>("Maps/Map1");
+
+                        if (jsonData)
+                        {
+                            JSONNode json = JSON.Parse(jsonData.text);
+
+                            JSONNode mapData = json["data"].AsArray;
+
+                            if (mapData != null)
+                            {
+                                int height = mapData.Count;
+                                int width = mapData[0].AsArray.Count;
+
+                                offX = -width / 2;
+                                offZ = -height / 2;
+
+                                height = (int)Mathf.Ceil(height / chunkWidth);
+                                width = (int)Mathf.Ceil(width / chunkWidth);
+
+                                for (int x = 0; x <= width; x++)
+                                {
+                                    for (int z = 0; z <= height; z++)
+                                    {
+                                        int xPos = (int)(x * chunkWidth + offX) + chunkWidth / 2;
+                                        int zPos = (int)(z * chunkHeight + offZ) + chunkHeight / 2;
+
+                                        // create Map Chunk 
+                                        Vector3 pos = new Vector3(xPos, 0, zPos);
+                                        Quaternion rotation = new Quaternion();
+
+                                        GameObject gameobject = Instantiate(mapChunkPrefab, pos, rotation);
+                                        MapChunk chunk = gameobject.GetComponent<MapChunk>();
+                                        chunk.init(xPos, zPos, chunkWidth, chunkHeight);
+                                        gameobject.name = chunk.chunkName = xPos + ":" + zPos;
+
+                                        NetworkServer.Spawn(gameobject);
+                                        gameobject.transform.SetParent(MMOTerrainManager.instance.terrainBase.transform);
+
+                                        chunk.create(mapData, (int)(x * chunkWidth), (int)(z * chunkHeight));
+                                        mapChunks.Add(chunk.chunkName, chunk);
+                                    }
+                                }
+                            }
+                        }
+            */
         }
 
         internal void addObj(float x, float z, MMOObject mmoObj)
         {
             throw new NotImplementedException();
-        }
-
-        public MapChunk getChunk(float x, float z)
-        {
-            float x1 = (x - offX);
-            float z1 = (z - offZ);
-
-            int cellX = (int)Math.Floor(x1 / chunkWidth);
-            int cellZ = (int)Math.Floor(z1 / chunkHeight);
-
-            int xPos = (int)(cellX * chunkWidth + offX) + chunkWidth / 2;
-            int zPos = (int)(cellZ * chunkHeight + offZ) + chunkHeight / 2;
-
-            var name = xPos + ":" + zPos;
-
-            if (mapChunks.ContainsKey (name))
-                return mapChunks[name];
-
-            return null;
         }
 
         public bool checkPosition(int x, int z, int width, int height)
@@ -136,27 +179,36 @@ namespace Acemobe.MMO
             {
                 for (int d = 0; d < height; d++)
                 {
-                    var posX = x + w - width / 2;
-                    var posZ = z + d - height / 2;
+                    var posX = (int)((x + w - width / 2) - bounds.min.x);
+                    var posZ = (int)((z + d - height / 2) - bounds.min.z);
 
-                    MapChunk chunk = getChunk(posX, posZ);
-
-                    if (chunk)
+                    if (posX >= 0 && posZ >= 0 && posX < mapWidth && posZ < mapDepth)
                     {
-                        // adjust depending on position on chunk
-                        posX -= chunk.bound.min.x;
-                        posZ -= chunk.bound.min.z;
-
-                        return chunk.checkPosition(posX, posZ);
-                    }
-                    else
-                    {
-                        return false;
+                        if (mapData[posX, posZ] == null)
+                        {
+                            return false;
+                        }
+                        else
+                        {
+                            if (!mapData[posX, posZ].obj)
+                                return true;
+                        }
                     }
                 }
             }
 
-            return true;
+            return false;
+        }
+
+        public MapData.TerrainData getTerrainData (int x, int z)
+        {
+            var posX = (int)(x - bounds.min.x);
+            var posZ = (int)(z - bounds.min.z);
+
+            if (posX >= 0 && posZ >= 0 && posX < mapWidth && posZ < mapDepth && mapData[posX, posZ])
+                return mapData[posX, posZ];
+
+            return null;
         }
 
         public MMOObject getObject(Vector3 pos)
@@ -166,44 +218,36 @@ namespace Acemobe.MMO
 
         public MMOObject getObject(int x, int z)
         {
-            MapChunk chunk = getChunk(x, z);
+            var posX = (int)(x - bounds.min.x);
+            var posZ = (int)(z - bounds.min.z);
 
-            if (chunk)
+            if (posX >= 0 && posZ >= 0 && posX < mapWidth && posZ < mapDepth && mapData[posX, posZ])
             {
-                // adjust depending on position on chunk
-                x -= chunk.bound.min.x;
-                z -= chunk.bound.min.z;
-
-                return chunk.getObject(x, z);
+                return mapData[posX, posZ].obj;
             }
+
             return null;
         }
 
         public void addObject (int x, int z, MMOObject obj)
         {
-            MapChunk chunk = getChunk(x, z);
+            var posX = (int)(x - bounds.min.x);
+            var posZ = (int)(z - bounds.min.z);
 
-            if (chunk)
+            if (posX >= 0 && posZ >= 0 && posX < mapWidth && posZ < mapDepth && mapData[posX, posZ])
             {
-                // adjust depending on position on chunk
-                x -= chunk.bound.min.x;
-                z -= chunk.bound.min.z;
-
-                chunk.mapCells[x, z].setObj(obj);
+                mapData[posX, posZ].obj = obj;
             }
         }
 
         public void removeObject (int x, int z)
         {
-            MapChunk chunk = getChunk(x, z);
+            var posX = (int)(x - bounds.min.x);
+            var posZ = (int)(z - bounds.min.z);
 
-            if (chunk)
+            if (posX >= 0 && posZ >= 0 && posX < mapWidth && posZ < mapDepth && mapData[posX, posZ])
             {
-                // adjust depending on position on chunk
-                x -= chunk.bound.min.x;
-                z -= chunk.bound.min.z;
-
-                chunk.mapCells[x, z].setObj(null);
+                mapData[posX, posZ].obj = null;
             }
         }
     }

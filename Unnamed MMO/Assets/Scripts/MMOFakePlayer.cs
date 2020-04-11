@@ -91,9 +91,16 @@ namespace Acemobe.MMO
             Transform hands = mesh.transform.Find(this.hand);
             Transform belt = mesh.transform.Find(this.belt);
 
-            Transform PickAxe = mesh.transform.Find("RigPelvis/RigSpine1/RigSpine2/RigSpine3/RigRibcage/RigLCollarbone/RigLUpperarm/RigLForearm/RigLPalm/Pick Axe 01");
-            weapons.Add("pickaxe", PickAxe);
-            weapons["pickaxe"].gameObject.SetActive(false);
+            weapons.Add("pickaxe", mesh.transform.Find("RigPelvis/RigSpine1/RigSpine2/RigSpine3/RigRibcage/RigLCollarbone/RigLUpperarm/RigLForearm/RigLPalm/Pick Axe 01"));
+            weapons.Add("axe", mesh.transform.Find("RigPelvis/RigSpine1/RigSpine2/RigSpine3/RigRibcage/RigLCollarbone/RigLUpperarm/RigLForearm/RigLPalm/Axe 01"));
+            weapons.Add("hammer", mesh.transform.Find("RigPelvis/RigSpine1/RigSpine2/RigSpine3/RigRibcage/RigLCollarbone/RigLUpperarm/RigLForearm/RigLPalm/Hammer 01"));
+            weapons.Add("sword", mesh.transform.Find("RigPelvis/RigSpine1/RigSpine2/RigSpine3/RigRibcage/RigLCollarbone/RigLUpperarm/RigLForearm/RigLPalm/Sword 01"));
+            weapons.Add("spade", mesh.transform.Find("RigPelvis/RigSpine1/RigSpine2/RigSpine3/RigRibcage/RigLCollarbone/RigLUpperarm/RigLForearm/RigLPalm/Spade 01"));
+
+            foreach (var weapon in weapons)
+            {
+                weapon.Value.gameObject.SetActive(false);
+            }
 
             if (body)
             {
@@ -166,11 +173,7 @@ namespace Acemobe.MMO
             }
 
             var rotation = transform.rotation;
-            if (!newMove)
-            {
-//                rotation.eulerAngles = new Vector3(0, lookAngle, 0);
-            }
-            else
+            if (isMoving)
             {
                 if (moveVert < 0)
                 {
@@ -199,6 +202,7 @@ namespace Acemobe.MMO
                 }
             }
 
+            rigidBody.angularVelocity = Vector3.zero;
             transform.rotation = rotation;
         }
 

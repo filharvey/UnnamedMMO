@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Acemobe.MMO.UI.UIItems;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,6 +12,8 @@ namespace Acemobe.MMO
         public UIActionBar actionBar;
 
         public UIInventory inventory;
+
+        public UILogin login;
 
         public static UIManager instance
         {
@@ -28,12 +31,10 @@ namespace Acemobe.MMO
         void Start()
         {
             _instance = this;
-        }
+            actionBar.gameObject.SetActive(false);
+            inventory.gameObject.SetActive(false);
 
-        // Update is called once per frame
-        void Update()
-        {
+            login.gameObject.SetActive(true);
         }
     }
-
 }

@@ -42,6 +42,7 @@ namespace Acemobe.MMO
 
             if (MMOPlayer.localPlayer && MMOPlayer.localPlayer.serverobj)
             {
+                // look at location
                 Quaternion quat = new Quaternion();
                 quat.eulerAngles = new Vector3 (0, cameraRotation, 0);
                 Vector3 off = quat * cameraOffset;
@@ -51,7 +52,8 @@ namespace Acemobe.MMO
                 transform.localPosition = targetPosition;
                 transform.LookAt (MMOPlayer.localPlayer.serverobj.transform);
 
-                if (Input.GetMouseButtonDown(0))
+                // handle mouse down
+/*                if (Input.GetMouseButtonDown(0))
                 {
                     if (!EventSystem.current.IsPointerOverGameObject())
                     {
@@ -104,6 +106,7 @@ namespace Acemobe.MMO
                     UIManager.instance.inventory.gameObject.SetActive (true);
                     UIManager.instance.inventory.updateInventory();
                 }
+                */
             }
         }
     }

@@ -1,18 +1,13 @@
-﻿using Mirror;
+﻿using Acemobe.MMO.Data;
+using Acemobe.MMO.Data.ScriptableObjects;
+using Mirror;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Acemobe.MMO
 {
-    public struct Item
-    {
-        public string name;
-        public MMOResource itemID;
-        public int amount;
-    }
-
-    public class SyncListItem : SyncList<Item> { }
+    public class SyncListItem : SyncList<MMOInventoryItem> { }
 
     public class MMOPlayerInventory : NetworkBehaviour
     {
@@ -37,11 +32,11 @@ namespace Acemobe.MMO
             base.OnStartClient();
         }
 
-        void OnActionBarUpdated(SyncListItem.Operation op, int index, Item oldItem, Item newItem)
+        void OnActionBarUpdated(SyncListItem.Operation op, int index, MMOInventoryItem oldItem, MMOInventoryItem newItem)
         {
         }
 
-        void OnInventoryUpdated(SyncListItem.Operation op, int index, Item oldItem, Item newItem)
+        void OnInventoryUpdated(SyncListItem.Operation op, int index, MMOInventoryItem oldItem, MMOInventoryItem newItem)
         {
             switch (op)
             {
@@ -71,14 +66,16 @@ namespace Acemobe.MMO
             }
         }
 
-        public bool addItem (Item item)
+        public bool addItem (MMOInventoryItem item)
         {
+            GameItem gameItem = MMOResourceManager.instance.getItemByType(item.type);
+
             if (isServer)
             {
                 bool found = false;
                 for (var i = 0; i < inventory.Count; i++)
                 {
-                    if (!found && inventory[i].itemID == item.itemID)
+                    if (!found && item.type == gameItem.itemType)
                     {
                         item.amount += inventory[i].amount;
                         inventory[i] = item;

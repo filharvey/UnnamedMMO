@@ -1,4 +1,5 @@
-﻿using Mirror;
+﻿using Acemobe.MMO.MMOObjects;
+using Mirror;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -63,20 +64,17 @@ namespace Acemobe.MMO
             if (checks >= 5)
                 return;
 
-            if (MMOTerrainManager.instance.getChunk ((int)pos.x, (int)pos.z))
-            {
-                GameObject obj = Instantiate(spawnObj, pos + new Vector3 (0.5f, 0, 0.5f), rotation);
-                MMOObject mmoObj = obj.GetComponent<MMOObject>();
+            GameObject obj = Instantiate(spawnObj, pos + new Vector3 (0.5f, 0.25f, 0.5f), rotation);
+            MMOObject mmoObj = obj.GetComponent<MMOObject>();
 
-                // give link to manager
-                mmoObj.manager = this;
+            // give link to manager
+            mmoObj.manager = this;
 
-                MMOTerrainManager.instance.addObject((int)pos.x, (int)pos.z, mmoObj);
+            MMOTerrainManager.instance.addObject((int)pos.x, (int)pos.z, mmoObj);
 
-                objects.Add(mmoObj);
+            objects.Add(mmoObj);
 
-                NetworkServer.Spawn(obj);
-            }
+            NetworkServer.Spawn(obj);
         }
 
         public void killObject (MMOObject obj)

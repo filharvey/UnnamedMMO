@@ -1,11 +1,17 @@
-﻿using Mirror;
+﻿using Acemobe.MMO.Data;
+using Acemobe.MMO.Data.ScriptableObjects;
+using Acemobe.MMO.MMOObjects;
+using Mirror;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace Acemobe.MMO
 {
     public class MMOPlayer : NetworkBehaviour
     {
         static public MMOPlayer localPlayer;
+
+        Camera mainCamera;
 
         [Header("Components")]
         public MMOFakePlayer serverobj;
@@ -58,9 +64,11 @@ namespace Acemobe.MMO
         public int mouseDownX = -1;
         public int mouseDownZ = -1;
         public float mouseDownTimer = 0;
-        public Transform activeItem;
+        public Transform activeTool;
 
         public float mouseRange = 1.9f;
+
+        public int activeItem = 0;
 
         // on server
         public override void OnStartServer()
@@ -85,6 +93,8 @@ namespace Acemobe.MMO
             base.OnStartLocalPlayer();
 
             UIManager.instance.actionBar.gameObject.SetActive (true);
+
+            mainCamera = MMOGameCamera.instance.GetComponent<Camera>();
         }
 
         void Update()
@@ -97,6 +107,81 @@ namespace Acemobe.MMO
             {
                 if (isClient)
                 {
+                    if (Input.GetKeyDown(KeyCode.I))
+                    {
+                        UIManager.instance.inventory.gameObject.SetActive(true);
+                        UIManager.instance.inventory.updateInventory();
+                    }
+
+                    if (!EventSystem.current.IsPointerOverGameObject())
+                    {
+                        RaycastHit hit;
+                        int layerMask = (1 << 14) + (1 << 13);
+                    
+                        if (Input.GetMouseButtonDown(0))
+                        {
+                            Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+
+                            // Does the ray intersect any objects excluding the player layer
+                            if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
+                            {
+                                var gameObject = hit.transform.gameObject;
+
+                                if (gameObject)
+                                {
+                                    MMOObject mmoObj = gameObject.GetComponent<MMOObject>();
+
+                                    if (mmoObj != null)
+                                    {
+                                        mouseDownObject(gameObject);
+                                    }
+                                    else
+                                    {
+                                        int x = (int)Mathf.Floor(hit.point.x);
+                                        int z = (int)Mathf.Floor(hit.point.z);
+
+                                        // send to server command mouse down
+                                        mouseDown(x, z);
+                                    }
+                                }
+                            }
+                        }
+                        else if (Input.GetMouseButton(0))
+                        {
+                            Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+
+                            // Does the ray intersect any objects excluding the player layer
+                            if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
+                            {
+                                var gameObject = hit.transform.gameObject;
+
+                                if (gameObject)
+                                {
+                                    MMOObject mmoObj = gameObject.GetComponent<MMOObject>();
+
+                                    if (mmoObj != null)
+                                    {
+                                        mouseUpdateObject(gameObject);
+                                    }
+                                    else
+                                    {
+                                        int x = (int)Mathf.Floor(hit.point.x);
+                                        int z = (int)Mathf.Floor(hit.point.z);
+
+                                        // send to server command mouse down
+                                        mouseUpdate(x, z);
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    if (!Input.GetMouseButton(0) && MMOPlayer.localPlayer.isMouseDown)
+                    {
+                        CmdMouseUp();
+                    }
+
+                    // handle movement
                     float horizontal = Input.GetAxis("Horizontal");
                     float vertical = Input.GetAxis("Vertical");
 
@@ -165,21 +250,21 @@ namespace Acemobe.MMO
                 // display item if they are using one
                 if (displayItem != "")
                 {
-                    if (activeItem != serverobj.weapons[displayItem])
+                    if (activeTool != serverobj.weapons[displayItem])
                     {
-                        if (activeItem != null)
+                        if (activeTool != null)
                         {
-                            activeItem.gameObject.SetActive(false);
+                            activeTool.gameObject.SetActive(false);
                         }
 
                         serverobj.weapons[displayItem].gameObject.SetActive(true);
-                        activeItem = serverobj.weapons[displayItem];
+                        activeTool = serverobj.weapons[displayItem];
                     }
                 }
-                else if (activeItem)
+                else if (activeTool)
                 {
-                    activeItem.gameObject.SetActive(false);
-                    activeItem = null;
+                    activeTool.gameObject.SetActive(false);
+                    activeTool = null;
                 }
             }
         }
@@ -204,22 +289,23 @@ namespace Acemobe.MMO
 
                 if (checkDist (mouseDownTarget.transform, mouseRange))
                 {
+                    // look at object
+                    transform.LookAt(mouseDownTarget.transform);
+
+                    // do action
                     switch (mouseDownTarget.type)
                     {
-                        case MMOObjectTypes.Stone:
-                            break;
-
-                        case MMOObjectTypes.Tree:
-                            // inventory add wood
-                            if (mouseDownTimer > 1.18f)
+                        case MMOObjectTypes.Object:
+                            // timer
+                            if (mouseDownTimer >= mouseDownTarget.miningTime)
                             {
-                                mouseDownTimer -= 1.18f;
+                                mouseDownTimer -= mouseDownTarget.miningTime;
                                 mouseDownTarget.health -= 10;
-                                Item item = new Item
+
+                                MMOInventoryItem item = new MMOInventoryItem
                                 {
-                                    name = "Wood",
-                                    itemID = MMOResource.wood,
-                                    amount = 1
+                                    type = mouseDownTarget.resouce,
+                                    amount = mouseDownTarget.miningGain
                                 };
 
                                 if (!inventory.addItem(item))
@@ -229,37 +315,19 @@ namespace Acemobe.MMO
 
                                 if (mouseDownTarget.health <= 0)
                                 {
+                                    switch (mouseDownTarget.action)
+                                    {
+                                        case MMOResourceAction.Chop:
+                                        case MMOResourceAction.Mining:
+                                            // stop actions
+                                            serverobj.animator.SetBool("Mining", false);
+                                            serverobj.weapons["axe"].gameObject.SetActive(false);
+                                            break;
+                                    }
+
+                                    displayItem = "";
                                     mouseDownTarget.manager.killObject(mouseDownTarget);
                                     mouseDownTarget = null;
-                                    serverobj.animator.SetBool("Mining", false);
-                                    serverobj.weapons["pickaxe"].gameObject.SetActive(false);
-                                    displayItem = "";
-                                }
-                            }
-                            break;
-
-                        case MMOObjectTypes.Rock:
-                            // inventory add wood
-                            if (mouseDownTimer > 1.18f)
-                            {
-                                mouseDownTimer -= 1.18f;
-                                mouseDownTarget.health -= 10;
-                                Item item = new Item
-                                {
-                                    name = "Rock",
-                                    itemID = MMOResource.stone,
-                                    amount = 1
-                                };
-
-                                inventory.addItem(item);
-
-                                if (mouseDownTarget.health <= 0)
-                                {
-                                    mouseDownTarget.manager.killObject(mouseDownTarget);
-                                    mouseDownTarget = null;
-                                    serverobj.animator.SetBool("Mining", false);
-                                    serverobj.weapons["pickaxe"].gameObject.SetActive(false);
-                                    displayItem = "";
                                 }
                             }
                             break;
@@ -275,38 +343,33 @@ namespace Acemobe.MMO
 
             switch (mouseDownTarget.type)
             {
-                case MMOObjectTypes.Stone:
-                    // inventory add rock
+                case MMOObjectTypes.Object:
+                    if (mouseDownTarget.instant)
                     {
                         obj.manager.killObject(obj);
 
-                        Item item = new Item
+                        MMOInventoryItem item = new MMOInventoryItem
                         {
-                            name = "Rock",
-                            itemID = MMOResource.stone,
-                            amount = 1
+                            type = mouseDownTarget.resouce,
+                            amount = mouseDownTarget.miningGain
                         };
 
                         inventory.addItem(item);
                     }
-                    break;
-
-                case MMOObjectTypes.Tree:
-                    // inventory add wood
+                    else
                     {
-                        serverobj.animator.SetBool("Mining", true);
-                        serverobj.weapons["pickaxe"].gameObject.SetActive(true);
-                        displayItem = "pickaxe";
+                        switch (mouseDownTarget.action)
+                        {
+                            case MMOResourceAction.Chop:
+                            case MMOResourceAction.Mining:
+                                // show item needed
+                                serverobj.animator.SetBool("Mining", true);
+                                serverobj.weapons["pickaxe"].gameObject.SetActive(true);
+                                displayItem = "pickaxe";
+                                break;
+                        }
                     }
-                    break;
 
-                case MMOObjectTypes.Rock:
-                    // inventory add wood
-                    {
-                        serverobj.animator.SetBool("Mining", true);
-                        serverobj.weapons["pickaxe"].gameObject.SetActive(true);
-                        displayItem = "pickaxe";
-                    }
                     break;
             }
         }
@@ -360,6 +423,61 @@ namespace Acemobe.MMO
             serverobj.isFiring = state;
         }
 
+        public void mouseDownObject(GameObject obj)
+        {
+            if (isLocalPlayer)
+            {
+                NetworkIdentity identity = obj.GetComponent<NetworkIdentity>();
+
+                CmdMouseDownObject(identity.netId);
+            }
+        }
+
+        [Command]
+        public void CmdMouseDownObject(uint netId)
+        {
+            if (NetworkIdentity.spawned.TryGetValue(netId, out NetworkIdentity identity))
+            {
+                GameObject obj = identity.gameObject;
+
+                MMOObject mmoObj = obj.GetComponent<MMOObject>();
+
+                if (mmoObj && serverobj)
+                {
+                    if (checkDist(obj.transform, 1.6f))
+                    {
+                        startAction(mmoObj);
+                    }
+                }
+            }
+        }
+
+        public void mouseUpdateObject(GameObject obj)
+        {
+            if (isLocalPlayer)
+            {
+                NetworkIdentity identity = obj.GetComponent<NetworkIdentity>();
+
+                CmdMouseDownObject(identity.netId);
+            }
+        }
+
+        [Command]
+        public void CmdMouseUpdateObject(uint netId)
+        {
+            if (NetworkIdentity.spawned.TryGetValue(netId, out NetworkIdentity identity))
+            {
+                GameObject obj = identity.gameObject;
+
+                MMOObject mmoObj = obj.GetComponent<MMOObject>();
+
+                if (mmoObj && serverobj)
+                {
+                    updateAction(mmoObj);
+                }
+            }
+        }
+
         public void mouseDown(int x, int z)
         {
             if (isLocalPlayer)
@@ -371,25 +489,63 @@ namespace Acemobe.MMO
         [Command]
         public void CmdMouseDown(int x, int z)
         {
+            if (!serverobj)
+                return;
+
             isMouseDown = true;
             mouseDownX = x;
             mouseDownZ = z;
 
             // check action on cell to see if something can happen
-            MMOObject obj = MMOTerrainManager.instance.getObject (x, z);
+            MMOObject mmoObj = MMOTerrainManager.instance.getObject (x, z);
 
-            if (obj && serverobj)
+            if (mmoObj)
             {
-                if (checkDist(obj.transform, 1.6f))
+                if (checkDist(mmoObj.transform, 1.6f))
                 {
-                    startAction(obj);
+                    startAction(mmoObj);
                 }
+            }
+            else
+            {
+                // we hit empty ground?
+                MapData.TerrainData terrainData = MMOTerrainManager.instance.getTerrainData(x, z);
+
+                if (terrainData)
+                {
+                    if (terrainData.isPublic && terrainData.obj == null)
+                    {
+                        Vector3 pos = transform.position;
+                        Quaternion rotation = new Quaternion();
+                        rotation.eulerAngles = new Vector3(0, Random.Range(0, 360), 0);
+
+                        // we can make plant a crop
+                        CropData cropData = MMOResourceManager.instance.getCropObject("carrots");
+
+                        GameObject obj = Instantiate(cropData.growthStates[0], pos + new Vector3(0.5f, 0.25f, 0.5f), rotation);
+                        MMOObject spawnObj = obj.GetComponent<MMOObject>();
+                        MMOTerrainManager.instance.addObject((int)pos.x, (int)pos.z, mmoObj);
+                        NetworkServer.Spawn(obj);
+
+                    }
+                }
+            }
+        }
+
+        public void mouseUpdate(int x, int z)
+        {
+            if (isLocalPlayer)
+            {
+                CmdMouseUpdate(x, z);
             }
         }
 
         [Command]
         public void CmdMouseUpdate(int x, int z)
         {
+            if (!serverobj)
+                return;
+
             mouseDownX = x;
             mouseDownZ = z;
 
@@ -405,19 +561,6 @@ namespace Acemobe.MMO
 
             if (mouseDownTarget)
             {
-                // set animation to false
-                switch (mouseDownTarget.type)
-                {
-                    case MMOObjectTypes.Stone:
-                        break;
-
-                    case MMOObjectTypes.Tree:
-                        break;
-
-                    case MMOObjectTypes.Rock:
-                        break;
-                }
-
                 mouseDownTarget = null;
             }
 
