@@ -1056,15 +1056,15 @@ Canvas:
   m_GameObject: {fileID: 252922356}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 1
+  m_RenderMode: 0
   m_Camera: {fileID: 963194227}
   m_PlaneDistance: 100
-  m_PixelPerfect: 0
+  m_PixelPerfect: 1
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 25
+  m_AdditionalShaderChannelsFlag: 1
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
@@ -2655,74 +2655,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14a0179f56ff7a4438a052968c5cb005, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &605175570
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 605175571}
-  - component: {fileID: 605175573}
-  - component: {fileID: 605175572}
-  m_Layer: 0
-  m_Name: StoneSpawner
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &605175571
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 605175570}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1894327004}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &605175572
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 605175570}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sceneId: 678965850
-  serverOnly: 1
-  m_AssetId: 
---- !u!114 &605175573
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 605175570}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4d2f34c308c1c6843be3e3f437c65953, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  width: 20
-  height: 20
-  spawnObj: {fileID: 8080929819890541759, guid: 6ddc17ecf7df70f47ac7f3c871177906,
-    type: 3}
-  maxNum: 15
-  respawnTimer: 6
-  radius: 1
 --- !u!1 &612087312
 GameObject:
   m_ObjectHideFlags: 0
@@ -4145,7 +4077,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1894327004}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &865141444
 MonoBehaviour:
@@ -5385,7 +5317,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraRotation: 0
-  cameraOffset: {x: 5, y: 8, z: 0}
+  cameraOffset: {x: 4, y: 7, z: 0}
   smoothTime: 0.3
 --- !u!114 &963194230
 MonoBehaviour:
@@ -7153,7 +7085,7 @@ RectTransform:
   m_GameObject: {fileID: 1249196610}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.9, y: 0.9, z: 0}
+  m_LocalScale: {x: 0.9, y: 0.9, z: 1}
   m_Children:
   - {fileID: 1764138065}
   - {fileID: 42201044}
@@ -7162,10 +7094,10 @@ RectTransform:
   m_Father: {fileID: 252922360}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchoredPosition: {x: 0, y: 450}
+  m_SizeDelta: {x: 1966, y: 900}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1249196612
 MonoBehaviour:
@@ -10367,7 +10299,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 687480128}
-  - {fileID: 605175571}
   - {fileID: 865141443}
   m_Father: {fileID: 0}
   m_RootOrder: 4
@@ -10387,7 +10318,11 @@ MonoBehaviour:
   gameItems:
   - {fileID: 11400000, guid: 840d6eaa3804db344bb86a7f352e2fe2, type: 2}
   - {fileID: 11400000, guid: e66f5264173e78c4d881d5047293ff07, type: 2}
-  gameCrops: []
+  - {fileID: 11400000, guid: 39e375327dc496647b7e001968b9dbfe, type: 2}
+  - {fileID: 11400000, guid: 33d1411fb8a5ac04cbf564e41f386f7b, type: 2}
+  - {fileID: 11400000, guid: cac0d73bcc90044419b09d7b3ef6fbd9, type: 2}
+  gameCrops:
+  - {fileID: 11400000, guid: 5df0391cc752d7a47a54b161e78875a2, type: 2}
 --- !u!1 &1897354584
 GameObject:
   m_ObjectHideFlags: 0

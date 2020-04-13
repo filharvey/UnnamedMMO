@@ -78,7 +78,7 @@ MonoBehaviour:
   displayItem: 
   projectilePrefab: {fileID: 5271991172593972804, guid: 0a7f1dfec5be60a48a65d75903894718,
     type: 3}
-  fakePlayer: {fileID: 5824926610311117690, guid: 8eb9abbdaf46a914099426fdf813a98b,
+  fakePlayer: {fileID: 3852942570814593499, guid: 47aed8ec55f44634b8cf03b783ef7d5c,
     type: 3}
   health: 0
   isFiring: 0
@@ -92,8 +92,9 @@ MonoBehaviour:
   mouseDownX: -1
   mouseDownZ: -1
   mouseDownTimer: 0
-  activeItem: {fileID: 0}
+  activeTool: {fileID: 0}
   mouseRange: 1.9
+  activeItem: 0
 --- !u!114 &2715546751118216101
 MonoBehaviour:
   m_ObjectHideFlags: 0

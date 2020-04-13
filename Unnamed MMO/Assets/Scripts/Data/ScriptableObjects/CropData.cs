@@ -9,7 +9,8 @@ namespace Acemobe.MMO.Data.ScriptableObjects
     public class CropData : ScriptableObject
     {
         public new string name;
-        public List<GameObject> growthStates;
+
+        public GameObject prefab;
 
         public int growthTime;
         public MMOObjectTypes type;

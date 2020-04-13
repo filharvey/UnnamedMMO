@@ -75,7 +75,7 @@ namespace Acemobe.MMO
                 bool found = false;
                 for (var i = 0; i < inventory.Count; i++)
                 {
-                    if (!found && item.type == gameItem.itemType)
+                    if (!found && item.type == inventory[i].type)
                     {
                         item.amount += inventory[i].amount;
                         inventory[i] = item;
@@ -87,6 +87,34 @@ namespace Acemobe.MMO
                 {
                     // only add if there is enough room
                     inventory.Add(item);
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public bool addActionItem(MMOInventoryItem item)
+        {
+            GameItem gameItem = MMOResourceManager.instance.getItemByType(item.type);
+
+            if (isServer)
+            {
+                bool found = false;
+                for (var i = 0; i < actionBar.Count; i++)
+                {
+                    if (!found && item.type == actionBar[i].type)
+                    {
+                        item.amount += actionBar[i].amount;
+                        actionBar[i] = item;
+                        return true;
+                    }
+                }
+
+                if (!found)
+                {
+                    // only add if there is enough room
+                    actionBar.Add(item);
                     return true;
                 }
             }

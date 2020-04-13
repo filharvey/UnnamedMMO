@@ -14,7 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Wood
   icon: {fileID: 21300000, guid: ab9255ff0279e36408a1949c0e868ded, type: 3}
-  type: 0
-  isResource: 0
+  type: 2
   itemType: 1
   maxStack: 99
+  isHarvestable: 0
+  isStorable: 1
+  isPickable: 1

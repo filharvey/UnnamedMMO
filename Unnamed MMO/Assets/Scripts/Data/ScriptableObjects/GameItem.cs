@@ -10,12 +10,15 @@ namespace Acemobe.MMO.Data.ScriptableObjects
     {
         public new string name;
         public Sprite icon;
+        public GameObject prefab;
 
         public MMOObjectTypes type;
 
-        public bool isResource;
         public MMOItemType itemType;
-
         public int maxStack;
+
+        public bool isHarvestable;
+        public bool isStorable;
+        public bool isPickable;
     }
 }

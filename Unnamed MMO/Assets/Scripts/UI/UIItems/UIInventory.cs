@@ -34,11 +34,9 @@ namespace Acemobe.MMO
 
         public void updateInventory ()
         {
-            int a = 0;
-
             if (MMOPlayer.localPlayer)
             {
-                for (; a < inventoryItems.Count; a++)
+                for (var a = 0; a < inventoryItems.Count; a++)
                 {
                     UIItemInfo bar = inventoryItems[a];
 

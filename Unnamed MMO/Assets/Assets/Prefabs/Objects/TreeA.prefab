@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 585102775025861158}
   - component: {fileID: 952144636209208704}
   - component: {fileID: 8213852985273013983}
-  - component: {fileID: 1486442806315920823}
+  - component: {fileID: -6847876395058375453}
   m_Layer: 13
   m_Name: TreeA
   m_TagString: Untagged
@@ -94,7 +94,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.41
+  m_Radius: 0.31
   m_Height: 5.5326667
   m_Direction: 1
   m_Center: {x: 0, y: 2.766338, z: 0}
@@ -153,7 +153,7 @@ MonoBehaviour:
   castLayers:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &1486442806315920823
+--- !u!114 &-6847876395058375453
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -162,17 +162,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 9149509602334266504}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 68fa94366a8ea234880eaa9320003146, type: 3}
+  m_Script: {fileID: 11500000, guid: 0423067a8687a504a8476b95733aa719, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  health: 0
-  maxHealth: 50
-  type: 1
-  resouce: 1
-  instant: 0
-  action: 1
-  miningTime: 2
-  miningGain: 1
+  health: 100
+  maxHealth: 100
+  lifeTime: 0
+  gameItem: {fileID: 11400000, guid: a1a438b8652bf1d449d331275a514985, type: 2}
   manager: {fileID: 0}
+  action: 1
+  harvestTime: 2
+  harvestGain: 1
+  harvestResource: 1
+  variation: 0.1
+  canGrow: 1
+  growthTime: 20
+  finalSize: 1
+  startScale: 0.25

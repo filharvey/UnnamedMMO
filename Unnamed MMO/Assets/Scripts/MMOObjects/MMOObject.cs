@@ -1,4 +1,6 @@
-﻿using Mirror;
+﻿using Acemobe.MMO.Data.ScriptableObjects;
+using Mirror;
+using UnityEngine;
 
 namespace Acemobe.MMO.MMOObjects
 {
@@ -22,6 +24,10 @@ namespace Acemobe.MMO.MMOObjects
 
         Carrot = 500,
 
+
+        Tree = 750,
+        Rock,
+
         Axe = 1000,
         PickAxe,
         Spade,
@@ -32,9 +38,12 @@ namespace Acemobe.MMO.MMOObjects
 
     public enum MMOResourceAction
     {
+        None = 0,
         Chop = 1,
         Pickup = 2,
         Mining = 3,
+        Plant = 4,
+        Gather = 5
     };
 
     public class MMOObject : NetworkBehaviour
@@ -43,17 +52,14 @@ namespace Acemobe.MMO.MMOObjects
         public int health;
         [SyncVar]
         public int maxHealth;
+
         [SyncVar]
-        public MMOObjectTypes type;
-        [SyncVar]
-        public MMOItemType resouce;
+        [HideInInspector]
+        public float lifeTime;
 
-        public bool instant = false;
+        public GameItem gameItem;
 
-        public MMOResourceAction action;
-        public float miningTime = 2;
-        public int miningGain = 1;
-
+        [HideInInspector]
         public MMOSpawnManager manager;
 
         public override void OnStartServer()

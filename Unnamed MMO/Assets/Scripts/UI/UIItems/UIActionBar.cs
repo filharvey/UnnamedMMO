@@ -22,25 +22,7 @@ namespace Acemobe.MMO.UI.UIItems
         // Update is called once per frame
         void Update()
         {
-            int a = 0;
-
-            if (MMOPlayer.localPlayer)
-            {
-                // go through items in action bar, and update the UI
-                for (; a < MMOPlayer.localPlayer.inventory.actionBar.Count; a++)
-                {
-                    UIActionBarItemInfo bar = actionBarItems[a];
-                    MMOInventoryItem itemInfo = MMOPlayer.localPlayer.inventory.actionBar[a];
-
-                    bar.updateItem(itemInfo);
-                }
-
-                for (; a < 10; a++)
-                {
-                    UIActionBarItemInfo bar = actionBarItems[a];
-                    bar.clear();
-                }
-            }
+            updateActionBar();
         }
 
         public void onPressed (UIItemInfo item)
@@ -50,15 +32,22 @@ namespace Acemobe.MMO.UI.UIItems
 
         public void updateActionBar ()
         {
-            for (var a = 0; a < actionBarItems.Count; a++)
+            if (MMOPlayer.localPlayer)
             {
-                UIActionBarItemInfo bar = actionBarItems[a];
-
-                if (a < MMOPlayer.localPlayer.inventory.actionBar.Count)
+                for (var a = 0; a < actionBarItems.Count; a++)
                 {
-                    MMOInventoryItem itemInfo = MMOPlayer.localPlayer.inventory.actionBar[a];
+                    UIActionBarItemInfo bar = actionBarItems[a];
 
-                    bar.updateItem(itemInfo);
+                    if (a < MMOPlayer.localPlayer.inventory.actionBar.Count)
+                    {
+                        MMOInventoryItem itemInfo = MMOPlayer.localPlayer.inventory.actionBar[a];
+
+                        bar.updateItem(itemInfo);
+                    }
+                    else
+                    {
+                        bar.clear();
+                    }
                 }
             }
         }

@@ -54,6 +54,8 @@ namespace Acemobe.MMO
 
         public Dictionary<string, Transform> weapons = new Dictionary<string, Transform>();
 
+        public MMOPlayer player;
+
         public override void OnStartServer()
         {
             base.OnStartServer();
@@ -210,6 +212,18 @@ namespace Acemobe.MMO
         void OnTriggerEnter(Collider co)
         {
             health -= 10;
+        }
+
+        public void AnimComplete()
+        {
+            Debug.Log("AnimComplete");
+            if (isServer)
+            {
+                if (player)
+                {
+                    player.AnimComplete();
+                }
+            }
         }
     }
 }

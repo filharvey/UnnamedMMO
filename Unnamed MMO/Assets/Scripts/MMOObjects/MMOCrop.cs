@@ -1,4 +1,5 @@
-﻿using Acemobe.MMO.MMOObjects;
+﻿using Acemobe.MMO.Data.ScriptableObjects;
+using Acemobe.MMO.MMOObjects;
 using Mirror;
 using System.Collections;
 using System.Collections.Generic;
@@ -9,34 +10,59 @@ namespace Acemobe.MMO.MMOObjects
     public class MMOCrop : MMOObject
     {
         [SyncVar]
-        public int life;
-        [SyncVar]
         public bool isWatered;
         [SyncVar]
         public bool isFertalized;
 
-        public float lifeTime = 0;
-        public int growthTime = 20;
+        public CropData cropData;
+
+        public List<GameObject> states = new List<GameObject>();
 
         // handle watering
-        public float waterTime = 0;
+        float waterTime = 0;
 
         // handle fertalizing
-        public float fertalizeTime = 0;
+        float fertalizeTime = 0;
 
         // Start is called before the first frame update
         void Start()
         {
-            life = 1;
+            for (var a = 0; a < states.Count; a++)
+            {
+                if (a == 0)
+                    states[a].SetActive(true);
+                else
+                    states[a].SetActive(false);
+            }
         }
 
         // Update is called once per frame
         void Update()
         {
-            if (lifeTime < growthTime)
+            lifeTime = Mathf.Min(lifeTime + Time.deltaTime, cropData.growthTime);
+
+            if (states.Count > 0)
             {
-                lifeTime = Mathf.Min(lifeTime + Time.deltaTime, growthTime);
+                int count = states.Count;
+                float step = lifeTime / count;
+                int lifeState = Mathf.Min((int)(lifeTime / (cropData.growthTime / count)), states.Count - 1);
+
+                for (var a = 0; a < states.Count; a++)
+                {
+                    if (a == lifeState)
+                        states[a].SetActive(true);
+                    else
+                        states[a].SetActive(false);
+                }
             }
+        }
+
+        public bool isGrown ()
+        {
+            if (lifeTime >= cropData.growthTime)
+                return true;
+
+            return false;
         }
     }
 }

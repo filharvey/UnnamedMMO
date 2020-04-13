@@ -26,10 +26,10 @@ MonoBehaviour:
     fallbackErrorPS: {fileID: 4800000, guid: e6e9a19c3678ded42a3bc431ebef7dbd, type: 3}
   m_OpaqueLayerMask:
     serializedVersion: 2
-    m_Bits: 31543
+    m_Bits: 2147515191
   m_TransparentLayerMask:
     serializedVersion: 2
-    m_Bits: 31543
+    m_Bits: 2147515191
   m_DefaultStencilState:
     overrideStencilState: 0
     stencilReference: 0
@@ -53,7 +53,7 @@ MonoBehaviour:
   m_Active: 1
   settings:
     passTag: Player
-    Event: 300
+    Event: 1000
     filterSettings:
       RenderQueueType: 0
       LayerMask:

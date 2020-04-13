@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 3300325425326924093}
   - component: {fileID: 1943861036545514327}
   - component: {fileID: 3535287833378308066}
-  - component: {fileID: 7968289901811271198}
+  - component: {fileID: -2956069390794823968}
   m_Layer: 13
   m_Name: Rock
   m_TagString: Untagged
@@ -153,7 +153,7 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: d4cbef7b5eaba29408581eb1bd8ecd7b, type: 3}
---- !u!114 &7968289901811271198
+--- !u!114 &-2956069390794823968
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -162,17 +162,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 1956653824213574304}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 68fa94366a8ea234880eaa9320003146, type: 3}
+  m_Script: {fileID: 11500000, guid: 0423067a8687a504a8476b95733aa719, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
   health: 100
   maxHealth: 100
-  type: 1
-  resouce: 2
-  instant: 0
-  action: 3
-  miningTime: 2
-  miningGain: 1
+  lifeTime: 0
+  gameItem: {fileID: 11400000, guid: 1b7618e62dd58b6429e55d48509ac002, type: 2}
   manager: {fileID: 0}
+  action: 1
+  harvestTime: 2
+  harvestGain: 1
+  harvestResource: 2
+  canGrow: 0
+  growthTime: 20
+  finalSize: 1
+  startScale: 0.25
+  variation: 0.1
