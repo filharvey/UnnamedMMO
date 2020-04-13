@@ -4,6 +4,7 @@ using Acemobe.MMO.MMOObjects;
 using Mirror;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using Rewired;
 
 namespace Acemobe.MMO
 {
@@ -59,13 +60,6 @@ namespace Acemobe.MMO
 
         public float speed = 200;
 
-        [Header("Mouse Down Vars")]
-//        public MMOObject mouseDownTarget;
-//        public int mouseDownX = -1;
-//        public int mouseDownZ = -1;
-//        public float mouseDownTimer = 0;
-        public Transform activeTool;
-
         [Header("Action Vars")]
         public MMOResourceAction curAction = MMOResourceAction.None;
         public bool doingAction = false;
@@ -74,8 +68,12 @@ namespace Acemobe.MMO
         public MMOObject nextActionTarget;
         public int actionX = -1;
         public int actionZ = -1;
-
+        public Transform activeTool;
         public float mouseRange = 1.9f;
+
+        // Rewired
+        private Rewired.Player player; // The Rewired Player
+        private CharacterController cc;
 
         // on server
         public override void OnStartServer()
@@ -118,6 +116,9 @@ namespace Acemobe.MMO
         {
             MMOPlayer.localPlayer = this;
 
+            // Get the character controller
+            player = ReInput.players.GetPlayer(0);
+
             base.OnStartLocalPlayer();
 
             UIManager.instance.actionBar.gameObject.SetActive (true);
@@ -135,6 +136,13 @@ namespace Acemobe.MMO
             {
                 if (isClient)
                 {
+                    Vector3 moveVector = new Vector3 ();
+                    bool fire;
+
+                    moveVector.x = player.GetAxis("Move Horizontal"); // get input by name or action id
+                    moveVector.y = player.GetAxis("Move Vertical");
+                    fire = player.GetButtonDown("Fire");
+
                     RaycastHit hit;
                     int layerMask = (1 << 14) + (1 << 13);
 
@@ -215,8 +223,10 @@ namespace Acemobe.MMO
                     if (!doingAction)
                     {
                         // handle movement
-                        float horizontal = Input.GetAxis("Horizontal");
-                        float vertical = Input.GetAxis("Vertical");
+//                        float horizontal = Input.GetAxis("Horizontal");
+//                        float vertical = Input.GetAxis("Vertical");
+                        moveVector.x = player.GetAxis("Move Horizontal"); // get input by name or action id
+                        moveVector.y = player.GetAxis("Move Vertical");
 
                         // rotation
                         Vector3 screenPos = Input.mousePosition;
@@ -228,7 +238,7 @@ namespace Acemobe.MMO
                         angle += MMOGameCamera.instance.cameraRotation;
 
                         // send movement
-                        CmdMove(NetworkTime.time, horizontal, vertical, (int)angle * 10);
+                        CmdMove(NetworkTime.time, moveVector.x, moveVector.y, (int)angle * 10);
 
                         // update from serverObj
                         if (serverobj)

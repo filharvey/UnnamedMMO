@@ -177,7 +177,17 @@ namespace Acemobe.MMO
             var rotation = transform.rotation;
             if (isMoving)
             {
-                if (moveVert < 0)
+                // UP = 90
+                // Right = 180
+                // Down = 270
+                // Left = 0
+
+                float angle = Mathf.Atan2(-moveHoriz, -moveVert) * 180 / Mathf.PI;
+                rotation.eulerAngles = new Vector3(0, angle + 90, 0);
+
+                Debug.Log(angle);
+
+/*                if (moveVert < 0)
                 {
                     if (moveHoriz > 0)
                         rotation.eulerAngles = new Vector3(0, 45, 0);
@@ -201,7 +211,7 @@ namespace Acemobe.MMO
                         rotation.eulerAngles = new Vector3(0, 0, 0);
                     else if (moveHoriz < 0)
                         rotation.eulerAngles = new Vector3(0, 180, 0);
-                }
+                }*/
             }
 
             rigidBody.angularVelocity = Vector3.zero;
