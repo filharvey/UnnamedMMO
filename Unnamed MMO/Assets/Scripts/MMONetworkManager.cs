@@ -44,29 +44,45 @@ namespace Acemobe.MMO
         {
             base.OnClientConnect(conn);
 
-            // get user info
-            new HTTPRequest(new Uri("https://gnash.io"), (request, response) =>
+            /*            // get user info
+                        new HTTPRequest(new Uri("https://gnash.io"), (request, response) =>
+                        {
+                            if (response.IsSuccess)
+                            {
+                                Debug.Log("Request Finished! Text received: " + response.DataAsText);
+
+                                // you can send the message here, or wherever else you want
+                                MMOCharacterCreateMessage characterMessage = new MMOCharacterCreateMessage
+                                {
+                                    name = "Phil",
+                                    head = "01 Head 01",
+                                    torso = "02 Torso 02",
+                                    bottom = "03 Bottom 02",
+                                    feet = "04 Feet 01",
+                                    hand = "05 Hand 01",
+                                    belt = "06 Belt 01",
+                                    weapon = Weapon.Rifle
+                                };
+
+                                conn.Send(characterMessage);
+                            }
+                        }).Send();
+            */
+
+            // you can send the message here, or wherever else you want
+            MMOCharacterCreateMessage characterMessage = new MMOCharacterCreateMessage
             {
-                if (response.IsSuccess)
-                {
-                    Debug.Log("Request Finished! Text received: " + response.DataAsText);
+                name = "Phil",
+                head = "01 Head 01",
+                torso = "02 Torso 02",
+                bottom = "03 Bottom 02",
+                feet = "04 Feet 01",
+                hand = "05 Hand 01",
+                belt = "06 Belt 01",
+                weapon = Weapon.Rifle
+            };
 
-                    // you can send the message here, or wherever else you want
-                    MMOCharacterCreateMessage characterMessage = new MMOCharacterCreateMessage
-                    {
-                        name = "Phil",
-                        head = "01 Head 01",
-                        torso = "02 Torso 02",
-                        bottom = "03 Bottom 02",
-                        feet = "04 Feet 01",
-                        hand = "05 Hand 01",
-                        belt = "06 Belt 01",
-                        weapon = Weapon.Rifle
-                    };
-
-                    conn.Send(characterMessage);
-                }
-            }).Send();
+            conn.Send(characterMessage);
         }
 
         // server handler
@@ -122,18 +138,9 @@ namespace Acemobe.MMO
             pos.y = 1.6f;
             pos.z = z;
 
-//            Matrix4x4 mat = Matrix4x4.LookAt(pos, new Vector3(0f, 1.5f, 0f), Vector3.up);
-//            startPos.rotation = mat.rotation;
-
             // get starting spawn point
             GameObject player = Instantiate(playerPrefab, pos, startPos.rotation);
             NetworkServer.AddPlayerForConnection(conn, player);
-
-            // spawn ball if two players
-            if (numPlayers == 2)
-            {
-                // start Game
-            }
         }
 
         public override void OnServerDisconnect(NetworkConnection conn)

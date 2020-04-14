@@ -64,21 +64,5 @@ namespace Acemobe.MMO
 
             connectionLayer.SetActive(false);
         }
-
-        private void FixedUpdate()
-        {
-            /*            if (NetworkClient.isConnected && !ClientScene.ready)
-                        {
-                            ClientScene.Ready(NetworkClient.connection);
-
-                            if (ClientScene.localPlayer == null)
-                            {
-                                ClientScene.AddPlayer();
-
-                                gameObject.SetActive(false);
-                            }
-                        }
-            */
-        }
     }
 }
