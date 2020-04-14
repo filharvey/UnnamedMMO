@@ -71,7 +71,10 @@ namespace Acemobe.MMO
 
             if (isClientOnly)
             {
+                map = Resources.Load<GameObject>("Maps/Map1");
 
+                GameObject obj = Instantiate(map);
+                obj.transform.SetParent(terrainBase.transform);
             }
         }
 

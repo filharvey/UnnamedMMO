@@ -35,8 +35,8 @@ namespace Acemobe.MMO
         [SyncVar]
         public Weapon weapon;
 
-        [SyncVar]
-        public string displayItem;
+//        [SyncVar]
+//        public string displayItem;
 
         [Header("Spawn Objects")]
         public GameObject projectilePrefab;
@@ -68,7 +68,7 @@ namespace Acemobe.MMO
         public MMOObject nextActionTarget;
         public int actionX = -1;
         public int actionZ = -1;
-        public Transform activeTool;
+//        public Transform activeTool;
         public float mouseRange = 1.9f;
 
         // Rewired
@@ -81,7 +81,6 @@ namespace Acemobe.MMO
             base.OnStartServer();
 
             Debug.Log("Player OnStartServer," + torso + "," + head);
-            Debug.Log(transform.position);
 
             MMOInventoryItem item = new MMOInventoryItem
             {
@@ -137,24 +136,23 @@ namespace Acemobe.MMO
                 if (isClient)
                 {
                     Vector3 moveVector = new Vector3 ();
-                    bool fire;
 
                     moveVector.x = player.GetAxis("Move Horizontal"); // get input by name or action id
                     moveVector.y = player.GetAxis("Move Vertical");
-                    fire = player.GetButtonDown("Fire");
 
                     RaycastHit hit;
                     int layerMask = (1 << 14) + (1 << 13);
 
-                    if (Input.GetKeyDown(KeyCode.I))
+                    if (player.GetButtonDown("Inventory"))
                     {
                         UIManager.instance.inventory.updateInventory();
                         UIManager.instance.inventory.gameObject.SetActive(true);
                     }
 
+                    // mouse pointer
                     if (!EventSystem.current.IsPointerOverGameObject())
                     {
-                        if (Input.GetMouseButtonDown(0))
+                        if (player.GetButtonDown("Fire"))
                         {
                             Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
 
@@ -182,7 +180,7 @@ namespace Acemobe.MMO
                                 }
                             }
                         }
-                        else if (Input.GetMouseButton(0))
+                        else if (player.GetButton ("Fire"))
                         {
                             Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
 
@@ -211,13 +209,14 @@ namespace Acemobe.MMO
                             }
                         }
                     }
-
-                    if (!Input.GetMouseButton(0))
+                    else
                     {
-                        if (MMOPlayer.localPlayer.isMouseDown)
-                        {
-                            CmdMouseUp();
-                        }
+                        CmdMouseUp();
+                    }
+
+                    if (MMOPlayer.localPlayer.isMouseDown && !player.GetButton("Fire"))
+                    {
+                        CmdMouseUp();
                     }
 
                     if (!doingAction)
@@ -271,28 +270,29 @@ namespace Acemobe.MMO
                 }
             }
 
-            if (isClient)
-            {
-                // display item if they are using one
-                if (displayItem != "")
-                {
-                    if (activeTool != serverobj.weapons[displayItem])
-                    {
-                        if (activeTool != null)
+            /*            if (isClient)
                         {
-                            activeTool.gameObject.SetActive(false);
-                        }
+                            // display item if they are using one
+                            if (displayItem != "")
+                            {
+                                if (activeTool != serverobj.weapons[displayItem])
+                                {
+                                    if (activeTool != null)
+                                    {
+                                        activeTool.gameObject.SetActive(false);
+                                    }
 
-                        serverobj.weapons[displayItem].gameObject.SetActive(true);
-                        activeTool = serverobj.weapons[displayItem];
-                    }
-                }
-                else if (activeTool)
-                {
-                    activeTool.gameObject.SetActive(false);
-                    activeTool = null;
-                }
-            }
+                                    serverobj.weapons[displayItem].gameObject.SetActive(true);
+                                    activeTool = serverobj.weapons[displayItem];
+                                }
+                            }
+                            else if (activeTool)
+                            {
+                                activeTool.gameObject.SetActive(false);
+                                activeTool = null;
+                            }
+                        }
+            */
         }
 
         float getDist(Vector3 pos1, Vector3 pos2)
@@ -381,7 +381,7 @@ namespace Acemobe.MMO
                     // show item needed
                     serverobj.animator.SetBool("Mining", true);
                     serverobj.weapons["pickaxe"].gameObject.SetActive(true);
-                    displayItem = "pickaxe";
+                    serverobj.displayItem = "pickaxe";
                     break;
             }
         }
@@ -502,8 +502,8 @@ namespace Acemobe.MMO
             // do we stop action
             if (isMouseDown == false)
             {
-                // stop anim
-                stopAnim = false;
+                // set no target
+                actionTarget = null;
             }
             else if (nextActionTarget)
             {
@@ -514,6 +514,11 @@ namespace Acemobe.MMO
                 }
             }
 
+            // if no target
+            if (actionTarget == null)
+                stopAnim = true;
+
+            // or if stop (ie dead)
             if (stopAnim)
             {
                 switch (lastAction)
@@ -526,7 +531,7 @@ namespace Acemobe.MMO
                         break;
                 }
 
-                displayItem = "";
+                serverobj.displayItem = "";
             }
         }
         #endregion
@@ -693,6 +698,7 @@ namespace Acemobe.MMO
 
         public void handleMouseUp()
         {
+            isMouseDown = false;
             nextActionTarget = null;
         }
 

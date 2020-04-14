@@ -14,7 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Axe
   icon: {fileID: 21300000, guid: 6c18509f8fcddf04cbbc59054b417ae2, type: 3}
+  prefab: {fileID: 0}
   type: 3
-  isResource: 0
   itemType: 1000
-  maxStack: 0
+  maxStack: 1
+  isHarvestable: 0
+  isStorable: 0
+  isPickable: 0

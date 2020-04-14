@@ -39,8 +39,8 @@ namespace Acemobe.MMO
 
         public virtual void clear()
         {
-            item.enabled = false;
-            count.enabled = false;
+            item.gameObject.SetActive(false);
+            count.gameObject.SetActive(false);
         }
 
         public virtual void updateItem (MMOInventoryItem itemInfo)
@@ -48,11 +48,18 @@ namespace Acemobe.MMO
             GameItem gameItem = MMOResourceManager.instance.getItemByType(itemInfo.type);
             Sprite sprite = gameItem.icon;
 
-            item.enabled = true;
-            count.enabled = true;
-
+            item.gameObject.SetActive(true);
             item.sprite = sprite;
-            count.text = itemInfo.amount.ToString ();
+
+            if (gameItem.maxStack > 1)
+            {
+                count.gameObject.SetActive(true);
+                count.text = itemInfo.amount.ToString();
+            }
+            else
+            {
+                count.gameObject.SetActive(false);
+            }
         }
     }
 }
