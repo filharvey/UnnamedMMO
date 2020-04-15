@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfcbcb49ac4db184e9911c8b42c85a3b, type: 3}
   m_Name: CarrotPlant
   m_EditorClassIdentifier: 
-  name: Carrot
+  name: CarrotPlant
   prefab: {fileID: 5040940490070232708, guid: 72109e682f1cb8b4e96d1570f5ac14e6, type: 3}
   growthTime: 60
   type: 3

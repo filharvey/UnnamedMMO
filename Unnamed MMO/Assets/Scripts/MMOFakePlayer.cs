@@ -68,6 +68,7 @@ namespace Acemobe.MMO
             rigidBody.isKinematic = false;
 
             Debug.Log("OnStartServer," + torso + "," + head);
+            handleMeshStartup();
         }
 
         public override void OnStartClient()
@@ -77,6 +78,14 @@ namespace Acemobe.MMO
             // find parent object
             Debug.Log("OnStartClient," + torso + "," + this.head);
 
+            if (isClientOnly)
+            {
+                handleMeshStartup();
+            }
+        }
+
+        void handleMeshStartup ()
+        {
             for (var a = 0; a < mesh.transform.childCount; a++)
             {
                 var child = mesh.transform.GetChild(a);
@@ -98,7 +107,10 @@ namespace Acemobe.MMO
             Transform hands = mesh.transform.Find(this.hand);
             Transform belt = mesh.transform.Find(this.belt);
 
-            weapons.Add("pickaxe", mesh.transform.Find("RigPelvis/RigSpine1/RigSpine2/RigSpine3/RigRibcage/RigLCollarbone/RigLUpperarm/RigLForearm/RigLPalm/Pick Axe 01"));
+            weapons.Add("pickaxe", mesh.transform.Find("RigPelvis/RigSpine1/RigSpine2/RigSpine3/RigRibcage/RigRCollarbone/RigRUpperarm/RigRForearm/RigRPalm/VillagerPickaxe"));
+            weapons.Add("plow", mesh.transform.Find("RigPelvis/RigSpine1/RigSpine2/RigSpine3/RigRibcage/RigRCollarbone/RigRUpperarm/RigRForearm/RigRPalm/VillagerPlow"));
+            
+            
             weapons.Add("axe", mesh.transform.Find("RigPelvis/RigSpine1/RigSpine2/RigSpine3/RigRibcage/RigLCollarbone/RigLUpperarm/RigLForearm/RigLPalm/Axe 01"));
             weapons.Add("hammer", mesh.transform.Find("RigPelvis/RigSpine1/RigSpine2/RigSpine3/RigRibcage/RigLCollarbone/RigLUpperarm/RigLForearm/RigLPalm/Hammer 01"));
             weapons.Add("sword", mesh.transform.Find("RigPelvis/RigSpine1/RigSpine2/RigSpine3/RigRibcage/RigLCollarbone/RigLUpperarm/RigLForearm/RigLPalm/Sword 01"));

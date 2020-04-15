@@ -269,30 +269,6 @@ namespace Acemobe.MMO
                     NetworkServer.Spawn(obj);
                 }
             }
-
-            /*            if (isClient)
-                        {
-                            // display item if they are using one
-                            if (displayItem != "")
-                            {
-                                if (activeTool != serverobj.weapons[displayItem])
-                                {
-                                    if (activeTool != null)
-                                    {
-                                        activeTool.gameObject.SetActive(false);
-                                    }
-
-                                    serverobj.weapons[displayItem].gameObject.SetActive(true);
-                                    activeTool = serverobj.weapons[displayItem];
-                                }
-                            }
-                            else if (activeTool)
-                            {
-                                activeTool.gameObject.SetActive(false);
-                                activeTool = null;
-                            }
-                        }
-            */
         }
 
         float getDist(Vector3 pos1, Vector3 pos2)
@@ -321,47 +297,55 @@ namespace Acemobe.MMO
         {
             if (obj)
             {
-                actionTarget = obj;
-                serverobj.transform.LookAt(actionTarget.transform, Vector3.up);
-
-                switch (actionTarget.gameItem.type)
+                switch (obj.gameItem.type)
                 {
                     case MMOObjectTypes.Crop:
-                        if (actionTarget.gameItem.isHarvestable)
+                        if (obj.gameItem.isHarvestable)
                         {
-                            MMOCrop cropItem = (MMOCrop)actionTarget;
+                            MMOCrop cropItem = (MMOCrop)obj;
 
                             if (cropItem)
                             {
                                 if (cropItem.isGrown())
                                 {
                                     curAction = MMOResourceAction.Gather;
+                                    actionTarget = obj;
+                                    serverobj.transform.LookAt(actionTarget.transform, Vector3.up);
+                                    doingAction = true;
                                 }
                             }
                         }
                         break;
 
                     case MMOObjectTypes.Object:
-                        if (actionTarget.gameItem.isHarvestable)
+                        if (obj.gameItem.isHarvestable)
                         {
-                            MMOHarvestable harvestItem = (MMOHarvestable)actionTarget;
+                            MMOHarvestable harvestItem = (MMOHarvestable)obj;
 
                             if (harvestItem)
                             {
                                 curAction = harvestItem.action;
+                                actionTarget = obj;
+                                serverobj.transform.LookAt(actionTarget.transform, Vector3.up);
+                                doingAction = true;
                             }
                         }
-                        else if (actionTarget.gameItem.isPickable)
+                        else if (obj.gameItem.isPickable)
                         {
-                            obj.manager.killObject(obj);
+                            /*                            obj.manager.killObject(obj);
 
-                            MMOInventoryItem item = new MMOInventoryItem
-                            {
-                                type = actionTarget.gameItem.itemType,
-                                amount = 1
-                            };
+                                                        MMOInventoryItem item = new MMOInventoryItem
+                                                        {
+                                                            type = actionTarget.gameItem.itemType,
+                                                            amount = 1
+                                                        };
 
-                            inventory.addItem(item);
+                                                        inventory.addItem(item);
+                            */
+                            curAction = MMOResourceAction.Pickup;
+                            actionTarget = obj;
+                            serverobj.transform.LookAt(actionTarget.transform, Vector3.up);
+                            doingAction = true;
                         }
                         break;
                 }
@@ -369,15 +353,28 @@ namespace Acemobe.MMO
             else
             {
                 // plant crop
+                doingAction = true;
                 curAction = MMOResourceAction.Plant;
+
+                Vector3 pos = new Vector3(actionX + 0.5f, transform.position.y, actionZ + 0.5f);
+                Vector3 dir = (pos - transform.position).normalized;
+                Quaternion rot = Quaternion.LookRotation(dir);
+                serverobj.transform.rotation = rot;
             }
 
             switch (curAction)
             {
                 case MMOResourceAction.Gather:
+                    serverobj.animator.SetBool("Gather", true);
+                    break;
                 case MMOResourceAction.Plant:
+                    serverobj.animator.SetBool("Plant", true);
+                    serverobj.weapons["plow"].gameObject.SetActive(true);
+                    serverobj.displayItem = "plow";
+                    break;
                 case MMOResourceAction.Chop:
                 case MMOResourceAction.Mining:
+                case MMOResourceAction.Pickup:
                     // show item needed
                     serverobj.animator.SetBool("Mining", true);
                     serverobj.weapons["pickaxe"].gameObject.SetActive(true);
@@ -462,6 +459,25 @@ namespace Acemobe.MMO
                                 }
                             }
                         }
+
+                        stopAnim = true;
+                    }
+                    break;
+
+                case MMOResourceAction.Pickup:
+                    if (actionTarget.gameItem.isPickable)
+                    {
+                        actionTarget.manager.killObject(actionTarget);
+
+                        MMOInventoryItem item = new MMOInventoryItem
+                        {
+                            type = actionTarget.gameItem.itemType,
+                            amount = 1
+                        };
+
+                        inventory.addItem(item);
+                        stopAnim = true;
+                        actionTarget = null;
                     }
                     break;
 
@@ -489,9 +505,8 @@ namespace Acemobe.MMO
 
                             if (harvestItem.health <= 0)
                             {
-                                stopAnim = true;
-
                                 actionTarget.manager.killObject(actionTarget);
+                                stopAnim = true;
                                 actionTarget = null;
                             }
                         }
@@ -521,10 +536,20 @@ namespace Acemobe.MMO
             // or if stop (ie dead)
             if (stopAnim)
             {
+                doingAction = false;
+
                 switch (lastAction)
                 {
                     case MMOResourceAction.Chop:
+                        serverobj.animator.SetBool("Gather", false);
+                        break;
+                    case MMOResourceAction.Plant:
+                        serverobj.animator.SetBool("Plant", false);
+                        serverobj.weapons["plow"].gameObject.SetActive(false);
+                        break;
+                    case MMOResourceAction.Gather:
                     case MMOResourceAction.Mining:
+                    case MMOResourceAction.Pickup:
                         // stop actions
                         serverobj.animator.SetBool("Mining", false);
                         serverobj.weapons["axe"].gameObject.SetActive(false);
@@ -656,12 +681,18 @@ namespace Acemobe.MMO
 
             // check action on cell to see if something can happen
             MMOObject mmoObj = MMOTerrainManager.instance.getObject (x, z);
-
-            if (mmoObj)
+            if (mmoObj && checkDist(transform.position, mmoObj.transform.position, 1.6f))
             {
-                if (checkDist(transform.position, mmoObj.transform.position, 1.6f))
+                startAction(mmoObj);
+            }
+            else
+            {
+                // we hit empty ground?
+                MapData.TerrainData terrainData = MMOTerrainManager.instance.getTerrainData(x, z);
+
+                if (terrainData && terrainData.isPublic && terrainData.obj == null)
                 {
-                    startAction(mmoObj);
+                    startAction(null);
                 }
             }
         }

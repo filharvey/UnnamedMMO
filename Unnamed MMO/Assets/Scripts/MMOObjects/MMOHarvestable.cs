@@ -35,10 +35,6 @@ namespace Acemobe.MMO.MMOObjects
         public override void OnStartClient()
         {
             base.OnStartClient();
-
-            // get object to grow
-            render = gameObject.GetComponent<MeshRenderer>();
-            render.enabled = true;
         }
 
         void FixedUpdate()
