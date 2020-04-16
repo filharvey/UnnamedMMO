@@ -62,7 +62,6 @@ namespace Acemobe.MMO
 
         [Header("Action Vars")]
         public MMOResourceAction curAction = MMOResourceAction.None;
-        public bool doingAction = false;
         public int activeItem = 0;
         public MMOObject actionTarget;
         public MMOObject nextActionTarget;
@@ -219,7 +218,7 @@ namespace Acemobe.MMO
                         CmdMouseUp();
                     }
 
-                    if (!doingAction)
+                    if (curAction == MMOResourceAction.None)
                     {
                         // handle movement
 //                        float horizontal = Input.GetAxis("Horizontal");
@@ -304,15 +303,11 @@ namespace Acemobe.MMO
                         {
                             MMOCrop cropItem = (MMOCrop)obj;
 
-                            if (cropItem)
+                            if (cropItem && cropItem.isGrown())
                             {
-                                if (cropItem.isGrown())
-                                {
-                                    curAction = MMOResourceAction.Gather;
-                                    actionTarget = obj;
-                                    serverobj.transform.LookAt(actionTarget.transform, Vector3.up);
-                                    doingAction = true;
-                                }
+                                curAction = MMOResourceAction.Gather;
+                                actionTarget = obj;
+                                serverobj.transform.LookAt(actionTarget.transform, Vector3.up);
                             }
                         }
                         break;
@@ -327,25 +322,13 @@ namespace Acemobe.MMO
                                 curAction = harvestItem.action;
                                 actionTarget = obj;
                                 serverobj.transform.LookAt(actionTarget.transform, Vector3.up);
-                                doingAction = true;
                             }
                         }
                         else if (obj.gameItem.isPickable)
                         {
-                            /*                            obj.manager.killObject(obj);
-
-                                                        MMOInventoryItem item = new MMOInventoryItem
-                                                        {
-                                                            type = actionTarget.gameItem.itemType,
-                                                            amount = 1
-                                                        };
-
-                                                        inventory.addItem(item);
-                            */
                             curAction = MMOResourceAction.Pickup;
                             actionTarget = obj;
                             serverobj.transform.LookAt(actionTarget.transform, Vector3.up);
-                            doingAction = true;
                         }
                         break;
                 }
@@ -353,15 +336,16 @@ namespace Acemobe.MMO
             else
             {
                 // plant crop
-                doingAction = true;
                 curAction = MMOResourceAction.Plant;
 
+                // look at
                 Vector3 pos = new Vector3(actionX + 0.5f, transform.position.y, actionZ + 0.5f);
                 Vector3 dir = (pos - transform.position).normalized;
                 Quaternion rot = Quaternion.LookRotation(dir);
                 serverobj.transform.rotation = rot;
             }
 
+            // set animation
             switch (curAction)
             {
                 case MMOResourceAction.Gather:
@@ -398,8 +382,6 @@ namespace Acemobe.MMO
         public void AnimComplete()
         {
             bool stopAnim = false;
-            MMOResourceAction lastAction = curAction;
-
             if (actionTarget)
             {
                 serverobj.transform.LookAt(actionTarget.transform, Vector3.up);
@@ -412,7 +394,7 @@ namespace Acemobe.MMO
                     {
                         MMOCrop cropItem = (MMOCrop)actionTarget;
 
-                        if (cropItem)
+                        if (cropItem && cropItem.isGrown())
                         {
                             int x = (int)actionTarget.transform.position.x;
                             int z = (int)actionTarget.transform.position.z;
@@ -420,6 +402,9 @@ namespace Acemobe.MMO
                             MMOTerrainManager.instance.removeObject(x, z);
                             NetworkServer.Destroy(cropItem.gameObject);
                         }
+
+                        actionTarget = null;
+                        stopAnim = true;
                     }
                     break;
 
@@ -489,7 +474,6 @@ namespace Acemobe.MMO
 
                         if (harvestItem)
                         {
-                            lastAction = harvestItem.action;
                             actionTarget.health -= 10;
 
                             MMOInventoryItem item = new MMOInventoryItem
@@ -506,6 +490,7 @@ namespace Acemobe.MMO
                             if (harvestItem.health <= 0)
                             {
                                 actionTarget.manager.killObject(actionTarget);
+
                                 stopAnim = true;
                                 actionTarget = null;
                             }
@@ -520,9 +505,9 @@ namespace Acemobe.MMO
                 // set no target
                 actionTarget = null;
             }
+            // do we have a new target
             else if (nextActionTarget)
             {
-                // target next object
                 if (nextActionTarget != actionTarget)
                 {
                     actionTarget = nextActionTarget;
@@ -536,18 +521,16 @@ namespace Acemobe.MMO
             // or if stop (ie dead)
             if (stopAnim)
             {
-                doingAction = false;
-
-                switch (lastAction)
+                switch (curAction)
                 {
-                    case MMOResourceAction.Chop:
+                    case MMOResourceAction.Gather:
                         serverobj.animator.SetBool("Gather", false);
                         break;
                     case MMOResourceAction.Plant:
                         serverobj.animator.SetBool("Plant", false);
                         serverobj.weapons["plow"].gameObject.SetActive(false);
                         break;
-                    case MMOResourceAction.Gather:
+                    case MMOResourceAction.Chop:
                     case MMOResourceAction.Mining:
                     case MMOResourceAction.Pickup:
                         // stop actions
@@ -557,6 +540,7 @@ namespace Acemobe.MMO
                 }
 
                 serverobj.displayItem = "";
+                curAction = MMOResourceAction.None;
             }
         }
         #endregion

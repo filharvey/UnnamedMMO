@@ -126,7 +126,7 @@ MonoBehaviour:
   variation: 0.1
   canGrow: 1
   growthTime: 20
-  finalSize: 1
+  finalSize: 0.75
   startScale: 0.25
 --- !u!136 &196475513101578904
 CapsuleCollider:

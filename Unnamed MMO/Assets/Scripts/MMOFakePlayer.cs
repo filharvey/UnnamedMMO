@@ -1,4 +1,5 @@
-﻿using Mirror;
+﻿using Acemobe.MMO.MMOObjects;
+using Mirror;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -189,6 +190,9 @@ namespace Acemobe.MMO
 
         public void movePlayer(float dt)
         {
+            if (player && player.curAction != MMOResourceAction.None)
+                return;
+
             Quaternion quatUp = new Quaternion();
             Quaternion quatLeft = new Quaternion();
             quatUp.eulerAngles = new Vector3(0, cameraRotation - 90, 0);
