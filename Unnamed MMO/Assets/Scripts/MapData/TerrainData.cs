@@ -8,6 +8,7 @@ namespace Acemobe.MMO.MapData
         public bool isWalkable = false;
         public bool isWater = false;
         public bool isPublic = true;
+        public bool isInUse = false;
 
         public MMOObject obj;
 

@@ -187,20 +187,15 @@ namespace Acemobe.MMO
 
                     if (posX >= 0 && posZ >= 0 && posX < mapWidth && posZ < mapDepth)
                     {
-                        if (mapData[posX, posZ] == null)
+                        if (mapData[posX, posZ] && mapData[posX, posZ].obj && mapData[posX, posZ].isInUse)
                         {
                             return false;
-                        }
-                        else
-                        {
-                            if (!mapData[posX, posZ].obj)
-                                return true;
                         }
                     }
                 }
             }
 
-            return false;
+            return true;
         }
 
         public MapData.TerrainData getTerrainData (int x, int z)
@@ -214,12 +209,12 @@ namespace Acemobe.MMO
             return null;
         }
 
-        public MMOObject getObject(Vector3 pos)
+        public MMOObject getObjectAt (Vector3 pos)
         {
-            return getObject ((int)Mathf.Floor (pos.x), (int)Mathf.Floor (pos.z));
+            return getObjectAt ((int)Mathf.Floor (pos.x), (int)Mathf.Floor (pos.z));
         }
 
-        public MMOObject getObject(int x, int z)
+        public MMOObject getObjectAt (int x, int z)
         {
             var posX = (int)(x - bounds.min.x);
             var posZ = (int)(z - bounds.min.z);
@@ -232,7 +227,7 @@ namespace Acemobe.MMO
             return null;
         }
 
-        public void addObject (int x, int z, MMOObject obj)
+        public void addObjectAt (int x, int z, MMOObject obj)
         {
             var posX = (int)(x - bounds.min.x);
             var posZ = (int)(z - bounds.min.z);
@@ -243,7 +238,7 @@ namespace Acemobe.MMO
             }
         }
 
-        public void removeObject (int x, int z)
+        public void removeObjectAt (int x, int z)
         {
             var posX = (int)(x - bounds.min.x);
             var posZ = (int)(z - bounds.min.z);

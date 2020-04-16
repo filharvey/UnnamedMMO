@@ -3289,8 +3289,8 @@ MonoBehaviour:
   spawnObj: {fileID: 5745688069507950927, guid: a8b88657a3c12ab4883e23813aaebac1,
     type: 3}
   maxNum: 10
-  respawnTimer: 8
-  radius: 3
+  respawnTimer: 6
+  radius: 50
 --- !u!114 &687480130
 MonoBehaviour:
   m_ObjectHideFlags: 0

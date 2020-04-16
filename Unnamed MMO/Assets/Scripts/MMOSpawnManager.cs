@@ -70,7 +70,7 @@ namespace Acemobe.MMO
             // give link to manager
             mmoObj.manager = this;
 
-            MMOTerrainManager.instance.addObject((int)pos.x, (int)pos.z, mmoObj);
+            MMOTerrainManager.instance.addObjectAt((int)pos.x, (int)pos.z, mmoObj);
 
             objects.Add(mmoObj);
 
@@ -82,9 +82,9 @@ namespace Acemobe.MMO
             int x = (int)obj.gameObject.transform.position.x;
             int z = (int)obj.gameObject.transform.position.z;
 
-            objects.Remove(obj);
-            MMOTerrainManager.instance.removeObject(x, z);
+            MMOTerrainManager.instance.removeObjectAt(x, z);
             NetworkServer.Destroy(obj.gameObject);
+            objects.Remove(obj);
         }
     }
 }

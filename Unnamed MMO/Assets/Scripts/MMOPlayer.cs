@@ -335,14 +335,21 @@ namespace Acemobe.MMO
             }
             else
             {
-                // plant crop
-                curAction = MMOResourceAction.Plant;
+                MapData.TerrainData terrainData = MMOTerrainManager.instance.getTerrainData(actionX, actionZ);
 
-                // look at
-                Vector3 pos = new Vector3(actionX + 0.5f, transform.position.y, actionZ + 0.5f);
-                Vector3 dir = (pos - transform.position).normalized;
-                Quaternion rot = Quaternion.LookRotation(dir);
-                serverobj.transform.rotation = rot;
+                if (!terrainData.isInUse)
+                {
+                    // plant crop
+                    curAction = MMOResourceAction.Plant;
+
+                    // look at
+                    Vector3 pos = new Vector3(actionX + 0.5f, transform.position.y, actionZ + 0.5f);
+                    Vector3 dir = (pos - transform.position).normalized;
+                    Quaternion rot = Quaternion.LookRotation(dir);
+                    serverobj.transform.rotation = rot;
+
+                    terrainData.isInUse = true;
+                }
             }
 
             // set animation
@@ -399,7 +406,7 @@ namespace Acemobe.MMO
                             int x = (int)actionTarget.transform.position.x;
                             int z = (int)actionTarget.transform.position.z;
 
-                            MMOTerrainManager.instance.removeObject(x, z);
+                            MMOTerrainManager.instance.removeObjectAt(x, z);
                             NetworkServer.Destroy(cropItem.gameObject);
                         }
 
@@ -422,26 +429,25 @@ namespace Acemobe.MMO
                             // we hit empty ground?
                             MapData.TerrainData terrainData = MMOTerrainManager.instance.getTerrainData(x, z);
 
-                            if (terrainData)
+                            if (terrainData && terrainData.isPublic && terrainData.obj == null)
                             {
-                                if (terrainData.isPublic && terrainData.obj == null)
+                                // get the crop we are planting
+                                CropData cropData = MMOResourceManager.instance.getCropObject("CarrotPlant");
+
+                                if (cropData)
                                 {
-                                    // we can make plant a crop
-                                    CropData cropData = MMOResourceManager.instance.getCropObject("CarrotPlant");
+                                    Vector3 pos = new Vector3(x + 0.5f, 0, z + 0.5f);
+                                    Quaternion rotation = new Quaternion();
+                                    rotation.eulerAngles = new Vector3(0, 0, 0);
 
-                                    if (cropData)
-                                    {
-                                        Vector3 pos = new Vector3(x + 0.5f, 0, z + 0.5f);
-                                        Quaternion rotation = new Quaternion();
-                                        rotation.eulerAngles = new Vector3(0, 0, 0);
+                                    GameObject obj = Instantiate(cropData.prefab, pos, rotation);
+                                    MMOCrop spawnObj = obj.GetComponent<MMOCrop>();
 
-                                        GameObject obj = Instantiate(cropData.prefab, pos, rotation);
-                                        MMOCrop spawnObj = obj.GetComponent<MMOCrop>();
-
-                                        MMOTerrainManager.instance.addObject(x, z, spawnObj);
-                                        NetworkServer.Spawn(obj);
-                                    }
+                                    MMOTerrainManager.instance.addObjectAt(x, z, spawnObj);
+                                    NetworkServer.Spawn(obj);
                                 }
+
+                                terrainData.isInUse = false;
                             }
                         }
 
@@ -664,7 +670,7 @@ namespace Acemobe.MMO
             actionZ = z;
 
             // check action on cell to see if something can happen
-            MMOObject mmoObj = MMOTerrainManager.instance.getObject (x, z);
+            MMOObject mmoObj = MMOTerrainManager.instance.getObjectAt (x, z);
             if (mmoObj && checkDist(transform.position, mmoObj.transform.position, 1.6f))
             {
                 startAction(mmoObj);
@@ -700,7 +706,7 @@ namespace Acemobe.MMO
             actionX = x;
             actionZ = z;
 
-            MMOObject obj = MMOTerrainManager.instance.getObject(x, z);
+            MMOObject obj = MMOTerrainManager.instance.getObjectAt(x, z);
 
             updateAction(obj);
         }
