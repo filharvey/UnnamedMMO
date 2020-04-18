@@ -37,6 +37,19 @@ namespace Acemobe.MMO
         public override void OnStartClient ()
         {
             base.OnStartClient();
+
+            UIManager.instance.gameUI.gameObject.SetActive(true);
+
+
+            if (Application.platform == RuntimePlatform.Android ||
+                Application.platform == RuntimePlatform.IPhonePlayer)
+            {
+                UIManager.instance.mobileUI.SetActive(true);
+            }
+            else
+            {
+                UIManager.instance.mobileUI.SetActive(false);
+            }
         }
 
         // client

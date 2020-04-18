@@ -187,7 +187,8 @@ namespace Acemobe.MMO
 
                     if (posX >= 0 && posZ >= 0 && posX < mapWidth && posZ < mapDepth)
                     {
-                        if (mapData[posX, posZ] && mapData[posX, posZ].obj && mapData[posX, posZ].isInUse)
+                        if (mapData[posX, posZ] && 
+                            (mapData[posX, posZ].obj || mapData[posX, posZ].isInUse))
                         {
                             return false;
                         }

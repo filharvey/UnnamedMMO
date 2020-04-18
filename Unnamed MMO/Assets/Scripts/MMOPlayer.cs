@@ -144,13 +144,36 @@ namespace Acemobe.MMO
 
                     if (player.GetButtonDown("Inventory"))
                     {
-                        UIManager.instance.inventory.updateInventory();
-                        UIManager.instance.inventory.gameObject.SetActive(true);
+                        if (UIManager.instance.inventory.gameObject.activeInHierarchy == true)
+                        {
+                            UIManager.instance.inventory.gameObject.SetActive(false);
+                        }
+                        else
+                        {
+                            UIManager.instance.inventory.updateInventory();
+                        }
                     }
 
                     // mouse pointer
-                    if (!EventSystem.current.IsPointerOverGameObject())
+//                    if (!EventSystem.current.IsPointerOverGameObject())
                     {
+                        if (player.GetButtonDown("FireJoy"))
+                        {
+                            Vector3 pos = transform.position;
+                            Vector3 dir = transform.rotation * new Vector3(0, 0, 1);
+
+                            pos += dir;
+                            int x = (int)Mathf.Floor(pos.x);
+                            int z = (int)Mathf.Floor(pos.z);
+
+                            // send to server command mouse down
+                            mouseDown(x, z);
+                        }
+                        else if (player.GetButton("FireJoy"))
+                        {
+
+                        }
+
                         if (player.GetButtonDown("Fire"))
                         {
                             Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
@@ -208,12 +231,13 @@ namespace Acemobe.MMO
                             }
                         }
                     }
-                    else
+/*                    else
                     {
                         CmdMouseUp();
                     }
-
-                    if (MMOPlayer.localPlayer.isMouseDown && !player.GetButton("Fire"))
+                    */
+                    if (MMOPlayer.localPlayer.isMouseDown && 
+                        !player.GetButton("Fire") && !player.GetButton("FireJoy"))
                     {
                         CmdMouseUp();
                     }
@@ -420,16 +444,16 @@ namespace Acemobe.MMO
                         var x = actionX;
                         var z = actionZ;
 
-                        var tx = Mathf.Floor(transform.position.x) + 0.5f;
-                        var tz = Mathf.Floor(transform.position.z) + 0.5f;
-                        float dist = getDist(new Vector3(tx, 0, tz), new Vector3(x + 0.5f, 0, z + 0.5f));
+                        // we hit empty ground?
+                        MapData.TerrainData terrainData = MMOTerrainManager.instance.getTerrainData(x, z);
 
-                        if (dist < 1.5f)
+                        if (terrainData && terrainData.isPublic && terrainData.obj == null)
                         {
-                            // we hit empty ground?
-                            MapData.TerrainData terrainData = MMOTerrainManager.instance.getTerrainData(x, z);
+                            var tx = Mathf.Floor(transform.position.x);
+                            var tz = Mathf.Floor(transform.position.z);
+                            float dist = getDist(new Vector3(tx, 0, tz), new Vector3(x + 0.5f, 0, z + 0.5f));
 
-                            if (terrainData && terrainData.isPublic && terrainData.obj == null)
+                            if (dist < mouseRange)
                             {
                                 // get the crop we are planting
                                 CropData cropData = MMOResourceManager.instance.getCropObject("CarrotPlant");
@@ -446,9 +470,9 @@ namespace Acemobe.MMO
                                     MMOTerrainManager.instance.addObjectAt(x, z, spawnObj);
                                     NetworkServer.Spawn(obj);
                                 }
-
-                                terrainData.isInUse = false;
                             }
+
+                            terrainData.isInUse = false;
                         }
 
                         stopAnim = true;
@@ -465,6 +489,8 @@ namespace Acemobe.MMO
                             type = actionTarget.gameItem.itemType,
                             amount = 1
                         };
+
+                                                    RpcInventoryGain(item);
 
                         inventory.addItem(item);
                         stopAnim = true;
@@ -487,6 +513,8 @@ namespace Acemobe.MMO
                                 type = harvestItem.harvestResource,
                                 amount = harvestItem.harvestGain
                             };
+
+                            RpcInventoryGain(item);
 
                             if (!inventory.addItem(item))
                             {
@@ -606,7 +634,7 @@ namespace Acemobe.MMO
 
                     if (mmoObj)
                     {
-                        if (checkDist(transform.position, obj.transform.position, 1.6f))
+                        if (checkDist(transform.position, obj.transform.position, mouseRange))
                         {
                             startAction(mmoObj);
                         }
@@ -671,7 +699,7 @@ namespace Acemobe.MMO
 
             // check action on cell to see if something can happen
             MMOObject mmoObj = MMOTerrainManager.instance.getObjectAt (x, z);
-            if (mmoObj && checkDist(transform.position, mmoObj.transform.position, 1.6f))
+            if (mmoObj && checkDist(transform.position, mmoObj.transform.position, mouseRange))
             {
                 startAction(mmoObj);
             }
@@ -721,6 +749,14 @@ namespace Acemobe.MMO
         {
             isMouseDown = false;
             nextActionTarget = null;
+        }
+
+        [ClientRpc]
+        // 
+        void RpcInventoryGain(MMOInventoryItem item)
+        {
+            Debug.Log("-" + item.amount + "x " + item.type);
+            UIManager.instance.showItemGain(item);
         }
 
         [ClientRpc]
