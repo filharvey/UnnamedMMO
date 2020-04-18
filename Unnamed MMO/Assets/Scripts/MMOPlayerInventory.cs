@@ -1,5 +1,6 @@
 ﻿using Acemobe.MMO.Data;
 using Acemobe.MMO.Data.ScriptableObjects;
+using Acemobe.MMO.MMOObjects;
 using Mirror;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,6 +14,8 @@ namespace Acemobe.MMO
     {
         public SyncListItem inventory = new SyncListItem();
         public SyncListItem actionBar = new SyncListItem();
+
+        public int activeItem = -1;
 
         void Start()
         {
@@ -120,6 +123,16 @@ namespace Acemobe.MMO
             }
 
             return false;
+        }
+
+        public void changeItem(int idx)
+        {
+            if (actionBar[idx].type != MMOItemType.None)
+            {
+                activeItem = idx;
+
+                UIManager.instance.actionBar.updateActionBar();
+            }
         }
     }
 }

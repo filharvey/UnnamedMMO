@@ -43,6 +43,15 @@ namespace Acemobe.MMO.UI.UIItems
                         MMOInventoryItem itemInfo = MMOPlayer.localPlayer.inventory.actionBar[a];
 
                         bar.updateItem(itemInfo);
+
+                        if (MMOPlayer.localPlayer.inventory.activeItem == a)
+                        {
+
+                        }
+                        else
+                        {
+
+                        }
                     }
                     else
                     {

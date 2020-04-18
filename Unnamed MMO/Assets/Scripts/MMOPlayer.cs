@@ -150,93 +150,129 @@ namespace Acemobe.MMO
                         }
                         else
                         {
+                            UIManager.instance.inventory.gameObject.SetActive(true);
                             UIManager.instance.inventory.updateInventory();
                         }
                     }
 
+                    // select inventory 1
+                    if (player.GetButtonDown("Num1"))
+                    {
+                        inventory.changeItem(0);
+                    }
+                    else if (player.GetButtonDown("Num2"))
+                    {
+                        inventory.changeItem(1);
+                    }
+                    else if (player.GetButtonDown("Num3"))
+                    {
+                        inventory.changeItem(2);
+                    }
+                    else if (player.GetButtonDown("Num4"))
+                    {
+                        inventory.changeItem(3);
+                    }
+                    else if (player.GetButtonDown("Num5"))
+                    {
+                        inventory.changeItem(4);
+                    }
+                    else if (player.GetButtonDown("Num6"))
+                    {
+                        inventory.changeItem(5);
+                    }
+                    else if (player.GetButtonDown("Num7"))
+                    {
+                        inventory.changeItem(6);
+                    }
+                    else if (player.GetButtonDown("Num8"))
+                    {
+                        inventory.changeItem(7);
+                    }
+                    else if (player.GetButtonDown("Num9"))
+                    {
+                        inventory.changeItem(8);
+                    }
+                    else if (player.GetButtonDown("Num0"))
+                    {
+                        inventory.changeItem(9);
+                    }
+
                     // mouse pointer
-//                    if (!EventSystem.current.IsPointerOverGameObject())
+                    if (player.GetButtonDown("FireJoy"))
                     {
-                        if (player.GetButtonDown("FireJoy"))
+                        Vector3 pos = transform.position;
+                        Vector3 dir = transform.rotation * new Vector3(0, 0, 1);
+
+                        pos += dir;
+                        int x = (int)Mathf.Floor(pos.x);
+                        int z = (int)Mathf.Floor(pos.z);
+
+                        // send to server command mouse down
+                        mouseDown(x, z);
+                    }
+                    else if (player.GetButton("FireJoy"))
+                    {
+
+                    }
+
+                    if (player.GetButtonDown("Fire"))
+                    {
+                        Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+
+                        // Does the ray intersect any objects excluding the player layer
+                        if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
                         {
-                            Vector3 pos = transform.position;
-                            Vector3 dir = transform.rotation * new Vector3(0, 0, 1);
+                            var gameObject = hit.transform.gameObject;
 
-                            pos += dir;
-                            int x = (int)Mathf.Floor(pos.x);
-                            int z = (int)Mathf.Floor(pos.z);
-
-                            // send to server command mouse down
-                            mouseDown(x, z);
-                        }
-                        else if (player.GetButton("FireJoy"))
-                        {
-
-                        }
-
-                        if (player.GetButtonDown("Fire"))
-                        {
-                            Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-
-                            // Does the ray intersect any objects excluding the player layer
-                            if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
+                            if (gameObject)
                             {
-                                var gameObject = hit.transform.gameObject;
+                                MMOObject mmoObj = gameObject.GetComponent<MMOObject>();
 
-                                if (gameObject)
+                                if (mmoObj != null)
                                 {
-                                    MMOObject mmoObj = gameObject.GetComponent<MMOObject>();
-
-                                    if (mmoObj != null)
-                                    {
-                                        mouseDownObject(gameObject);
-                                    }
-                                    else
-                                    {
-                                        int x = (int)Mathf.Floor(hit.point.x);
-                                        int z = (int)Mathf.Floor(hit.point.z);
-
-                                        // send to server command mouse down
-                                        mouseDown(x, z);
-                                    }
+                                    mouseDownObject(gameObject);
                                 }
-                            }
-                        }
-                        else if (player.GetButton ("Fire"))
-                        {
-                            Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-
-                            // Does the ray intersect any objects excluding the player layer
-                            if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
-                            {
-                                var gameObject = hit.transform.gameObject;
-
-                                if (gameObject)
+                                else
                                 {
-                                    MMOObject mmoObj = gameObject.GetComponent<MMOObject>();
+                                    int x = (int)Mathf.Floor(hit.point.x);
+                                    int z = (int)Mathf.Floor(hit.point.z);
 
-                                    if (mmoObj != null)
-                                    {
-                                        mouseUpdateObject(gameObject);
-                                    }
-                                    else
-                                    {
-                                        int x = (int)Mathf.Floor(hit.point.x);
-                                        int z = (int)Mathf.Floor(hit.point.z);
-
-                                        // send to server command mouse down
-                                        mouseUpdate(x, z);
-                                    }
+                                    // send to server command mouse down
+                                    mouseDown(x, z);
                                 }
                             }
                         }
                     }
-/*                    else
+                    else if (player.GetButton ("Fire"))
                     {
-                        CmdMouseUp();
+                        Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+
+                        // Does the ray intersect any objects excluding the player layer
+                        if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
+                        {
+                            var gameObject = hit.transform.gameObject;
+
+                            if (gameObject)
+                            {
+                                MMOObject mmoObj = gameObject.GetComponent<MMOObject>();
+
+                                if (mmoObj != null)
+                                {
+                                    mouseUpdateObject(gameObject);
+                                }
+                                else
+                                {
+                                    int x = (int)Mathf.Floor(hit.point.x);
+                                    int z = (int)Mathf.Floor(hit.point.z);
+
+                                    // send to server command mouse down
+                                    mouseUpdate(x, z);
+                                }
+                            }
+                        }
                     }
-                    */
-                    if (MMOPlayer.localPlayer.isMouseDown && 
+
+                    if (isMouseDown && 
                         !player.GetButton("Fire") && !player.GetButton("FireJoy"))
                     {
                         CmdMouseUp();

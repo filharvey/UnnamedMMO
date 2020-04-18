@@ -17,6 +17,7 @@ namespace Acemobe.MMO.MMOObjects
 
     public enum MMOItemType
     {
+        None = 0,
         Wood = 1,
         Stone = 2,
         IronOre = 3,
