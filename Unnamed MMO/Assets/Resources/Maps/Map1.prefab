@@ -3846,6 +3846,11 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 4294967295
       objectReference: {fileID: 0}
+    - target: {fileID: 7836998070109840872, guid: 01a69f865eaedbd44a26cd7ec7841dbb,
+        type: 3}
+      propertyPath: isInUse
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8609555804997809844, guid: 01a69f865eaedbd44a26cd7ec7841dbb,
         type: 3}
       propertyPath: m_Mesh
@@ -33351,6 +33356,11 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 4294967295
       objectReference: {fileID: 0}
+    - target: {fileID: 7836998070109840872, guid: 01a69f865eaedbd44a26cd7ec7841dbb,
+        type: 3}
+      propertyPath: isInUse
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8609555804997809844, guid: 01a69f865eaedbd44a26cd7ec7841dbb,
         type: 3}
       propertyPath: m_Mesh
@@ -43955,6 +43965,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_StaticEditorFlags
       value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 7836998070109840872, guid: 01a69f865eaedbd44a26cd7ec7841dbb,
+        type: 3}
+      propertyPath: isInUse
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8609555804997809844, guid: 01a69f865eaedbd44a26cd7ec7841dbb,
         type: 3}
@@ -60755,6 +60770,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_StaticEditorFlags
       value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 7836998070109840872, guid: 01a69f865eaedbd44a26cd7ec7841dbb,
+        type: 3}
+      propertyPath: isInUse
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8609555804997809844, guid: 01a69f865eaedbd44a26cd7ec7841dbb,
         type: 3}

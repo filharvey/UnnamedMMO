@@ -11,6 +11,8 @@ namespace Acemobe.MMO.MMOObjects
         Resource = 2,
         Item = 3,
         Crop = 4,
+        AI,
+        NPC,
 
         Monster = 10
     };
@@ -43,8 +45,10 @@ namespace Acemobe.MMO.MMOObjects
         Chop = 1,
         Pickup = 2,
         Mining = 3,
-        Plant = 4,
-        Gather = 5
+        Plant,
+        Gather,
+        Talk,
+        Craft
     };
 
     public class MMOObject : NetworkBehaviour

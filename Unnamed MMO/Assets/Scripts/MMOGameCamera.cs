@@ -12,8 +12,6 @@ namespace Acemobe.MMO
         public float cameraRotation = 15;
         public Vector3 cameraOffset = new Vector3(5, 12, 0);
 
-//        Camera camera;
-
         public static MMOGameCamera instance
         {
             get
@@ -29,8 +27,6 @@ namespace Acemobe.MMO
         void Start()
         {
             _instance = this;
-
-//            camera = GetComponent<Camera>();
         }
 
         public float smoothTime = 0.3F;

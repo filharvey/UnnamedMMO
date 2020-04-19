@@ -1,22 +1,22 @@
 ﻿using Acemobe.MMO.Data;
 using Acemobe.MMO.UI.UIItems;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-namespace Acemobe.MMO
+namespace Acemobe.MMO.UI
 {
     public class UIManager : MonoBehaviour
     {
         static UIManager _instance;
 
-        public UIActionBar actionBar;
+        public UIActionBar actionBarUI;
 
-        public UIInventory inventory;
+        public UIInventory inventoryUI;
 
-        public UILogin login;
+        public UILogin loginUI;
 
         public UIGame gameUI;
+
+        public UICraft craftUI;
 
         public GameObject mobileUI;
 
@@ -36,13 +36,14 @@ namespace Acemobe.MMO
         void Start()
         {
             _instance = this;
-            actionBar.gameObject.SetActive(false);
-            inventory.gameObject.SetActive(false);
+            actionBarUI.gameObject.SetActive(false);
+            inventoryUI.gameObject.SetActive(false);
             gameUI.gameObject.SetActive(false);
+            craftUI.gameObject.SetActive(false);
 
             mobileUI.SetActive(false);
 
-            login.gameObject.SetActive(true);
+            loginUI.gameObject.SetActive(true);
         }
 
         public void showItemGain (MMOInventoryItem item)

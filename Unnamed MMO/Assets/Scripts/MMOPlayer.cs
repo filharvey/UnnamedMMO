@@ -5,6 +5,7 @@ using Mirror;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using Rewired;
+using Acemobe.MMO.UI;
 
 namespace Acemobe.MMO
 {
@@ -67,8 +68,8 @@ namespace Acemobe.MMO
         public MMOObject nextActionTarget;
         public int actionX = -1;
         public int actionZ = -1;
-//        public Transform activeTool;
         public float mouseRange = 1.9f;
+        public Recipies curRecipe;
 
         // Rewired
         private Rewired.Player player; // The Rewired Player
@@ -119,7 +120,7 @@ namespace Acemobe.MMO
 
             base.OnStartLocalPlayer();
 
-            UIManager.instance.actionBar.gameObject.SetActive (true);
+            UIManager.instance.actionBarUI.gameObject.SetActive (true);
 
             mainCamera = MMOGameCamera.instance.GetComponent<Camera>();
         }
@@ -134,7 +135,7 @@ namespace Acemobe.MMO
             {
                 if (isClient)
                 {
-                    Vector3 moveVector = new Vector3 ();
+                    Vector3 moveVector = new Vector3();
 
                     moveVector.x = player.GetAxis("Move Horizontal"); // get input by name or action id
                     moveVector.y = player.GetAxis("Move Vertical");
@@ -142,16 +143,36 @@ namespace Acemobe.MMO
                     RaycastHit hit;
                     int layerMask = (1 << 14) + (1 << 13);
 
+                    // show inventory
                     if (player.GetButtonDown("Inventory"))
                     {
-                        if (UIManager.instance.inventory.gameObject.activeInHierarchy == true)
+                        if (UIManager.instance.inventoryUI.gameObject.activeInHierarchy == true)
                         {
-                            UIManager.instance.inventory.gameObject.SetActive(false);
+                            UIManager.instance.inventoryUI.gameObject.SetActive(false);
                         }
                         else
                         {
-                            UIManager.instance.inventory.gameObject.SetActive(true);
-                            UIManager.instance.inventory.updateInventory();
+                            UIManager.instance.inventoryUI.gameObject.SetActive(true);
+                            UIManager.instance.inventoryUI.updateInventory();
+
+                            // turn other UI off
+                            UIManager.instance.craftUI.gameObject.SetActive(false);
+                        }
+                    }
+
+                    // show crafting
+                    if (player.GetButtonDown("Craft"))
+                    {
+                        if (UIManager.instance.craftUI.gameObject.activeInHierarchy == true)
+                        {
+                            UIManager.instance.craftUI.gameObject.SetActive(false);
+                        }
+                        else
+                        {
+                            UIManager.instance.craftUI.onShow();
+
+                            // turn other UI off
+                            UIManager.instance.inventoryUI.gameObject.SetActive(false);
                         }
                     }
 
@@ -215,58 +236,62 @@ namespace Acemobe.MMO
 
                     }
 
-                    if (player.GetButtonDown("Fire"))
+                    // if not over UI
+                    if (!EventSystem.current.IsPointerOverGameObject())
                     {
-                        Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-
-                        // Does the ray intersect any objects excluding the player layer
-                        if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
+                        if (player.GetButtonDown("Fire"))
                         {
-                            var gameObject = hit.transform.gameObject;
+                            Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
 
-                            if (gameObject)
+                            // Does the ray intersect any objects excluding the player layer
+                            if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
                             {
-                                MMOObject mmoObj = gameObject.GetComponent<MMOObject>();
+                                var gameObject = hit.transform.gameObject;
 
-                                if (mmoObj != null)
+                                if (gameObject)
                                 {
-                                    mouseDownObject(gameObject);
-                                }
-                                else
-                                {
-                                    int x = (int)Mathf.Floor(hit.point.x);
-                                    int z = (int)Mathf.Floor(hit.point.z);
+                                    MMOObject mmoObj = gameObject.GetComponent<MMOObject>();
 
-                                    // send to server command mouse down
-                                    mouseDown(x, z);
+                                    if (mmoObj != null)
+                                    {
+                                        mouseDownObject(gameObject);
+                                    }
+                                    else
+                                    {
+                                        int x = (int)Mathf.Floor(hit.point.x);
+                                        int z = (int)Mathf.Floor(hit.point.z);
+
+                                        // send to server command mouse down
+                                        mouseDown(x, z);
+                                    }
                                 }
                             }
                         }
-                    }
-                    else if (player.GetButton ("Fire"))
-                    {
-                        Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-
-                        // Does the ray intersect any objects excluding the player layer
-                        if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
+                        else if (player.GetButton("Fire"))
                         {
-                            var gameObject = hit.transform.gameObject;
+                            Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
 
-                            if (gameObject)
+                            // Does the ray intersect any objects excluding the player layer
+                            if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
                             {
-                                MMOObject mmoObj = gameObject.GetComponent<MMOObject>();
+                                var gameObject = hit.transform.gameObject;
 
-                                if (mmoObj != null)
+                                if (gameObject)
                                 {
-                                    mouseUpdateObject(gameObject);
-                                }
-                                else
-                                {
-                                    int x = (int)Mathf.Floor(hit.point.x);
-                                    int z = (int)Mathf.Floor(hit.point.z);
+                                    MMOObject mmoObj = gameObject.GetComponent<MMOObject>();
 
-                                    // send to server command mouse down
-                                    mouseUpdate(x, z);
+                                    if (mmoObj != null)
+                                    {
+                                        mouseUpdateObject(gameObject);
+                                    }
+                                    else
+                                    {
+                                        int x = (int)Mathf.Floor(hit.point.x);
+                                        int z = (int)Mathf.Floor(hit.point.z);
+
+                                        // send to server command mouse down
+                                        mouseUpdate(x, z);
+                                    }
                                 }
                             }
                         }
@@ -358,6 +383,16 @@ namespace Acemobe.MMO
             {
                 switch (obj.gameItem.type)
                 {
+                    case MMOObjectTypes.NPC:
+                        {
+                            curAction = MMOResourceAction.Gather;
+                            actionTarget = obj;
+                            serverobj.transform.LookAt(actionTarget.transform, Vector3.up);
+
+                            // show chat popup
+                        }
+                        break;
+
                     case MMOObjectTypes.Crop:
                         if (obj.gameItem.isHarvestable)
                         {
@@ -373,6 +408,7 @@ namespace Acemobe.MMO
                         break;
 
                     case MMOObjectTypes.Object:
+                    case MMOObjectTypes.Resource:
                         if (obj.gameItem.isHarvestable)
                         {
                             MMOHarvestable harvestItem = (MMOHarvestable)obj;
@@ -416,6 +452,7 @@ namespace Acemobe.MMO
             switch (curAction)
             {
                 case MMOResourceAction.Gather:
+                case MMOResourceAction.Pickup:
                     serverobj.animator.SetBool("Gather", true);
                     break;
                 case MMOResourceAction.Plant:
@@ -425,13 +462,22 @@ namespace Acemobe.MMO
                     break;
                 case MMOResourceAction.Chop:
                 case MMOResourceAction.Mining:
-                case MMOResourceAction.Pickup:
                     // show item needed
                     serverobj.animator.SetBool("Mining", true);
                     serverobj.weapons["pickaxe"].gameObject.SetActive(true);
                     serverobj.displayItem = "pickaxe";
                     break;
             }
+        }
+
+        public void startCraft (Recipies recipe)
+        {
+            if (curAction != MMOResourceAction.None)
+                return;
+
+            curRecipe = recipe;
+            curAction = MMOResourceAction.Craft;
+            serverobj.animator.SetBool("Gather", true);
         }
 
         void updateAction(MMOObject obj)
@@ -449,6 +495,8 @@ namespace Acemobe.MMO
         public void AnimComplete()
         {
             bool stopAnim = false;
+            MMOInventoryItem item;
+
             if (actionTarget)
             {
                 serverobj.transform.LookAt(actionTarget.transform, Vector3.up);
@@ -456,6 +504,28 @@ namespace Acemobe.MMO
 
             switch (curAction)
             {
+                case MMOResourceAction.Craft:
+                    stopAnim = true;
+
+                    GameItem newItem = curRecipe.item;
+
+                    // add item
+                    item = new MMOInventoryItem
+                    {
+                        type = newItem.itemType,
+                        amount = 1
+                    };
+
+                    RpcInventoryGain(item);
+
+                    if (!inventory.addItem(item))
+                    {
+                        // drop on floor
+                    }
+
+                    // also remove items
+                    break;
+
                 case MMOResourceAction.Gather:
                     if (actionTarget.gameItem.isHarvestable)
                     {
@@ -520,13 +590,13 @@ namespace Acemobe.MMO
                     {
                         actionTarget.manager.killObject(actionTarget);
 
-                        MMOInventoryItem item = new MMOInventoryItem
+                        item = new MMOInventoryItem
                         {
                             type = actionTarget.gameItem.itemType,
                             amount = 1
                         };
 
-                                                    RpcInventoryGain(item);
+                        RpcInventoryGain(item);
 
                         inventory.addItem(item);
                         stopAnim = true;
@@ -544,7 +614,7 @@ namespace Acemobe.MMO
                         {
                             actionTarget.health -= 10;
 
-                            MMOInventoryItem item = new MMOInventoryItem
+                            item = new MMOInventoryItem
                             {
                                 type = harvestItem.harvestResource,
                                 amount = harvestItem.harvestGain
@@ -593,7 +663,9 @@ namespace Acemobe.MMO
             {
                 switch (curAction)
                 {
+                    case MMOResourceAction.Craft:
                     case MMOResourceAction.Gather:
+                    case MMOResourceAction.Pickup:
                         serverobj.animator.SetBool("Gather", false);
                         break;
                     case MMOResourceAction.Plant:
@@ -602,7 +674,6 @@ namespace Acemobe.MMO
                         break;
                     case MMOResourceAction.Chop:
                     case MMOResourceAction.Mining:
-                    case MMOResourceAction.Pickup:
                         // stop actions
                         serverobj.animator.SetBool("Mining", false);
                         serverobj.weapons["axe"].gameObject.SetActive(false);

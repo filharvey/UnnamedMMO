@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Acemobe.MMO
+namespace Acemobe.MMO.UI.UIItems
 {
     public class UIInventory : MonoBehaviour
     {

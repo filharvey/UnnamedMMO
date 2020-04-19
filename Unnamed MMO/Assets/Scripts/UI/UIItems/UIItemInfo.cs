@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Acemobe.MMO
+namespace Acemobe.MMO.UI.UIItems
 {
     public class UIItemInfo : MonoBehaviour
     {

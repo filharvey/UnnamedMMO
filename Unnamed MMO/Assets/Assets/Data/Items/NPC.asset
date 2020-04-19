@@ -10,13 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 537c3457ee3f316458da52ccf272522c, type: 3}
-  m_Name: Wood
+  m_Name: NPC
   m_EditorClassIdentifier: 
-  name: Wood
-  icon: {fileID: 21300000, guid: ab9255ff0279e36408a1949c0e868ded, type: 3}
-  type: 2
-  itemType: 1
-  maxStack: 99
+  name: NPC
+  icon: {fileID: 0}
+  prefab: {fileID: 7942195447945513703, guid: 0f24f1119eabacf4a8d29d7622943910, type: 3}
+  type: 6
+  itemType: 0
+  maxStack: 0
   isHarvestable: 0
-  isStorable: 1
-  isPickable: 1
+  isStorable: 0
+  isPickable: 0

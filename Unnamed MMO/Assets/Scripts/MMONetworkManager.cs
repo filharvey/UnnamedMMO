@@ -3,6 +3,7 @@ using Mirror;
 using BestHTTP;
 using System;
 using System.Collections;
+using Acemobe.MMO.UI;
 
 namespace Acemobe.MMO
 {
@@ -40,7 +41,6 @@ namespace Acemobe.MMO
 
             UIManager.instance.gameUI.gameObject.SetActive(true);
 
-
             if (Application.platform == RuntimePlatform.Android ||
                 Application.platform == RuntimePlatform.IPhonePlayer)
             {
@@ -57,45 +57,45 @@ namespace Acemobe.MMO
         {
             base.OnClientConnect(conn);
 
-            /*            // get user info
-                        new HTTPRequest(new Uri("https://gnash.io"), (request, response) =>
-                        {
-                            if (response.IsSuccess)
-                            {
-                                Debug.Log("Request Finished! Text received: " + response.DataAsText);
-
-                                // you can send the message here, or wherever else you want
-                                MMOCharacterCreateMessage characterMessage = new MMOCharacterCreateMessage
-                                {
-                                    name = "Phil",
-                                    head = "01 Head 01",
-                                    torso = "02 Torso 02",
-                                    bottom = "03 Bottom 02",
-                                    feet = "04 Feet 01",
-                                    hand = "05 Hand 01",
-                                    belt = "06 Belt 01",
-                                    weapon = Weapon.Rifle
-                                };
-
-                                conn.Send(characterMessage);
-                            }
-                        }).Send();
-            */
-
-            // you can send the message here, or wherever else you want
-            MMOCharacterCreateMessage characterMessage = new MMOCharacterCreateMessage
+            // get user info
+            new HTTPRequest(new Uri("http://gnash.io"), (request, response) =>
             {
-                name = "Phil",
-                head = "01 Head 01",
-                torso = "02 Torso 02",
-                bottom = "03 Bottom 02",
-                feet = "04 Feet 01",
-                hand = "05 Hand 01",
-                belt = "06 Belt 01",
-                weapon = Weapon.Rifle
-            };
+                if (response.IsSuccess)
+                {
+                    Debug.Log("Request Finished! Text received: " + response.DataAsText);
 
-            conn.Send(characterMessage);
+                    // you can send the message here, or wherever else you want
+                    MMOCharacterCreateMessage characterMessage = new MMOCharacterCreateMessage
+                    {
+                        name = "Phil",
+                        head = "01 Head 01",
+                        torso = "02 Torso 02",
+                        bottom = "03 Bottom 02",
+                        feet = "04 Feet 01",
+                        hand = "05 Hand 01",
+                        belt = "06 Belt 01",
+                        weapon = Weapon.Rifle
+                    };
+
+                    conn.Send(characterMessage);
+                }
+            }).Send();
+            /*
+                        // you can send the message here, or wherever else you want
+                        MMOCharacterCreateMessage characterMessage = new MMOCharacterCreateMessage
+                        {
+                            name = "Phil",
+                            head = "01 Head 01",
+                            torso = "02 Torso 02",
+                            bottom = "03 Bottom 02",
+                            feet = "04 Feet 01",
+                            hand = "05 Hand 01",
+                            belt = "06 Belt 01",
+                            weapon = Weapon.Rifle
+                        };
+
+                        conn.Send(characterMessage);
+            */
         }
 
         // server handler

@@ -3,8 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-namespace Acemobe.MMO
+namespace Acemobe.MMO.UI
 {
     public class UILogin : MonoBehaviour
     {
@@ -29,24 +30,49 @@ namespace Acemobe.MMO
         public TextMeshProUGUI error;
 
         public GameObject connectionLayer;
+        public GameObject debug;
+
+        public List<TMP_InputField> tabInput;
+        int curTabInput = 0;
 
         // Start is called before the first frame update
         void Start()
         {
             _instance = this;
+
+            if (Application.platform == RuntimePlatform.WindowsEditor)
+            {
+                debug.SetActive(true);
+            }
+            else
+            {
+                debug.SetActive(false);
+            }
+
+            username.text= PlayerPrefs.GetString("username");
+            password.text = PlayerPrefs.GetString("password");
+
+            tabInput[curTabInput].OnPointerClick(new UnityEngine.EventSystems.PointerEventData(EventSystem.current));
         }
 
         // Update is called once per frame
         void Update()
         {
-
+            if (Input.GetKeyDown(KeyCode.Tab))
+            {
+                curTabInput = (++curTabInput) % tabInput.Count;
+                tabInput[curTabInput].OnPointerClick(new UnityEngine.EventSystems.PointerEventData(EventSystem.current));
+            }
         }
 
         public void onConnect()
         {
-            manager.StartClient();
-
             connectionLayer.SetActive(false);
+
+            PlayerPrefs.SetString("username", username.text);
+            PlayerPrefs.SetString("password", password.text);
+
+            manager.StartClient();
         }
 
         public void onStartLocalServer()

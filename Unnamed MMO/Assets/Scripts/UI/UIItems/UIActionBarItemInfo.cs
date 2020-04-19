@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Acemobe.MMO
+namespace Acemobe.MMO.UI.UIItems
 {
     public class UIActionBarItemInfo : UIItemInfo
     {

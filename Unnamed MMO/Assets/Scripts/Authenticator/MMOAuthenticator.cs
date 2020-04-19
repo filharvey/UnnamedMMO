@@ -4,6 +4,7 @@ using Mirror;
 using BestHTTP;
 using BestHTTP.JSON;
 using System.Collections.Generic;
+using Acemobe.MMO.UI;
 
 namespace Acemobe.MMO
 {
@@ -50,8 +51,8 @@ namespace Acemobe.MMO
         {
             AuthRequestMessage authRequestMessage = new AuthRequestMessage
             {
-//                authUsername = UILogin.instance.username.text,
-//                authPassword = UILogin.instance.password.text
+                authUsername = UILogin.instance.username.text,
+                authPassword = UILogin.instance.password.text
             };
 
             NetworkClient.Send(authRequestMessage);
@@ -61,7 +62,7 @@ namespace Acemobe.MMO
         {
             Debug.LogFormat("Authentication Request: {0} {1}", msg.authUsername, msg.authPassword);
 
-            AuthResponseMessage authResponseMessage = new AuthResponseMessage
+/*            AuthResponseMessage authResponseMessage = new AuthResponseMessage
             {
                 code = 100,
                 message = "Success"
@@ -71,9 +72,8 @@ namespace Acemobe.MMO
 
             // Invoke the event to complete a successful authentication
             base.OnServerAuthenticated.Invoke(conn);
-
-#if PHIL
-            HTTPRequest request = new HTTPRequest(new System.Uri("https://gnash.io/login"), HTTPMethods.Post, (request2, response) =>
+*/
+            HTTPRequest request = new HTTPRequest(new System.Uri("http://157.245.226.33:3000/login"), HTTPMethods.Post, (request2, response) =>
             {
                 if (response.IsSuccess)
                 {
@@ -82,9 +82,9 @@ namespace Acemobe.MMO
 
                     Debug.Log("Request Finished! Text received: " + response.DataAsText);
 
-                    if ((bool)(result["success"]) == true)
+                    if ((bool)(result["ok"]) == true)
                     {
-                        Debug.Log("success");
+                        Debug.Log("ok");
 
                         // create and send msg to client so it knows to proceed
                         AuthResponseMessage authResponseMessage = new AuthResponseMessage
@@ -116,46 +116,11 @@ namespace Acemobe.MMO
                         Invoke(nameof(conn.Disconnect), 1);
                     }
                 }
-                /*
-                                // check the credentials by calling your web server, database table, playfab api, or any method appropriate.
-                                if (msg.authUsername == username && msg.authPassword == password)
-                                {
-                                    // create and send msg to client so it knows to proceed
-                                    AuthResponseMessage authResponseMessage = new AuthResponseMessage
-                                    {
-                                        code = 100,
-                                        message = "Success"
-                                    };
-
-                                    conn.Send(authResponseMessage);
-
-                                    // Invoke the event to complete a successful authentication
-                                    base.OnServerAuthenticated.Invoke(conn);
-                                }
-                                else
-                                {
-                                    // create and send msg to client so it knows to disconnect
-                                    AuthResponseMessage authResponseMessage = new AuthResponseMessage
-                                    {
-                                        code = 200,
-                                        message = "Invalid Credentials"
-                                    };
-
-                                    conn.Send(authResponseMessage);
-
-                                    // must set NetworkConnection isAuthenticated = false
-                                    conn.isAuthenticated = false;
-
-                                    // disconnect the client after 1 second so that response message gets delivered
-                                    Invoke(nameof(conn.Disconnect), 1);
-                                }
-                */
             });
 
             request.AddField("username", msg.authUsername);
             request.AddField("password", msg.authPassword);
             request.Send();
-#endif
         }
 
         public void OnAuthResponseMessage(NetworkConnection conn, AuthResponseMessage msg)
