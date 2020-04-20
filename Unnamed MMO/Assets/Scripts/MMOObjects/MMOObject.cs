@@ -27,7 +27,6 @@ namespace Acemobe.MMO.MMOObjects
 
         Carrot = 500,
 
-
         Tree = 750,
         Rock,
 
@@ -48,7 +47,8 @@ namespace Acemobe.MMO.MMOObjects
         Plant,
         Gather,
         Talk,
-        Craft
+        Craft,
+        Attack
     };
 
     public class MMOObject : NetworkBehaviour

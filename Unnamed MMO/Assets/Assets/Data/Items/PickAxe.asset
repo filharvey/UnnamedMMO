@@ -14,7 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: PickAxe
   icon: {fileID: 21300000, guid: 34fcfc15b9e2156468e92aedcd251bda, type: 3}
+  prefab: {fileID: 0}
   type: 3
-  isResource: 0
+  actionType: 3
   itemType: 1001
   maxStack: 1
+  isHarvestable: 0
+  isStorable: 0
+  isPickable: 0

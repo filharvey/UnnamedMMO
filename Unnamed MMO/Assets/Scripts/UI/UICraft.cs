@@ -113,7 +113,17 @@ namespace Acemobe.MMO.UI
                     matInfo.itemImage.sprite = curRecipies.material1.icon;
 
                     // check that player has the correct count of an item
-                    matInfo.itemCount.text = curRecipies.count1 + "/" + curRecipies.count1;
+                    int count = MMOPlayer.localPlayer.inventory.getItemCount(curRecipies.material1.itemType);
+                    if (MMOPlayer.localPlayer.inventory.hasItemCount(curRecipies.material1.itemType, curRecipies.count1))
+                    {
+                        matInfo.itemCount.text = count + "/" + curRecipies.count1;
+                        matInfo.itemCount.color = Color.black;
+                    }
+                    else
+                    {
+                        matInfo.itemCount.color = Color.red;
+                        matInfo.itemCount.text = count + "/" + curRecipies.count1;
+                    }
                 }
 
                 if (curRecipies.material2)
@@ -125,7 +135,17 @@ namespace Acemobe.MMO.UI
                     matInfo.itemImage.sprite = curRecipies.material2.icon;
 
                     // check that player has the correct count of an item
-                    matInfo.itemCount.text = curRecipies.count2 + "/" + curRecipies.count2;
+                    int count = MMOPlayer.localPlayer.inventory.getItemCount(curRecipies.material2.itemType);
+                    if (MMOPlayer.localPlayer.inventory.hasItemCount(curRecipies.material2.itemType, curRecipies.count2))
+                    {
+                        matInfo.itemCount.text = count + "/" + curRecipies.count2;
+                        matInfo.itemCount.color = Color.black;
+                    }
+                    else
+                    {
+                        matInfo.itemCount.color = Color.red;
+                        matInfo.itemCount.text = count + "/" + curRecipies.count2;
+                    }
                 }
                 else
                 {
@@ -142,7 +162,17 @@ namespace Acemobe.MMO.UI
                     matInfo.itemImage.sprite = curRecipies.material3.icon;
 
                     // check that player has the correct count of an item
-                    matInfo.itemCount.text = curRecipies.count3 + "/" + curRecipies.count3;
+                    int count = MMOPlayer.localPlayer.inventory.getItemCount(curRecipies.material3.itemType);
+                    if (MMOPlayer.localPlayer.inventory.hasItemCount(curRecipies.material3.itemType, curRecipies.count3))
+                    {
+                        matInfo.itemCount.text = count + "/" + curRecipies.count3;
+                        matInfo.itemCount.color = Color.black;
+                    }
+                    else
+                    {
+                        matInfo.itemCount.color = Color.red;
+                        matInfo.itemCount.text = count + "/" + curRecipies.count3;
+                    }
                 }
                 else
                 {
@@ -155,7 +185,12 @@ namespace Acemobe.MMO.UI
         public void startCraft ()
         {
             // if we have enough inventory
-            MMOPlayer.localPlayer.startCraft(curRecipies);
+            if (MMOPlayer.localPlayer.inventory.checkRecipe(curRecipies))
+                MMOPlayer.localPlayer.startCraft(curRecipies);
+            else
+            {
+                // show dialog
+            }
         }
     }
 }

@@ -13,6 +13,7 @@ namespace Acemobe.MMO.Data.ScriptableObjects
         public GameObject prefab;
 
         public MMOObjectTypes type;
+        public MMOResourceAction actionType;
 
         public MMOItemType itemType;
         public int maxStack;

@@ -126,6 +126,47 @@ namespace Acemobe.MMO
             return false;
         }
 
+        public void removeItem(MMOItemType itemType, int count)
+        {
+            MMOInventoryItem item;
+
+            for (var i = 0; i < inventory.Count; i++)
+            {
+                if (itemType == inventory[i].type &&
+                    inventory[i].amount >= count)
+                {
+                    item = new MMOInventoryItem
+                    {
+                        type = inventory[i].type,
+                        amount = inventory[i].amount - count
+                    };
+
+                    if (item.amount > 0)
+                        inventory[i] = item;
+                    else
+                        inventory.RemoveAt(i);
+                }
+            }
+
+            for (var i = 0; i < actionBar.Count; i++)
+            {
+                if (itemType == actionBar[i].type &&
+                    actionBar[i].amount >= count)
+                {
+                    item = new MMOInventoryItem
+                    {
+                        type = actionBar[i].type,
+                        amount = actionBar[i].amount - count
+                    };
+
+                    if (item.amount > 0)
+                        actionBar[i] = item;
+                    else
+                        actionBar.RemoveAt(i);
+                }
+            }
+        }
+
         public void changeItem(int idx)
         {
             if (actionBar[idx].type != MMOItemType.None)
@@ -134,6 +175,101 @@ namespace Acemobe.MMO
 
                 UIManager.instance.actionBarUI.updateActionBar();
             }
+        }
+
+        public bool checkRecipe(Recipies recipe)
+        {
+            if (!hasItemCount(recipe.material1.itemType, recipe.count1))
+                return false;
+
+            if (!hasItemCount(recipe.material2.itemType, recipe.count2))
+                return false;
+
+            if (!hasItemCount(recipe.material3.itemType, recipe.count3))
+                return false;
+
+            return true;
+        }
+
+        public bool hasItemCount (MMOItemType itemType, int count)
+        {
+            int inventoryCount = 0;
+
+            for (var i = 0; i < inventory.Count; i++)
+            {
+                if (itemType == inventory[i].type)
+                {
+                    inventoryCount += inventory[i].amount;
+                }
+            }
+
+            for (var i = 0; i < actionBar.Count; i++)
+            {
+                if (itemType == actionBar[i].type)
+                {
+                    inventoryCount += actionBar[i].amount;
+                }
+            }
+
+            return inventoryCount >= count;
+        }
+
+        public MMOInventoryItem getItem(MMOItemType type)
+        {
+            for (var i = 0; i < inventory.Count; i++)
+            {
+                if (type == inventory[i].type)
+                {
+                    return inventory[i];
+                }
+            }
+
+            for (var i = 0; i < actionBar.Count; i++)
+            {
+                if (type == actionBar[i].type)
+                {
+                    return actionBar[i];
+                }
+            }
+
+            return new MMOInventoryItem
+                {
+                    type = MMOItemType.None,
+                    amount = -1
+                };
+        }
+
+        public int getItemCount (MMOItemType type)
+        {
+            int count = 0;
+
+            for (var i = 0; i < inventory.Count; i++)
+            {
+                if (type == inventory[i].type)
+                {
+                    count += inventory[i].amount;
+                }
+            }
+
+            for (var i = 0; i < actionBar.Count; i++)
+            {
+                if (type == actionBar[i].type)
+                {
+                    count += actionBar[i].amount;
+                }
+            }
+
+            return count;
+        }
+
+        public GameItem getActiveItem ()
+        {
+            if (activeItem != 1)
+            {
+                return MMOResourceManager.instance.getItemByType(actionBar[activeItem].type);
+            }
+
+            return null;
         }
     }
 }

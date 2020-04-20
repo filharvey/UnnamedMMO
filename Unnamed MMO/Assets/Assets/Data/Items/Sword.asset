@@ -14,7 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Sword
   icon: {fileID: 21300000, guid: 8d54dcbf869d9904bbbfa6babc44d6eb, type: 3}
+  prefab: {fileID: 0}
   type: 3
-  isResource: 0
+  actionType: 8
   itemType: 2000
   maxStack: 1
+  isHarvestable: 0
+  isStorable: 0
+  isPickable: 0
