@@ -125,12 +125,12 @@ MonoBehaviour:
   harvestTime: 2
   harvestGain: 1
   harvestResource: 1
+  variation: 0.1
   meshIdx: 0
-  possibleMesh:
+  displayMesh:
   - {fileID: 2741377479441233669}
   - {fileID: 8350968553705963853}
   - {fileID: 4569624988451760173}
-  variation: 0.1
   canGrow: 1
   growthTime: 20
   finalSize: 0.75

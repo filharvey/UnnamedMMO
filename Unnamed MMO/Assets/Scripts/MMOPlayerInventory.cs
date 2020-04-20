@@ -264,7 +264,7 @@ namespace Acemobe.MMO
 
         public GameItem getActiveItem()
         {
-            if (activeItem != 1)
+            if (activeItem != -1)
             {
                 MMOInventoryItem item = actionBar[activeItem];
 

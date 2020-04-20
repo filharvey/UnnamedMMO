@@ -12,11 +12,11 @@ namespace Acemobe.MMO.MMOObjects
         public int                  harvestGain = 1;
         public MMOItemType          harvestResource;
 
-//        [SyncVar]
-//        public int                  meshIdx = 0;
-        public List<GameObject>     possibleMesh;
-
         public float variation = 0.1f;
+
+        [SyncVar]
+        public int                  meshIdx;
+        public List<GameObject>     displayMesh;
 
         [Header("GrowthStates")]
         public bool canGrow = false;
@@ -36,36 +36,35 @@ namespace Acemobe.MMO.MMOObjects
 
             transform.localScale = new Vector3(startScale, startScale, startScale);
 
-            /*            if (possibleMesh.Count > 0)
-                        {
-                            meshIdx = (int) Mathf.Floor(Random.Range(0, possibleMesh.Count - 1));
+            if (displayMesh.Count > 0)
+            {
+                meshIdx = (int) Mathf.Floor(Random.Range(0, displayMesh.Count - 1));
 
-                            for (var a = 0; a < possibleMesh.Count; a++)
-                            {
-                                if (a == meshIdx)
-                                    possibleMesh[a].SetActive(true);
-                                else
-                                    possibleMesh[a].SetActive(false);
-                            }
-                        }
-            */
+                for (int a =  0; a < displayMesh.Count; a++)
+                {
+                    if (a == meshIdx)
+                        displayMesh[a].SetActive(true);
+                    else
+                        displayMesh[a].SetActive(false);
+                }
+            }
         }
 
         public override void OnStartClient()
         {
             base.OnStartClient();
 
-/*            if (possibleMesh.Count > 0)
+            if (displayMesh.Count > 0)
             {
-                for (var a = 0; a < possibleMesh.Count; a++)
+                for (int a = 0; a < displayMesh.Count; a++)
                 {
                     if (a == meshIdx)
-                        possibleMesh[a].SetActive(true);
+                        displayMesh[a].SetActive(true);
                     else
-                        possibleMesh[a].SetActive(false);
+                        displayMesh[a].SetActive(false);
                 }
             }
-*/        }
+        }
 
         void FixedUpdate()
         {
