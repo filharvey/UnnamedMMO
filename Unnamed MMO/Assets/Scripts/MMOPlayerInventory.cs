@@ -262,11 +262,15 @@ namespace Acemobe.MMO
             return count;
         }
 
-        public GameItem getActiveItem ()
+        public GameItem getActiveItem()
         {
             if (activeItem != 1)
             {
-                return MMOResourceManager.instance.getItemByType(actionBar[activeItem].type);
+                MMOInventoryItem item = actionBar[activeItem];
+
+                GameItem gameItem = MMOResourceManager.instance.getItemByType(item.type);
+
+                return gameItem;
             }
 
             return null;
