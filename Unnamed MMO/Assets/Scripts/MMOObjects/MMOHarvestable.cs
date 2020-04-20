@@ -1,4 +1,5 @@
 ﻿using Mirror;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Acemobe.MMO.MMOObjects
@@ -10,6 +11,10 @@ namespace Acemobe.MMO.MMOObjects
         public float                harvestTime = 2;
         public int                  harvestGain = 1;
         public MMOItemType          harvestResource;
+
+//        [SyncVar]
+//        public int                  meshIdx = 0;
+        public List<GameObject>     possibleMesh;
 
         public float variation = 0.1f;
 
@@ -30,12 +35,37 @@ namespace Acemobe.MMO.MMOObjects
             startScale = Mathf.Min(startScale, finalSize);
 
             transform.localScale = new Vector3(startScale, startScale, startScale);
+
+            /*            if (possibleMesh.Count > 0)
+                        {
+                            meshIdx = (int) Mathf.Floor(Random.Range(0, possibleMesh.Count - 1));
+
+                            for (var a = 0; a < possibleMesh.Count; a++)
+                            {
+                                if (a == meshIdx)
+                                    possibleMesh[a].SetActive(true);
+                                else
+                                    possibleMesh[a].SetActive(false);
+                            }
+                        }
+            */
         }
 
         public override void OnStartClient()
         {
             base.OnStartClient();
-        }
+
+/*            if (possibleMesh.Count > 0)
+            {
+                for (var a = 0; a < possibleMesh.Count; a++)
+                {
+                    if (a == meshIdx)
+                        possibleMesh[a].SetActive(true);
+                    else
+                        possibleMesh[a].SetActive(false);
+                }
+            }
+*/        }
 
         void FixedUpdate()
         {
