@@ -73,7 +73,10 @@ namespace Acemobe.MMO
 
         // Rewired
         private Rewired.Player player; // The Rewired Player
-        private CharacterController cc;
+
+        // Server Update timer
+        float serverUpdateTimer = 0;
+        bool isUserDirty = false;
 
         // on server
         public override void OnStartServer()
@@ -125,11 +128,33 @@ namespace Acemobe.MMO
             mainCamera = MMOGameCamera.instance.GetComponent<Camera>();
         }
 
-        void Update()
+
+        void changeActionItem(int idx)
         {
+            inventory.changeItem(idx);
+
+            GameItem activeItem = inventory.getActiveItem();
+
+            if (activeItem)
+            {
+                switch (activeItem.actionType)
+                {
+                    case MMOResourceAction.Plant:
+                        serverobj.displayItem = "Plow";
+                        break;
+                    case MMOResourceAction.Chop:
+                    case MMOResourceAction.Mining:
+                        serverobj.displayItem = "pickaxe";
+                        break;
+                }
+            }
+            else
+            {
+                serverobj.displayItem = "";
+            }
         }
 
-        void FixedUpdate()
+        void Update()
         {
             if (isLocalPlayer)
             {
@@ -179,43 +204,43 @@ namespace Acemobe.MMO
                     // select inventory 1
                     if (player.GetButtonDown("Num1"))
                     {
-                        inventory.changeItem(0);
+                        changeActionItem(0);
                     }
                     else if (player.GetButtonDown("Num2"))
                     {
-                        inventory.changeItem(1);
+                        changeActionItem(1);
                     }
                     else if (player.GetButtonDown("Num3"))
                     {
-                        inventory.changeItem(2);
+                        changeActionItem(2);
                     }
                     else if (player.GetButtonDown("Num4"))
                     {
-                        inventory.changeItem(3);
+                        changeActionItem(3);
                     }
                     else if (player.GetButtonDown("Num5"))
                     {
-                        inventory.changeItem(4);
+                        changeActionItem(4);
                     }
                     else if (player.GetButtonDown("Num6"))
                     {
-                        inventory.changeItem(5);
+                        changeActionItem(5);
                     }
                     else if (player.GetButtonDown("Num7"))
                     {
-                        inventory.changeItem(6);
+                        changeActionItem(6);
                     }
                     else if (player.GetButtonDown("Num8"))
                     {
-                        inventory.changeItem(7);
+                        changeActionItem(7);
                     }
                     else if (player.GetButtonDown("Num9"))
                     {
-                        inventory.changeItem(8);
+                        changeActionItem(8);
                     }
                     else if (player.GetButtonDown("Num0"))
                     {
-                        inventory.changeItem(9);
+                        changeActionItem(9);
                     }
 
                     // mouse pointer
@@ -306,8 +331,6 @@ namespace Acemobe.MMO
                     if (curAction == MMOResourceAction.None)
                     {
                         // handle movement
-//                        float horizontal = Input.GetAxis("Horizontal");
-//                        float vertical = Input.GetAxis("Vertical");
                         moveVector.x = player.GetAxis("Move Horizontal"); // get input by name or action id
                         moveVector.y = player.GetAxis("Move Vertical");
 
@@ -352,6 +375,16 @@ namespace Acemobe.MMO
                     serverobj.player = this;
                     NetworkServer.Spawn(obj);
                 }
+                else
+                {
+                    serverUpdateTimer += Time.deltaTime;
+
+                    if (serverUpdateTimer > 3)
+                    {
+                        // update server
+                        serverUpdateTimer = 0;
+                    }
+                }
             }
         }
 
@@ -379,6 +412,14 @@ namespace Acemobe.MMO
         #region Handle Actions
         void startAction (MMOObject obj)
         {
+            GameItem activeItem = inventory.getActiveItem();
+            MMOResourceAction curHeldAction = MMOResourceAction.None;
+
+            if (activeItem)
+            {
+                curHeldAction = activeItem.actionType;
+            }
+
             if (obj)
             {
                 switch (obj.gameItem.type)
@@ -394,7 +435,8 @@ namespace Acemobe.MMO
                         break;
 
                     case MMOObjectTypes.Crop:
-                        if (obj.gameItem.isHarvestable)
+                        if (obj.gameItem.isHarvestable &&
+                            curHeldAction == MMOResourceAction.None)
                         {
                             MMOCrop cropItem = (MMOCrop)obj;
 
@@ -413,7 +455,9 @@ namespace Acemobe.MMO
                         {
                             MMOHarvestable harvestItem = (MMOHarvestable)obj;
 
-                            if (harvestItem)
+                            if (harvestItem &&
+                                (curHeldAction == MMOResourceAction.Mining ||
+                                curHeldAction == MMOResourceAction.Chop))
                             {
                                 curAction = harvestItem.action;
                                 actionTarget = obj;
@@ -429,7 +473,7 @@ namespace Acemobe.MMO
                         break;
                 }
             }
-            else
+            else if (curHeldAction == MMOResourceAction.Plant)
             {
                 MapData.TerrainData terrainData = MMOTerrainManager.instance.getTerrainData(actionX, actionZ);
 
@@ -457,15 +501,11 @@ namespace Acemobe.MMO
                     break;
                 case MMOResourceAction.Plant:
                     serverobj.animator.SetBool("Plant", true);
-                    serverobj.weapons["plow"].gameObject.SetActive(true);
-                    serverobj.displayItem = "plow";
                     break;
                 case MMOResourceAction.Chop:
                 case MMOResourceAction.Mining:
                     // show item needed
                     serverobj.animator.SetBool("Mining", true);
-                    serverobj.weapons["pickaxe"].gameObject.SetActive(true);
-                    serverobj.displayItem = "pickaxe";
                     break;
             }
         }
