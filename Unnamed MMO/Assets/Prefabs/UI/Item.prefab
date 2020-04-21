@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5735771520479005243}
   - component: {fileID: 1598340346975688104}
   - component: {fileID: 4673900707436197916}
-  m_Layer: 5
+  m_Layer: 15
   m_Name: Back
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -84,7 +84,7 @@ GameObject:
   - component: {fileID: 2168705651050942855}
   - component: {fileID: 554601937694641420}
   - component: {fileID: 8690445259521480022}
-  m_Layer: 5
+  m_Layer: 15
   m_Name: Count
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -132,7 +132,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -239,7 +239,7 @@ GameObject:
   - component: {fileID: 5778394527869667255}
   - component: {fileID: 8062898050298390584}
   - component: {fileID: 1371076542882951473}
-  m_Layer: 5
+  m_Layer: 15
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -314,7 +314,7 @@ GameObject:
   - component: {fileID: 8691254709806563809}
   - component: {fileID: 1092923742998674012}
   - component: {fileID: 2581086440773814345}
-  m_Layer: 5
+  m_Layer: 15
   m_Name: Item
   m_TagString: Untagged
   m_Icon: {fileID: 0}

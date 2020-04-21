@@ -10,7 +10,6 @@ namespace Acemobe.MMO.UI.UIItems
         public GameObject itemContainer;
         public List<UIItemInfo> inventoryItems;
 
-        // Start is called before the first frame update
         void Start()
         {
             for (var a = 0; a < itemContainer.transform.childCount; a++)
@@ -18,6 +17,10 @@ namespace Acemobe.MMO.UI.UIItems
                 Transform obj = itemContainer.transform.GetChild(a);
                 UIItemInfo itemInfo = obj.GetComponent<UIItemInfo>();
 
+                itemInfo.idx = a;
+                itemInfo.isInventory = true;
+
+                itemInfo.setParent(this);
                 inventoryItems.Add(itemInfo);
             }
         }
@@ -45,11 +48,10 @@ namespace Acemobe.MMO.UI.UIItems
                         MMOInventoryItem itemInfo = MMOPlayer.localPlayer.inventory.inventory[a];
 
                         bar.updateItem(itemInfo);
-
                     }
                     else
                     {
-                        bar.clear();
+                        bar.gameObject.SetActive(false);
                     }
                 }
             }

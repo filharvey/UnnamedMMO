@@ -85,26 +85,23 @@ namespace Acemobe.MMO
 
             Debug.Log("Player OnStartServer," + torso + "," + head);
 
-            MMOInventoryItem item = new MMOInventoryItem
+            inventory.addActionItem(new MMOInventoryItem
             {
                 type = MMOItemType.Axe,
                 amount = 1
-            };
-            inventory.addActionItem(item);
+            });
 
-            item = new MMOInventoryItem
+            inventory.addActionItem(new MMOInventoryItem
             {
                 type = MMOItemType.PickAxe,
                 amount = 1
-            };
-            inventory.addActionItem(item);
+            });
 
-            item = new MMOInventoryItem
+            inventory.addActionItem(new MMOInventoryItem
             {
                 type = MMOItemType.Sword,
                 amount = 1
-            };
-            inventory.addActionItem(item);
+            });
         }
 
         // on client

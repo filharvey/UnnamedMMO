@@ -1,4 +1,5 @@
 ﻿using Acemobe.MMO.Data;
+using Acemobe.MMO.MMOObjects;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,18 +11,22 @@ namespace Acemobe.MMO.UI.UIItems
     {
         public Image timer;
 
-        public override void clear()
-        {
-            base.clear();
-
-            timer.enabled = false;
-        }
+        UIActionBar actionBar;
 
         public override void updateItem(MMOInventoryItem itemInfo)
         {
             base.updateItem(itemInfo);
 
-            timer.enabled = false;
+            if (itemInfo.type == MMOItemType.None)
+                timer.gameObject.SetActive (false);  
+            else
+                timer.gameObject.SetActive(false);
         }
+
+        public void setParent(UIActionBar actionBar)
+        {
+            this.actionBar = actionBar;
+        }
+
     }
 }

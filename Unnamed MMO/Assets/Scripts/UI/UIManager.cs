@@ -20,6 +20,8 @@ namespace Acemobe.MMO.UI
 
         public GameObject mobileUI;
 
+        public GameObject dragLayer;
+
         public static UIManager instance
         {
             get

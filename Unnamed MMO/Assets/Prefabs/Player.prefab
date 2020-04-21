@@ -10,12 +10,12 @@ GameObject:
   m_Component:
   - component: {fileID: 4676595491039033741}
   - component: {fileID: 824103310996393789}
-  - component: {fileID: 824103310996393787}
   - component: {fileID: 2715546751118216101}
-  - component: {fileID: 2577231012441808618}
   - component: {fileID: 8396473232801178200}
   - component: {fileID: 2538169456197566372}
   - component: {fileID: 8357406800753193427}
+  - component: {fileID: 2577231012441808618}
+  - component: {fileID: 824103310996393787}
   m_Layer: 9
   m_Name: Player
   m_TagString: Untagged
@@ -52,49 +52,6 @@ MonoBehaviour:
   sceneId: 0
   serverOnly: 0
   m_AssetId: 
---- !u!114 &824103310996393787
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2676660211399574388}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 81d37c9541d13d445b5560d7c7abd2da, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  serverobj: {fileID: 0}
-  inventory: {fileID: 2577231012441808618}
-  head: Head_01
-  torso: 
-  bottom: 
-  feet: 
-  hand: 
-  belt: 
-  weapon: 1
-  displayItem: 
-  projectilePrefab: {fileID: 5271991172593972804, guid: 0a7f1dfec5be60a48a65d75903894718,
-    type: 3}
-  fakePlayer: {fileID: 3852942570814593499, guid: 47aed8ec55f44634b8cf03b783ef7d5c,
-    type: 3}
-  health: 0
-  isFiring: 0
-  isMoving: 0
-  isMouseDown: 0
-  lastFire: 0
-  moveHoriz: 0
-  moveVert: 0
-  speed: 100
-  mouseDownTarget: {fileID: 0}
-  mouseDownX: -1
-  mouseDownZ: -1
-  mouseDownTimer: 0
-  activeTool: {fileID: 0}
-  mouseRange: 1.9
-  activeItem: 0
 --- !u!114 &2715546751118216101
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -114,20 +71,6 @@ MonoBehaviour:
   localRotationSensitivity: 0.01
   localScaleSensitivity: 0.01
   compressRotation: 1
---- !u!114 &2577231012441808618
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2676660211399574388}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4df32999c62fe404a9a1120d527466f5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
 --- !u!114 &8396473232801178200
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -179,3 +122,61 @@ CapsuleCollider:
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2577231012441808618
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2676660211399574388}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4df32999c62fe404a9a1120d527466f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  activeItem: -1
+--- !u!114 &824103310996393787
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2676660211399574388}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81d37c9541d13d445b5560d7c7abd2da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  serverobj: {fileID: 0}
+  inventory: {fileID: 2577231012441808618}
+  head: Head_01
+  torso: 
+  bottom: 
+  feet: 
+  hand: 
+  belt: 
+  weapon: 1
+  projectilePrefab: {fileID: 5271991172593972804, guid: 0a7f1dfec5be60a48a65d75903894718,
+    type: 3}
+  fakePlayer: {fileID: 3852942570814593499, guid: 47aed8ec55f44634b8cf03b783ef7d5c,
+    type: 3}
+  health: 0
+  isFiring: 0
+  isMoving: 0
+  isMouseDown: 0
+  lastFire: 0
+  moveHoriz: 0
+  moveVert: 0
+  speed: 100
+  curAction: 0
+  activeItem: 0
+  actionTarget: {fileID: 0}
+  nextActionTarget: {fileID: 0}
+  actionX: -1
+  actionZ: -1
+  mouseRange: 1.9
+  curRecipe: {fileID: 0}

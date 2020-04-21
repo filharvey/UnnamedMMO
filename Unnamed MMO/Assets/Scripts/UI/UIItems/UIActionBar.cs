@@ -15,7 +15,10 @@ namespace Acemobe.MMO.UI.UIItems
             for (var a = 0; a < actionBarItems.Count; a++)
             {
                 UIActionBarItemInfo bar = actionBarItems[a];
+
                 bar.setParent(this);
+                bar.idx = a;
+                bar.isInventory = false;
             }
         }
 
@@ -34,28 +37,16 @@ namespace Acemobe.MMO.UI.UIItems
         {
             if (MMOPlayer.localPlayer)
             {
+                int count = MMOPlayer.localPlayer.inventory.actionBar.Count;
                 for (var a = 0; a < actionBarItems.Count; a++)
                 {
                     UIActionBarItemInfo bar = actionBarItems[a];
-
+                        
                     if (a < MMOPlayer.localPlayer.inventory.actionBar.Count)
                     {
                         MMOInventoryItem itemInfo = MMOPlayer.localPlayer.inventory.actionBar[a];
 
                         bar.updateItem(itemInfo);
-
-                        if (MMOPlayer.localPlayer.inventory.activeItem == a)
-                        {
-
-                        }
-                        else
-                        {
-
-                        }
-                    }
-                    else
-                    {
-                        bar.clear();
                     }
                 }
             }

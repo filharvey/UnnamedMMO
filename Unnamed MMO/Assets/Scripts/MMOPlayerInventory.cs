@@ -28,6 +28,17 @@ namespace Acemobe.MMO
         public override void OnStartServer()
         {
             base.OnStartServer();
+
+            // add empty inventory
+            for (var a = 0; a < 10; a++)
+            {
+                actionBar.Add(new MMOInventoryItem());
+            }
+
+            for (var a = 0; a < 40; a++)
+            {
+                inventory.Add(new MMOInventoryItem());
+            }
         }
 
         // on client
@@ -63,10 +74,6 @@ namespace Acemobe.MMO
                     // index is the index of the item that was updated
                     // item is the previous item
                     break;
-                case SyncListItem.Operation.OP_DIRTY:
-                    // index is the index of the item that was updated
-                    // item is the previous item
-                    break;
             }
         }
 
@@ -82,16 +89,26 @@ namespace Acemobe.MMO
                     if (!found && item.type == inventory[i].type)
                     {
                         item.amount += inventory[i].amount;
-                        inventory[i] = item;
                         return true;
                     }
                 }
 
                 if (!found)
                 {
-                    // only add if there is enough room
-                    inventory.Add(item);
-                    return true;
+                    for (var i = 0; i < inventory.Count; i++)
+                    {
+                        if (!found && inventory[i].type == MMOItemType.None)
+                        {
+                            inventory[i] = item;
+                            return true;
+                        }
+                    }
+
+                    if (!found)
+                    {
+                        inventory.Add(item);
+                        return true;
+                    }
                 }
             }
 
@@ -110,16 +127,26 @@ namespace Acemobe.MMO
                     if (!found && item.type == actionBar[i].type)
                     {
                         item.amount += actionBar[i].amount;
-                        actionBar[i] = item;
                         return true;
                     }
                 }
 
                 if (!found)
                 {
-                    // only add if there is enough room
-                    actionBar.Add(item);
-                    return true;
+                    for (var i = 0; i < actionBar.Count; i++)
+                    {
+                        if (!found && actionBar[i].type == MMOItemType.None)
+                        {
+                            actionBar[i] = item;
+                            return true;
+                        }
+                    }
+
+                    if (!found)
+                    {
+                        actionBar.Add(item);
+                        return true;
+                    }
                 }
             }
 

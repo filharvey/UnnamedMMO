@@ -6,9 +6,9 @@ using UnityEngine;
 
 namespace Acemobe.MMO.Data
 {
-    public struct MMOInventoryItem
+    public class MMOInventoryItem
     {
-        public MMOItemType type;
-        public int amount;
+        public MMOItemType type = MMOItemType.None;
+        public int amount = 0;
     }
 }
