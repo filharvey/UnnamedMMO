@@ -1,4 +1,5 @@
-﻿using Acemobe.MMO.MMOObjects;
+﻿using Acemobe.MMO.Data;
+using Acemobe.MMO.MMOObjects;
 using Acemobe.MMO.UI;
 using Mirror;
 using System.Collections.Generic;

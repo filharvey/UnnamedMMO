@@ -23,7 +23,13 @@ namespace Acemobe.MMO
 
         void Start()
         {
+            int a = 0;
 
+            while (a < 20 && objects.Count < maxNum)
+            {
+                spawnObject();
+                a++;
+            }
         }
 
         void Update()

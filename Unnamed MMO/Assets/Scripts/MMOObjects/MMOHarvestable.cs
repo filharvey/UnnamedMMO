@@ -1,4 +1,5 @@
-﻿using Mirror;
+﻿using Acemobe.MMO.Data;
+using Mirror;
 using System.Collections.Generic;
 using UnityEngine;
 

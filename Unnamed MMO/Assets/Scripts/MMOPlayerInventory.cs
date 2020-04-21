@@ -88,7 +88,7 @@ namespace Acemobe.MMO
                 {
                     if (!found && item.type == inventory[i].type)
                     {
-                        item.amount += inventory[i].amount;
+                        inventory[i].amount += item.amount;
                         return true;
                     }
                 }
@@ -126,7 +126,7 @@ namespace Acemobe.MMO
                 {
                     if (!found && item.type == actionBar[i].type)
                     {
-                        item.amount += actionBar[i].amount;
+                        actionBar[i].amount += item.amount;
                         return true;
                     }
                 }

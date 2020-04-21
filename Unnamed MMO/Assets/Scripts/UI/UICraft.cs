@@ -26,26 +26,26 @@ namespace Acemobe.MMO.UI
         // Start is called before the first frame update
         void Start()
         {
-            updateRecipie();
-            updateAvaibleRecipies();
         }
 
         // Update is called once per frame
         void Update()
         {
-
+            updateRecipie();
         }
 
         public void onShow ()
         {
             gameObject.SetActive(true);
 
-            updateRecipie();
+            clearRecipies();
             updateAvaibleRecipies();
+            updateRecipie();
         }
 
         public void onClose()
         {
+            clearRecipies();
             gameObject.SetActive(false);
         }
 
@@ -54,6 +54,18 @@ namespace Acemobe.MMO.UI
             curRecipies = recipies;
 
             updateRecipie();
+        }
+
+        void clearRecipies ()
+        {
+            while (availableRecipies.Count > 0)
+            {
+                GameObject obj = availableRecipies[0];
+                obj.transform.SetParent(null);
+                Destroy(obj);
+
+                availableRecipies.RemoveAt(0);
+            }
         }
 
         void updateAvaibleRecipies()

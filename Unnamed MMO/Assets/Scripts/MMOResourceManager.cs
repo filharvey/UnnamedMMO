@@ -1,6 +1,5 @@
-﻿using Acemobe.MMO.Data.ScriptableObjects;
-using Acemobe.MMO.MMOObjects;
-using System.Collections;
+﻿using Acemobe.MMO.Data;
+using Acemobe.MMO.Data.ScriptableObjects;
 using System.Collections.Generic;
 using UnityEngine;
 

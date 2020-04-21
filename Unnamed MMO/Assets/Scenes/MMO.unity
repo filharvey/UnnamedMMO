@@ -14941,13 +14941,14 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 33d1411fb8a5ac04cbf564e41f386f7b, type: 2}
   - {fileID: 11400000, guid: cac0d73bcc90044419b09d7b3ef6fbd9, type: 2}
   - {fileID: 11400000, guid: bb879db1e0fc98a4484280049214192e, type: 2}
-  - {fileID: 11400000, guid: e66f5264173e78c4d881d5047293ff07, type: 2}
-  - {fileID: 11400000, guid: 840d6eaa3804db344bb86a7f352e2fe2, type: 2}
+  - {fileID: 11400000, guid: 9489ec1e456ed6e41baca042bf058465, type: 2}
+  - {fileID: 11400000, guid: d6326a16e914ef24583c36cad3b3320a, type: 2}
   gameCrops:
   - {fileID: 11400000, guid: 5df0391cc752d7a47a54b161e78875a2, type: 2}
   gameRecipies:
   - {fileID: 11400000, guid: af8ad6c6892836447911b61e3e1c1b51, type: 2}
   - {fileID: 11400000, guid: 43baa9055f5023342ad3749772e5a1bc, type: 2}
+  - {fileID: 11400000, guid: 5df5819dd7cc6d2459059bde522f09ec, type: 2}
 --- !u!1 &1897354584
 GameObject:
   m_ObjectHideFlags: 0
