@@ -204,15 +204,28 @@ namespace Acemobe.MMO
             }
         }
 
+        public void removeRecipeMaterials (Recipies recipe)
+        {
+            removeItem(recipe.material1.itemType, recipe.count1);
+
+            if (recipe.material2)
+                removeItem(recipe.material2.itemType, recipe.count2);
+
+            if (recipe.material3)
+                removeItem(recipe.material3.itemType, recipe.count3);
+        }
+
         public bool checkRecipe(Recipies recipe)
         {
             if (!hasItemCount(recipe.material1.itemType, recipe.count1))
                 return false;
 
-            if (!hasItemCount(recipe.material2.itemType, recipe.count2))
+            if (recipe.material2 &&
+                !hasItemCount(recipe.material2.itemType, recipe.count2))
                 return false;
 
-            if (!hasItemCount(recipe.material3.itemType, recipe.count3))
+            if (recipe.material3 && 
+                !hasItemCount(recipe.material3.itemType, recipe.count3))
                 return false;
 
             return true;

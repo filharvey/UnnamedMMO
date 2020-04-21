@@ -35,17 +35,15 @@ public class UIElementDragger : MonoBehaviour
 
                 if (draggedItemInfo.invetoryItem != null)
                 {
-                    dragObj = draggedItemInfo.item.transform;
-                    dragObj.SetAsLastSibling();
-
-                    originalPos = dragObj.position;
-
+                    // hide count
                     draggedItemInfo.count.gameObject.SetActive(false);
 
-                    dragObj.GetComponent<Image>().raycastTarget = false;
-                    dragObj.localScale = Vector3.one * 1.2f;
-
+                    // set as 
+                    originalPos = dragObj.position;
                     parent = dragObj.parent;
+
+                    dragObj = draggedItemInfo.item.transform;
+                    dragObj.localScale = Vector3.one * 1.2f;
                     dragObj.SetParent(UIManager.instance.dragLayer.transform);
                 }
             }
@@ -94,10 +92,12 @@ public class UIElementDragger : MonoBehaviour
                     dragObj.position = originalPos;
                 }
 
-                dragObj.SetParent(parent);
+                dragObj.SetParent(draggedItemInfo.transform);
+                // set after background
+                dragObj.SetSiblingIndex(1);
+
                 dragObj.localScale = Vector3.one;
                 draggedItemInfo.count.gameObject.SetActive(true);
-                dragObj.GetComponent<Image>().raycastTarget = true;
             }
 
             isDragging = false;

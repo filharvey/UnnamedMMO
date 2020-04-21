@@ -332,6 +332,10 @@ namespace Acemobe.MMO
                             transform.rotation = serverobj.transform.rotation;
                         }
                     }
+                    else
+                    {
+                        CmdMove(NetworkTime.time, 0, 0, 0);
+                    }
                 }
             }
 
@@ -543,6 +547,7 @@ namespace Acemobe.MMO
                     }
 
                     // also remove items
+                    inventory.removeRecipeMaterials(curRecipe);
                     break;
 
                 case MMOResourceAction.Gather:
