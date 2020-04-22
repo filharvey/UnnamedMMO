@@ -134,6 +134,7 @@ ModelImporter:
     400124: Villager
     400126: DummySkeleton
     7400000: BasicMotions@Idle01
+    7400002: BasicMotions@Idle01_ClosedHands
     9500000: //RootNode
   externalObjects: {}
   materials:
@@ -150,10 +151,7 @@ ModelImporter:
     rigImportErrors: 
     rigImportWarnings: 
     animationImportErrors: 
-    animationImportWarnings: "\nClip 'Default Take' has import animation warnings
-      that might lower retargeting quality:\nNote: Activate translation DOF on avatar
-      to improve retargeting quality.\n\t'B-upper_arm_R' has scale animation that
-      will be discarded.\n"
+    animationImportWarnings: 
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
@@ -167,7 +165,35 @@ ModelImporter:
     clipAnimations:
     - serializedVersion: 16
       name: BasicMotions@Idle01
-      takeName: Default Take
+      takeName: BasicMotions@Idle01
+      firstFrame: 0
+      lastFrame: 89
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 1
+      loopBlendPositionY: 1
+      loopBlendPositionXZ: 1
+      keepOriginalOrientation: 1
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 1
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: BasicMotions@Idle01_ClosedHands
+      takeName: BasicMotions@Idle01_ClosedHands
       firstFrame: 0
       lastFrame: 89
       wrapMode: 0

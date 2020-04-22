@@ -122,6 +122,8 @@ namespace Acemobe.MMO
                         serverobj.displayItem = "Plow";
                         break;
                     case MMOResourceAction.Chop:
+                        serverobj.displayItem = "axe";
+                        break;
                     case MMOResourceAction.Mining:
                         serverobj.displayItem = "pickaxe";
                         break;
@@ -486,6 +488,8 @@ namespace Acemobe.MMO
                     serverobj.animator.SetBool("Plant", true);
                     break;
                 case MMOResourceAction.Chop:
+                    serverobj.animator.SetBool("Chop", true);
+                    break;
                 case MMOResourceAction.Mining:
                     // show item needed
                     serverobj.animator.SetBool("Mining", true);
@@ -694,17 +698,15 @@ namespace Acemobe.MMO
                         break;
                     case MMOResourceAction.Plant:
                         serverobj.animator.SetBool("Plant", false);
-                        serverobj.weapons["plow"].gameObject.SetActive(false);
                         break;
                     case MMOResourceAction.Chop:
+                        serverobj.animator.SetBool("Chop", false);
+                        break;
                     case MMOResourceAction.Mining:
-                        // stop actions
                         serverobj.animator.SetBool("Mining", false);
-                        serverobj.weapons["axe"].gameObject.SetActive(false);
                         break;
                 }
 
-                serverobj.displayItem = "";
                 curAction = MMOResourceAction.None;
             }
         }
@@ -886,7 +888,6 @@ namespace Acemobe.MMO
         // 
         void RpcInventoryGain(MMOInventoryItem item)
         {
-            Debug.Log("-" + item.amount + "x " + item.type);
             UIManager.instance.showItemGain(item);
         }
 

@@ -1,9 +1,7 @@
 fileFormatVersion: 2
 guid: 1f0b2bcd26555054ebe091c163eed39f
-timeCreated: 1568741137
-licenseType: Store
 ModelImporter:
-  serializedVersion: 22
+  serializedVersion: 23
   fileIDToRecycleName:
     100000: B-chest
     100002: B-f_index_01_L
@@ -134,7 +132,9 @@ ModelImporter:
     400124: Villager
     400126: DummySkeleton
     7400000: BasicMotions@Idle02 - Idle01
+    7400002: BasicMotions@Idle02 - Idle01_ClosedHands
     9500000: //RootNode
+    2186277476908879412: ImportLogs
   externalObjects: {}
   materials:
     importMaterials: 0
@@ -150,14 +150,19 @@ ModelImporter:
     rigImportErrors: 
     rigImportWarnings: 
     animationImportErrors: 
-    animationImportWarnings: "\nClip 'Default Take' has import animation warnings
-      that might lower retargeting quality:\nNote: Activate translation DOF on avatar
-      to improve retargeting quality.\n\t'B-upper_arm_L' has scale animation that
-      will be discarded.\n\t'B-shin_R' has scale animation that will be discarded.\n\t'B-foot_R'
-      has scale animation that will be discarded.\n"
+    animationImportWarnings: "\nClip 'BasicMotions@Idle02 - Idle01' has import animation
+      warnings that might lower retargeting quality:\nNote: Activate translation DOF
+      on avatar to improve retargeting quality.\n\t'B-upper_arm_L' has scale animation
+      that will be discarded.\n\t'B-shin_R' has scale animation that will be discarded.\n\t'B-foot_R'
+      has scale animation that will be discarded.\n\nClip 'BasicMotions@Idle02 - Idle01_ClosedHands'
+      has import animation warnings that might lower retargeting quality:\nNote: Activate
+      translation DOF on avatar to improve retargeting quality.\n\t'B-upper_arm_L'
+      has scale animation that will be discarded.\n\t'B-shin_R' has scale animation
+      that will be discarded.\n\t'B-foot_R' has scale animation that will be discarded.\n"
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
+    importConstraints: 0
     animationCompression: 3
     animationRotationError: 0
     animationPositionError: 0
@@ -168,7 +173,35 @@ ModelImporter:
     clipAnimations:
     - serializedVersion: 16
       name: BasicMotions@Idle02 - Idle01
-      takeName: Default Take
+      takeName: BasicMotions@Idle02 - Idle01
+      firstFrame: 0
+      lastFrame: 51
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 1
+      loopBlendPositionY: 1
+      loopBlendPositionXZ: 1
+      keepOriginalOrientation: 1
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 1
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: BasicMotions@Idle02 - Idle01_ClosedHands
+      takeName: BasicMotions@Idle02 - Idle01_ClosedHands
       firstFrame: 0
       lastFrame: 51
       wrapMode: 0
@@ -217,6 +250,8 @@ ModelImporter:
     secondaryUVHardAngle: 88
     secondaryUVPackMargin: 4
     useFileScale: 1
+    previousCalculatedGlobalScale: 0.01
+    hasPreviousCalculatedGlobalScale: 1
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0

@@ -131,6 +131,63 @@ ModelImporter:
     400120: root
     400122: Villager
     400124: //RootNode
+    2300000: B-f_index_01_L
+    2300002: B-f_index_02_L
+    2300004: B-f_index_03_L
+    2300006: B-f_middle_01_L
+    2300008: B-f_middle_02_L
+    2300010: B-f_middle_03_L
+    2300012: B-f_pinky_01_L
+    2300014: B-f_pinky_02_L
+    2300016: B-f_pinky_03_L
+    2300018: B-f_ring_01_L
+    2300020: B-f_ring_02_L
+    2300022: B-f_ring_03_L
+    2300024: B-palm_01_L
+    2300026: B-palm_02_L
+    2300028: B-palm_03_L
+    2300030: B-palm_04_L
+    2300032: B-thumb_01_L
+    2300034: B-thumb_02_L
+    2300036: B-thumb_03_L
+    3300000: B-f_index_01_L
+    3300002: B-f_index_02_L
+    3300004: B-f_index_03_L
+    3300006: B-f_middle_01_L
+    3300008: B-f_middle_02_L
+    3300010: B-f_middle_03_L
+    3300012: B-f_pinky_01_L
+    3300014: B-f_pinky_02_L
+    3300016: B-f_pinky_03_L
+    3300018: B-f_ring_01_L
+    3300020: B-f_ring_02_L
+    3300022: B-f_ring_03_L
+    3300024: B-palm_01_L
+    3300026: B-palm_02_L
+    3300028: B-palm_03_L
+    3300030: B-palm_04_L
+    3300032: B-thumb_01_L
+    3300034: B-thumb_02_L
+    3300036: B-thumb_03_L
+    4300000: B-palm_01_L
+    4300002: B-f_index_01_L
+    4300004: B-f_index_02_L
+    4300006: B-f_index_03_L
+    4300008: B-thumb_01_L
+    4300010: B-thumb_02_L
+    4300012: B-thumb_03_L
+    4300014: B-palm_02_L
+    4300016: B-f_middle_01_L
+    4300018: B-f_middle_02_L
+    4300020: B-f_middle_03_L
+    4300022: B-palm_03_L
+    4300024: B-f_ring_01_L
+    4300026: B-f_ring_02_L
+    4300028: B-f_ring_03_L
+    4300030: B-palm_04_L
+    4300032: B-f_pinky_01_L
+    4300034: B-f_pinky_02_L
+    4300036: B-f_pinky_03_L
     7400000: Villager@Idle01
     9500000: //RootNode
   externalObjects: {}
@@ -145,8 +202,7 @@ ModelImporter:
     resampleCurves: 1
     optimizeGameObjects: 0
     motionNodeName: 
-    rigImportErrors: "Copied Avatar Rig Configuration mis-match. Transform hierarchy
-      does not match:\n\tTransform 'B-thigh.L' for human bone 'LeftUpperLeg' not found\n"
+    rigImportErrors: 
     rigImportWarnings: 
     animationImportErrors: 
     animationImportWarnings: 

@@ -1,9 +1,7 @@
 fileFormatVersion: 2
-guid: 6e2bfa8498b0db840865dd4eb42ce0ad
-timeCreated: 1568741142
-licenseType: Store
+guid: ed577d0a3c27127469eda3689ab69385
 ModelImporter:
-  serializedVersion: 22
+  serializedVersion: 23
   fileIDToRecycleName:
     100000: B-chest
     100002: B-f_index_01_L
@@ -66,9 +64,8 @@ ModelImporter:
     100116: B-upper_arm_R
     100118: B-upperChest
     100120: //RootNode
-    100122: root
-    100124: Villager
-    100126: DummySkeleton
+    100122: DummySkeleton
+    100124: root
     400000: B-chest
     400002: B-f_index_01_L
     400004: B-f_index_01_R
@@ -130,13 +127,18 @@ ModelImporter:
     400116: B-upper_arm_R
     400118: B-upperChest
     400120: //RootNode
-    400122: root
-    400124: Villager
-    400126: DummySkeleton
-    7400000: Walk01
-    7400002: BasicMotions@Walk01
-    7400004: BasicMotions@Walk01 [RootMotion]
+    400122: DummySkeleton
+    400124: root
+    7400000: BasicMotions@Walk01 - Forwards
+    7400002: BasicMotions@Walk01 - ForwardsLeft
+    7400004: BasicMotions@Walk01 - ForwardsRight
+    7400006: BasicMotions@Walk01 - Left
+    7400008: BasicMotions@Walk01 - Right
+    7400010: BasicMotions@Walk01 - Backwards
+    7400012: BasicMotions@Walk01 - BackwardsLeft
+    7400014: BasicMotions@Walk01 - BackwardsRight
     9500000: //RootNode
+    2186277476908879412: ImportLogs
   externalObjects: {}
   materials:
     importMaterials: 0
@@ -152,21 +154,62 @@ ModelImporter:
     rigImportErrors: 
     rigImportWarnings: 
     animationImportErrors: 
-    animationImportWarnings: "\nClip 'BasicMotions@Walk01' has import animation warnings
-      that might lower retargeting quality:\nNote: Activate translation DOF on avatar
-      to improve retargeting quality.\n\t'B-upper_arm_L' has scale animation that
-      will be discarded.\n\t'B-shin_L' has scale animation that will be discarded.\n\t'B-foot_L'
+    animationImportWarnings: "\nClip 'BasicMotions@Walk01 - Forwards' has import animation
+      warnings that might lower retargeting quality:\nNote: Activate translation DOF
+      on avatar to improve retargeting quality.\n\t'B-upper_arm_L' has scale animation
+      that will be discarded.\n\t'B-shin_L' has scale animation that will be discarded.\n\t'B-foot_L'
       has scale animation that will be discarded.\n\t'B-shin_R' has scale animation
       that will be discarded.\n\t'B-foot_R' has scale animation that will be discarded.\n\nClip
-      'BasicMotions@Walk01 [RootMotion]' has import animation warnings that might
+      'BasicMotions@Walk01 - ForwardsLeft' has import animation warnings that might
       lower retargeting quality:\nNote: Activate translation DOF on avatar to improve
-      retargeting quality.\n\t'B-upper_arm_L' has scale animation that will be discarded.\n\t'B-shin_L'
-      has scale animation that will be discarded.\n\t'B-foot_L' has scale animation
+      retargeting quality.\n\t'B-shin_L' has scale animation that will be discarded.\n\t'B-foot_L'
+      has scale animation that will be discarded.\n\t'B-shin_R' has scale animation
+      that will be discarded.\n\t'B-foot_R' has scale animation that will be discarded.\n\nClip
+      'BasicMotions@Walk01 - ForwardsRight' has import animation warnings that might
+      lower retargeting quality:\nNote: Activate translation DOF on avatar to improve
+      retargeting quality.\n\t'B-shin_L' has scale animation that will be discarded.\n\t'B-foot_L'
+      has scale animation that will be discarded.\n\t'B-shin_R' has scale animation
+      that will be discarded.\n\t'B-foot_R' has scale animation that will be discarded.\n\nClip
+      'BasicMotions@Walk01 - Left' has import animation warnings that might lower
+      retargeting quality:\nNote: Activate translation DOF on avatar to improve retargeting
+      quality.\n\t'B-upper_arm_L' has scale animation that will be discarded.\n\t'B-forearm_L'
+      has scale animation that will be discarded.\n\t'B-hand_L' has scale animation
+      that will be discarded.\n\t'B-upper_arm_R' has scale animation that will be
+      discarded.\n\t'B-forearm_R' has scale animation that will be discarded.\n\t'B-hand_R'
+      has scale animation that will be discarded.\n\t'B-thigh_L' has scale animation
+      that will be discarded.\n\t'B-shin_L' has scale animation that will be discarded.\n\t'B-foot_L'
+      has scale animation that will be discarded.\n\t'B-thigh_R' has scale animation
       that will be discarded.\n\t'B-shin_R' has scale animation that will be discarded.\n\t'B-foot_R'
-      has scale animation that will be discarded.\n"
+      has scale animation that will be discarded.\n\nClip 'BasicMotions@Walk01 - Right'
+      has import animation warnings that might lower retargeting quality:\nNote: Activate
+      translation DOF on avatar to improve retargeting quality.\n\t'B-upper_arm_L'
+      has scale animation that will be discarded.\n\t'B-forearm_L' has scale animation
+      that will be discarded.\n\t'B-hand_L' has scale animation that will be discarded.\n\t'B-upper_arm_R'
+      has scale animation that will be discarded.\n\t'B-forearm_R' has scale animation
+      that will be discarded.\n\t'B-hand_R' has scale animation that will be discarded.\n\t'B-shin_L'
+      has scale animation that will be discarded.\n\t'B-foot_L' has scale animation
+      that will be discarded.\n\t'B-thigh_R' has scale animation that will be discarded.\n\t'B-shin_R'
+      has scale animation that will be discarded.\n\t'B-foot_R' has scale animation
+      that will be discarded.\n\nClip 'BasicMotions@Walk01 - Backwards' has import
+      animation warnings that might lower retargeting quality:\nNote: Activate translation
+      DOF on avatar to improve retargeting quality.\n\t'B-shin_L' has scale animation
+      that will be discarded.\n\t'B-foot_L' has scale animation that will be discarded.\n\t'B-shin_R'
+      has scale animation that will be discarded.\n\t'B-foot_R' has scale animation
+      that will be discarded.\n\nClip 'BasicMotions@Walk01 - BackwardsLeft' has import
+      animation warnings that might lower retargeting quality:\nNote: Activate translation
+      DOF on avatar to improve retargeting quality.\n\t'B-upper_arm_R' has scale animation
+      that will be discarded.\n\t'B-shin_L' has scale animation that will be discarded.\n\t'B-foot_L'
+      has scale animation that will be discarded.\n\t'B-shin_R' has scale animation
+      that will be discarded.\n\t'B-foot_R' has scale animation that will be discarded.\n\nClip
+      'BasicMotions@Walk01 - BackwardsRight' has import animation warnings that might
+      lower retargeting quality:\nNote: Activate translation DOF on avatar to improve
+      retargeting quality.\n\t'B-shin_L' has scale animation that will be discarded.\n\t'B-foot_L'
+      has scale animation that will be discarded.\n\t'B-shin_R' has scale animation
+      that will be discarded.\n\t'B-foot_R' has scale animation that will be discarded.\n"
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
+    importConstraints: 0
     animationCompression: 3
     animationRotationError: 0
     animationPositionError: 0
@@ -176,8 +219,8 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: BasicMotions@Walk01
-      takeName: BasicMotions@Walk01
+      name: BasicMotions@Walk01 - Forwards
+      takeName: BasicMotions@Walk01 - Forwards
       firstFrame: 0
       lastFrame: 26
       wrapMode: 0
@@ -204,8 +247,8 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: BasicMotions@Walk01 [RootMotion]
-      takeName: BasicMotions@Walk01 [RootMotion]
+      name: BasicMotions@Walk01 - ForwardsLeft
+      takeName: BasicMotions@Walk01 - ForwardsLeft
       firstFrame: 0
       lastFrame: 26
       wrapMode: 0
@@ -218,7 +261,175 @@ ModelImporter:
       loopBlend: 0
       loopBlendOrientation: 1
       loopBlendPositionY: 1
-      loopBlendPositionXZ: 0
+      loopBlendPositionXZ: 1
+      keepOriginalOrientation: 1
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 1
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: BasicMotions@Walk01 - ForwardsRight
+      takeName: BasicMotions@Walk01 - ForwardsRight
+      firstFrame: 0
+      lastFrame: 26
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 1
+      loopBlendPositionY: 1
+      loopBlendPositionXZ: 1
+      keepOriginalOrientation: 1
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 1
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: BasicMotions@Walk01 - Left
+      takeName: BasicMotions@Walk01 - Left
+      firstFrame: 0
+      lastFrame: 26
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 1
+      loopBlendPositionY: 1
+      loopBlendPositionXZ: 1
+      keepOriginalOrientation: 1
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 1
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: BasicMotions@Walk01 - Right
+      takeName: BasicMotions@Walk01 - Right
+      firstFrame: 13
+      lastFrame: 39
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 1
+      loopBlendPositionY: 1
+      loopBlendPositionXZ: 1
+      keepOriginalOrientation: 1
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 1
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: BasicMotions@Walk01 - Backwards
+      takeName: BasicMotions@Walk01 - Backwards
+      firstFrame: 13
+      lastFrame: 39
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 1
+      loopBlendPositionY: 1
+      loopBlendPositionXZ: 1
+      keepOriginalOrientation: 1
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 1
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: BasicMotions@Walk01 - BackwardsLeft
+      takeName: BasicMotions@Walk01 - BackwardsLeft
+      firstFrame: 13
+      lastFrame: 39
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 1
+      loopBlendPositionY: 1
+      loopBlendPositionXZ: 1
+      keepOriginalOrientation: 1
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 1
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: BasicMotions@Walk01 - BackwardsRight
+      takeName: BasicMotions@Walk01 - BackwardsRight
+      firstFrame: 0
+      lastFrame: 26
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 1
+      loopBlendPositionY: 1
+      loopBlendPositionXZ: 1
       keepOriginalOrientation: 1
       keepOriginalPositionY: 1
       keepOriginalPositionXZ: 1
@@ -254,6 +465,8 @@ ModelImporter:
     secondaryUVHardAngle: 88
     secondaryUVPackMargin: 4
     useFileScale: 1
+    previousCalculatedGlobalScale: 0.01
+    hasPreviousCalculatedGlobalScale: 1
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0

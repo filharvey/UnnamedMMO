@@ -112,9 +112,8 @@ namespace Acemobe.MMO
 
             weapons.Add("pickaxe", mesh.transform.Find("RigPelvis/RigSpine1/RigSpine2/RigSpine3/RigRibcage/RigRCollarbone/RigRUpperarm/RigRForearm/RigRPalm/VillagerPickaxe"));
             weapons.Add("plow", mesh.transform.Find("RigPelvis/RigSpine1/RigSpine2/RigSpine3/RigRibcage/RigRCollarbone/RigRUpperarm/RigRForearm/RigRPalm/VillagerPlow"));
-            
-            
-            weapons.Add("axe", mesh.transform.Find("RigPelvis/RigSpine1/RigSpine2/RigSpine3/RigRibcage/RigLCollarbone/RigLUpperarm/RigLForearm/RigLPalm/Axe 01"));
+            weapons.Add("axe", mesh.transform.Find("RigPelvis/RigSpine1/RigSpine2/RigSpine3/RigRibcage/RigRCollarbone/RigRUpperarm/RigRForearm/RigRPalm/VillagerAxe"));
+
             weapons.Add("hammer", mesh.transform.Find("RigPelvis/RigSpine1/RigSpine2/RigSpine3/RigRibcage/RigLCollarbone/RigLUpperarm/RigLForearm/RigLPalm/Hammer 01"));
             weapons.Add("sword", mesh.transform.Find("RigPelvis/RigSpine1/RigSpine2/RigSpine3/RigRibcage/RigLCollarbone/RigLUpperarm/RigLForearm/RigLPalm/Sword 01"));
             weapons.Add("spade", mesh.transform.Find("RigPelvis/RigSpine1/RigSpine2/RigSpine3/RigRibcage/RigLCollarbone/RigLUpperarm/RigLForearm/RigLPalm/Spade 01"));

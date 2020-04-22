@@ -5613,9 +5613,9 @@ Connections:  {
 ;----------------------------------------------------
 
 Takes:  {
-	Current: "BasicMotions_Idle02"
-	Take: "BasicMotions_Idle3" {
-		FileName: "BasicMotions_Idle3.tak"
+	Current: "BasicMotions@Idle02"
+	Take: "BasicMotions@Idle02" {
+		FileName: "BasicMotions@Idle02.tak"
 		LocalTime: 0,132400319600
 		ReferenceTime: 0,132400319600
 

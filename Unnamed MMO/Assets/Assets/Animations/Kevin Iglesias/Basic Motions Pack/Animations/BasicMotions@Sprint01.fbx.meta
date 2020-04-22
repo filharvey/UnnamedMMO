@@ -1,9 +1,7 @@
 fileFormatVersion: 2
-guid: 89b9b900b51d4df4cbe7f2a5373669ba
-timeCreated: 1568741144
-licenseType: Store
+guid: 794f42f84ee051c4da6a69a80be033af
 ModelImporter:
-  serializedVersion: 22
+  serializedVersion: 23
   fileIDToRecycleName:
     100000: B-chest
     100002: B-f_index_01_L
@@ -66,9 +64,8 @@ ModelImporter:
     100116: B-upper_arm_R
     100118: B-upperChest
     100120: //RootNode
-    100122: root
-    100124: Villager
-    100126: DummySkeleton
+    100122: DummySkeleton
+    100124: root
     400000: B-chest
     400002: B-f_index_01_L
     400004: B-f_index_01_R
@@ -130,13 +127,15 @@ ModelImporter:
     400116: B-upper_arm_R
     400118: B-upperChest
     400120: //RootNode
-    400122: root
-    400124: Villager
-    400126: DummySkeleton
-    7400000: Sprint01
-    7400002: BasicMotions@Sprint01
-    7400004: BasicMotions@Sprint01 [RootMotion]
+    400122: DummySkeleton
+    400124: root
+    7400000: BasicMotions@Sprint01 - Forwards
+    7400002: BasicMotions@Sprint01 - Forward Left
+    7400004: BasicMotions@Sprint01 - Forward Right
+    7400006: BasicMotions@Sprint01 - Left
+    7400008: BasicMotions@Sprint01 - Right
     9500000: //RootNode
+    2186277476908879412: ImportLogs
   externalObjects: {}
   materials:
     importMaterials: 0
@@ -152,22 +151,52 @@ ModelImporter:
     rigImportErrors: 
     rigImportWarnings: 
     animationImportErrors: 
-    animationImportWarnings: "\nClip 'BasicMotions@Sprint01' has import animation
-      warnings that might lower retargeting quality:\nNote: Activate translation DOF
-      on avatar to improve retargeting quality.\n\t'B-thigh_L' has scale animation
+    animationImportWarnings: "\nClip 'BasicMotions@Sprint01 - Forwards' has import
+      animation warnings that might lower retargeting quality:\nNote: Activate translation
+      DOF on avatar to improve retargeting quality.\n\t'B-thigh_L' has scale animation
       that will be discarded.\n\t'B-shin_L' has scale animation that will be discarded.\n\t'B-foot_L'
       has scale animation that will be discarded.\n\t'B-thigh_R' has scale animation
       that will be discarded.\n\t'B-shin_R' has scale animation that will be discarded.\n\t'B-foot_R'
-      has scale animation that will be discarded.\n\nClip 'BasicMotions@Sprint01 [RootMotion]'
-      has import animation warnings that might lower retargeting quality:\nNote: Activate
-      translation DOF on avatar to improve retargeting quality.\n\t'B-thigh_L' has
-      scale animation that will be discarded.\n\t'B-shin_L' has scale animation that
-      will be discarded.\n\t'B-foot_L' has scale animation that will be discarded.\n\t'B-thigh_R'
+      has scale animation that will be discarded.\n\nClip 'BasicMotions@Sprint01 -
+      Forward Left' has import animation warnings that might lower retargeting quality:\nNote:
+      Activate translation DOF on avatar to improve retargeting quality.\n\t'B-upper_arm_R'
+      has scale animation that will be discarded.\n\t'B-forearm_R' has scale animation
+      that will be discarded.\n\t'B-hand_R' has scale animation that will be discarded.\n\t'B-thigh_L'
+      has scale animation that will be discarded.\n\t'B-shin_L' has scale animation
+      that will be discarded.\n\t'B-foot_L' has scale animation that will be discarded.\n\t'B-thigh_R'
+      has scale animation that will be discarded.\n\t'B-shin_R' has scale animation
+      that will be discarded.\n\t'B-foot_R' has scale animation that will be discarded.\n\nClip
+      'BasicMotions@Sprint01 - Forward Right' has import animation warnings that might
+      lower retargeting quality:\nNote: Activate translation DOF on avatar to improve
+      retargeting quality.\n\t'B-upper_arm_L' has scale animation that will be discarded.\n\t'B-forearm_L'
+      has scale animation that will be discarded.\n\t'B-hand_L' has scale animation
+      that will be discarded.\n\t'B-thigh_L' has scale animation that will be discarded.\n\t'B-shin_L'
+      has scale animation that will be discarded.\n\t'B-foot_L' has scale animation
+      that will be discarded.\n\t'B-thigh_R' has scale animation that will be discarded.\n\t'B-shin_R'
+      has scale animation that will be discarded.\n\t'B-foot_R' has scale animation
+      that will be discarded.\n\nClip 'BasicMotions@Sprint01 - Left' has import animation
+      warnings that might lower retargeting quality:\nNote: Activate translation DOF
+      on avatar to improve retargeting quality.\n\t'B-palm_03_L' is inbetween humanoid
+      transforms and has rotation animation that will be discarded.\n\t'B-upper_arm_R'
+      has scale animation that will be discarded.\n\t'B-forearm_R' has scale animation
+      that will be discarded.\n\t'B-hand_R' has scale animation that will be discarded.\n\t'B-thigh_L'
+      has scale animation that will be discarded.\n\t'B-shin_L' has scale animation
+      that will be discarded.\n\t'B-foot_L' has scale animation that will be discarded.\n\t'B-thigh_R'
+      has scale animation that will be discarded.\n\t'B-shin_R' has scale animation
+      that will be discarded.\n\t'B-foot_R' has scale animation that will be discarded.\n\nClip
+      'BasicMotions@Sprint01 - Right' has import animation warnings that might lower
+      retargeting quality:\nNote: Activate translation DOF on avatar to improve retargeting
+      quality.\n\t'B-forearm_L' has scale animation that will be discarded.\n\t'B-hand_L'
+      has scale animation that will be discarded.\n\t'B-palm_03_R' is inbetween humanoid
+      transforms and has rotation animation that will be discarded.\n\t'B-thigh_L'
+      has scale animation that will be discarded.\n\t'B-shin_L' has scale animation
+      that will be discarded.\n\t'B-foot_L' has scale animation that will be discarded.\n\t'B-thigh_R'
       has scale animation that will be discarded.\n\t'B-shin_R' has scale animation
       that will be discarded.\n\t'B-foot_R' has scale animation that will be discarded.\n"
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
+    importConstraints: 0
     animationCompression: 3
     animationRotationError: 0
     animationPositionError: 0
@@ -177,8 +206,8 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: BasicMotions@Sprint01
-      takeName: BasicMotions@Sprint01
+      name: BasicMotions@Sprint01 - Forwards
+      takeName: BasicMotions@Sprint01 - Forwards
       firstFrame: 0
       lastFrame: 16
       wrapMode: 0
@@ -205,8 +234,8 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: BasicMotions@Sprint01 [RootMotion]
-      takeName: BasicMotions@Sprint01 [RootMotion]
+      name: BasicMotions@Sprint01 - Forward Left
+      takeName: BasicMotions@Sprint01 - Forward Left
       firstFrame: 0
       lastFrame: 16
       wrapMode: 0
@@ -219,7 +248,91 @@ ModelImporter:
       loopBlend: 0
       loopBlendOrientation: 1
       loopBlendPositionY: 1
-      loopBlendPositionXZ: 0
+      loopBlendPositionXZ: 1
+      keepOriginalOrientation: 1
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 1
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: BasicMotions@Sprint01 - Forward Right
+      takeName: BasicMotions@Sprint01 - Forward Right
+      firstFrame: 8
+      lastFrame: 24
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 1
+      loopBlendPositionY: 1
+      loopBlendPositionXZ: 1
+      keepOriginalOrientation: 1
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 1
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: BasicMotions@Sprint01 - Left
+      takeName: BasicMotions@Sprint01 - Left
+      firstFrame: 0
+      lastFrame: 16
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 1
+      loopBlendPositionY: 1
+      loopBlendPositionXZ: 1
+      keepOriginalOrientation: 1
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 1
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: BasicMotions@Sprint01 - Right
+      takeName: BasicMotions@Sprint01 - Right
+      firstFrame: 8
+      lastFrame: 24
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 1
+      loopBlendPositionY: 1
+      loopBlendPositionXZ: 1
       keepOriginalOrientation: 1
       keepOriginalPositionY: 1
       keepOriginalPositionXZ: 1
@@ -255,6 +368,8 @@ ModelImporter:
     secondaryUVHardAngle: 88
     secondaryUVPackMargin: 4
     useFileScale: 1
+    previousCalculatedGlobalScale: 0.01
+    hasPreviousCalculatedGlobalScale: 1
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
