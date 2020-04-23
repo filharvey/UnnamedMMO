@@ -88,7 +88,10 @@ namespace Acemobe.MMO
                 {
                     if (!found && item.type == inventory[i].type)
                     {
-                        inventory[i].amount += item.amount;
+                        inventory[i] = new MMOInventoryItem {
+                            type = inventory[i].type,
+                            amount = inventory[i].amount + item.amount
+                        };
                         return true;
                     }
                 }

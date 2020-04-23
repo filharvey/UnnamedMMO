@@ -2077,6 +2077,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   manager: {fileID: 872501541}
+  authenticator: {fileID: 872501542}
   username: {fileID: 1397830536}
   password: {fileID: 1539636164}
   error: {fileID: 2075929043}
@@ -5861,6 +5862,7 @@ MonoBehaviour:
   - {fileID: 7942195447945513703, guid: 0f24f1119eabacf4a8d29d7622943910, type: 3}
   - {fileID: 5535667712929587751, guid: 7f2e9b4bf0fbf864e9645316956d2cfb, type: 3}
   - {fileID: 4654149526327455663, guid: 3197d030c5555c84bbe168dced114770, type: 3}
+  - {fileID: 0}
 --- !u!114 &872501542
 MonoBehaviour:
   m_ObjectHideFlags: 0

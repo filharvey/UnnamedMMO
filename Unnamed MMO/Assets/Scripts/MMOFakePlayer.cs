@@ -187,6 +187,10 @@ namespace Acemobe.MMO
             {
                 movePlayer(Time.fixedDeltaTime);
             }
+            else
+            {
+                rigidBody.angularVelocity = Vector3.zero;
+            }
         }
 
         public void movePlayer(float dt)

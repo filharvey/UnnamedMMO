@@ -543,7 +543,7 @@ namespace Acemobe.MMO
                         amount = 1
                     };
 
-                    RpcInventoryGain(item);
+                    TargetInventoryGain(item);
 
                     if (!inventory.addItem(item))
                     {
@@ -624,7 +624,7 @@ namespace Acemobe.MMO
                             amount = 1
                         };
 
-                        RpcInventoryGain(item);
+                        TargetInventoryGain(item);
 
                         inventory.addItem(item);
                         stopAnim = true;
@@ -648,7 +648,7 @@ namespace Acemobe.MMO
                                 amount = harvestItem.harvestGain
                             };
 
-                            RpcInventoryGain(item);
+                            TargetInventoryGain(item);
 
                             if (!inventory.addItem(item))
                             {
@@ -884,9 +884,8 @@ namespace Acemobe.MMO
             nextActionTarget = null;
         }
 
-        [ClientRpc]
-        // 
-        void RpcInventoryGain(MMOInventoryItem item)
+        [TargetRpc]
+        void TargetInventoryGain(MMOInventoryItem item)
         {
             UIManager.instance.showItemGain(item);
         }

@@ -51,8 +51,8 @@ namespace Acemobe.MMO
         {
             AuthRequestMessage authRequestMessage = new AuthRequestMessage
             {
-                authUsername = UILogin.instance.username.text,
-                authPassword = UILogin.instance.password.text
+                authUsername = username,
+                authPassword = password
             };
 
             NetworkClient.Send(authRequestMessage);
@@ -75,7 +75,7 @@ namespace Acemobe.MMO
 */
             HTTPRequest request = new HTTPRequest(new System.Uri("http://157.245.226.33:3000/login"), HTTPMethods.Post, (request2, response) =>
             {
-                if (response.IsSuccess)
+                if (response != null && response.IsSuccess)
                 {
                     bool ok = false;
                     IDictionary<string, object> result = Json.Decode(response.DataAsText, ref ok) as IDictionary<string, object>;
@@ -97,24 +97,26 @@ namespace Acemobe.MMO
 
                         // Invoke the event to complete a successful authentication
                         base.OnServerAuthenticated.Invoke(conn);
+
+                        return;
                     }
-                    else
+                }
+
+                {
+                    // create and send msg to client so it knows to disconnect
+                    AuthResponseMessage authResponseMessage = new AuthResponseMessage
                     {
-                        // create and send msg to client so it knows to disconnect
-                        AuthResponseMessage authResponseMessage = new AuthResponseMessage
-                        {
-                            code = 200,
-                            message = "Invalid Credentials"
-                        };
+                        code = 200,
+                        message = "Invalid Credentials"
+                    };
 
-                        conn.Send(authResponseMessage);
+                    conn.Send(authResponseMessage);
 
-                        // must set NetworkConnection isAuthenticated = false
-                        conn.isAuthenticated = false;
+                    // must set NetworkConnection isAuthenticated = false
+                    conn.isAuthenticated = false;
 
-                        // disconnect the client after 1 second so that response message gets delivered
-                        Invoke(nameof(conn.Disconnect), 1);
-                    }
+                    // disconnect the client after 1 second so that response message gets delivered
+                    Invoke(nameof(conn.Disconnect), 1);
                 }
             });
 

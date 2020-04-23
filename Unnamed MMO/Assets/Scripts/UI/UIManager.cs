@@ -45,7 +45,10 @@ namespace Acemobe.MMO.UI
 
             mobileUI.SetActive(false);
 
-            loginUI.gameObject.SetActive(true);
+            if (MMONetworkManager.isHeadless)
+                loginUI.gameObject.SetActive(false);
+            else
+                loginUI.gameObject.SetActive(true);
         }
 
         public void showItemGain (MMOInventoryItem item)
