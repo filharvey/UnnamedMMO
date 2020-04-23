@@ -107,34 +107,6 @@ namespace Acemobe.MMO
             mainCamera = MMOGameCamera.instance.GetComponent<Camera>();
         }
 
-
-        void changeActionItem(int idx)
-        {
-            inventory.changeItem(idx);
-
-            GameItem activeItem = inventory.getActiveItem();
-
-            if (activeItem)
-            {
-                switch (activeItem.actionType)
-                {
-                    case MMOResourceAction.Plant:
-                        serverobj.displayItem = "Plow";
-                        break;
-                    case MMOResourceAction.Chop:
-                        serverobj.displayItem = "axe";
-                        break;
-                    case MMOResourceAction.Mining:
-                        serverobj.displayItem = "pickaxe";
-                        break;
-                }
-            }
-            else
-            {
-                serverobj.displayItem = "";
-            }
-        }
-
         enum GAME_LAYERS
         {
             PLANE = 8,
@@ -493,7 +465,16 @@ namespace Acemobe.MMO
             if (curAction != MMOResourceAction.None)
                 return;
 
-            curRecipe = recipe;
+            CmdStartCraft(recipe.name);
+        }
+
+        [Command]
+        public void CmdStartCraft(string name)
+        {
+            if (!serverobj)
+                return;
+
+            curRecipe = MMOResourceManager.instance.getRecipeObject(name);
             curAction = MMOResourceAction.Craft;
             serverobj.animator.SetBool("Gather", true);
         }
@@ -893,6 +874,115 @@ namespace Acemobe.MMO
             health -= 10;
         }
 
+        void changeActionItem(int idx)
+        {
+            Debug.Log("changeActionItem " + idx);
+            CmdChangeActionItem(idx);
+        }
+
+        [Command]
+        void CmdChangeActionItem(int idx)
+        {
+            Debug.Log("CmdChangeActionItem " + idx);
+
+            HandleChangeActionItem(idx);
+        }
+
+        void HandleChangeActionItem(int idx)
+        {
+            Debug.Log("HandleChangeActionItem " + idx);
+            inventory.changeItem(idx);
+
+            GameItem activeItem = inventory.getActiveItem();
+
+            if (activeItem)
+            {
+                switch (activeItem.actionType)
+                {
+                    case MMOResourceAction.Plant:
+                        serverobj.displayItem = "Plow";
+                        break;
+                    case MMOResourceAction.Chop:
+                        serverobj.displayItem = "axe";
+                        break;
+                    case MMOResourceAction.Mining:
+                        serverobj.displayItem = "pickaxe";
+                        break;
+                }
+            }
+            else
+            {
+                serverobj.displayItem = "";
+            }
+        }
+
+        public void moveInventory(int srcId, bool srcLoc, int destId, bool destLoc)
+        {
+            CmdMoveInventory(srcId, srcLoc, destId, destLoc);
+        }
+
+        [Command]
+        void CmdMoveInventory(int srcId, bool srcLoc, int destId, bool destLoc)
+        {
+            HandleMoveInventory(srcId, srcLoc, destId, destLoc);
+        }
+
+        void HandleMoveInventory(int srcId, bool srcLoc, int destId, bool destLoc)
+        {
+            MMOInventoryItem src;
+            MMOInventoryItem dest;
+
+            if (!srcLoc)
+                src = inventory.inventory[srcId];
+            else
+                src = inventory.actionBar[srcId];
+
+            if (!destLoc)
+                dest = inventory.inventory[destId];
+            else
+                dest = inventory.actionBar[destId];
+
+            var type = src.type;
+            var smount = src.amount;
+
+            src.type = dest.type;
+            src.amount = dest.amount;
+            dest.type = type;
+            dest.amount = smount;
+
+            if (!srcLoc)
+                inventory.inventory[srcId] = new MMOInventoryItem{
+                        type = src.type,
+                        amount = src.amount,
+                        idx = src.idx,
+                        action = src.action
+                    };
+            else
+                inventory.actionBar[srcId] = new MMOInventoryItem
+                    {
+                        type = src.type,
+                        amount = src.amount,
+                        idx = src.idx,
+                        action = src.action
+                    };
+
+            if (!destLoc)
+                inventory.inventory[destId] = new MMOInventoryItem
+                    {
+                        type = dest.type,
+                        amount = dest.amount,
+                        idx = dest.idx,
+                        action = dest.action
+                    };
+            else
+                inventory.actionBar[destId] = new MMOInventoryItem
+                    {
+                        type = dest.type,
+                        amount = dest.amount,
+                        idx = dest.idx,
+                        action = dest.action
+                    };
+        }
         #endregion
     }
 }

@@ -10,5 +10,7 @@ namespace Acemobe.MMO.Data
     {
         public MMOItemType type = MMOItemType.None;
         public int amount = 0;
+        public int idx = 0;
+        public bool action = false;
     }
 }

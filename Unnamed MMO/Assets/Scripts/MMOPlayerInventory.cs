@@ -32,12 +32,22 @@ namespace Acemobe.MMO
             // add empty inventory
             for (var a = 0; a < 10; a++)
             {
-                actionBar.Add(new MMOInventoryItem());
+                actionBar.Add(new MMOInventoryItem {
+                    type = MMOItemType.None,
+                    amount = 0,
+                    idx = a,
+                    action = true
+                });
             }
 
             for (var a = 0; a < 40; a++)
             {
-                inventory.Add(new MMOInventoryItem());
+                inventory.Add(new MMOInventoryItem
+                {
+                    type = MMOItemType.None,
+                    amount = 0,
+                    idx = a
+                });
             }
         }
 
@@ -90,7 +100,9 @@ namespace Acemobe.MMO
                     {
                         inventory[i] = new MMOInventoryItem {
                             type = inventory[i].type,
-                            amount = inventory[i].amount + item.amount
+                            amount = inventory[i].amount + item.amount,
+                            idx = inventory[i].idx,
+                            action = inventory[i].action
                         };
                         return true;
                     }
@@ -102,7 +114,14 @@ namespace Acemobe.MMO
                     {
                         if (!found && inventory[i].type == MMOItemType.None)
                         {
-                            inventory[i] = item;
+                            inventory[i] = new MMOInventoryItem
+                            {
+                                type = item.type,
+                                amount = item.amount,
+                                idx = inventory[i].idx,
+                                action = inventory[i].action
+                            };
+
                             return true;
                         }
                     }
@@ -129,7 +148,13 @@ namespace Acemobe.MMO
                 {
                     if (!found && item.type == actionBar[i].type)
                     {
-                        actionBar[i].amount += item.amount;
+                        actionBar[i] = new MMOInventoryItem
+                        {
+                            type = actionBar[i].type,
+                            amount = actionBar[i].amount + item.amount,
+                            idx = actionBar[i].idx,
+                            action = actionBar[i].action
+                        };
                         return true;
                     }
                 }
@@ -140,7 +165,13 @@ namespace Acemobe.MMO
                     {
                         if (!found && actionBar[i].type == MMOItemType.None)
                         {
-                            actionBar[i] = item;
+                            actionBar[i] = new MMOInventoryItem
+                            {
+                                type = item.type,
+                                amount = item.amount,
+                                idx = actionBar[i].idx,
+                                action = actionBar[i].action
+                            };
                             return true;
                         }
                     }
@@ -160,39 +191,59 @@ namespace Acemobe.MMO
         {
             MMOInventoryItem item;
 
-            for (var i = 0; i < inventory.Count; i++)
+            for (var i = 0; count > 0 && i < inventory.Count; i++)
             {
                 if (itemType == inventory[i].type &&
-                    inventory[i].amount >= count)
+                    inventory[i].amount > 0)
                 {
-                    item = new MMOInventoryItem
-                    {
-                        type = inventory[i].type,
-                        amount = inventory[i].amount - count
-                    };
+                    var left = count - inventory[i].amount;
 
-                    if (item.amount > 0)
-                        inventory[i] = item;
+                    if (inventory[i].amount - count > 0)
+                        inventory[i] = item = new MMOInventoryItem
+                        {
+                            type = inventory[i].type,
+                            amount = inventory[i].amount - count,
+                            idx = inventory[i].idx,
+                            action = inventory[i].action
+                        };
                     else
-                        inventory.RemoveAt(i);
+                        inventory[i] = new MMOInventoryItem
+                        {
+                            type = MMOItemType.None,
+                            amount = 0,
+                            idx = inventory[i].idx,
+                            action = inventory[i].action
+                        };
+
+                    count = left;
                 }
             }
 
-            for (var i = 0; i < actionBar.Count; i++)
+            for (var i = 0; count > 0 && i < actionBar.Count; i++)
             {
                 if (itemType == actionBar[i].type &&
-                    actionBar[i].amount >= count)
+                    actionBar[i].amount > 0)
                 {
-                    item = new MMOInventoryItem
-                    {
-                        type = actionBar[i].type,
-                        amount = actionBar[i].amount - count
-                    };
+                    var left = count - actionBar[i].amount;
 
-                    if (item.amount > 0)
-                        actionBar[i] = item;
+                    if (actionBar[i].amount - count > 0)
+                        actionBar[i] = new MMOInventoryItem
+                        {
+                            type = actionBar[i].type,
+                            amount = actionBar[i].amount - count,
+                            idx = actionBar[i].idx,
+                            action = actionBar[i].action
+                        };
                     else
-                        actionBar.RemoveAt(i);
+                        actionBar[i] = new MMOInventoryItem
+                        {
+                            type = MMOItemType.None,
+                            amount = 0,
+                            idx = actionBar[i].idx,
+                            action = actionBar[i].action
+                        };
+
+                    count = left;
                 }
             }
         }
@@ -202,9 +253,13 @@ namespace Acemobe.MMO
             if (actionBar[idx].type != MMOItemType.None)
             {
                 activeItem = idx;
-
-                UIManager.instance.actionBarUI.updateActionBar();
             }
+            else
+            {
+                activeItem = -1;
+            }
+
+            UIManager.instance.actionBarUI.updateActionBar();
         }
 
         public void removeRecipeMaterials (Recipies recipe)

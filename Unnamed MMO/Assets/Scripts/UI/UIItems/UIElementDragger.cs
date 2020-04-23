@@ -1,4 +1,5 @@
-﻿using Acemobe.MMO.Data;
+﻿using Acemobe.MMO;
+using Acemobe.MMO.Data;
 using Acemobe.MMO.MMOObjects;
 using Acemobe.MMO.UI;
 using Acemobe.MMO.UI.UIItems;
@@ -67,6 +68,13 @@ public class UIElementDragger : MonoBehaviour
 
                     UIItemInfo targetItemInfo = objectToReplace.GetComponent<UIItemInfo>();
 
+                    MMOPlayer.localPlayer.moveInventory(
+                        draggedItemInfo.invetoryItem.idx,
+                        draggedItemInfo.invetoryItem.action,
+                        targetItemInfo.invetoryItem.idx,
+                        targetItemInfo.invetoryItem.action
+                    );
+
                     if (targetItemInfo.invetoryItem.type == MMOItemType.None)
                     {
                         targetItemInfo.invetoryItem.type = draggedItemInfo.invetoryItem.type;
@@ -130,6 +138,4 @@ public class UIElementDragger : MonoBehaviour
 
         return null;
     }
-
-
 }
