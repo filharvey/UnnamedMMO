@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6826843980720242518}
   - component: {fileID: 2389321769413589016}
   - component: {fileID: 751209752755632017}
-  m_Layer: 13
+  m_Layer: 15
   m_Name: Branch
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -115,6 +115,8 @@ MonoBehaviour:
   harvestGain: 1
   harvestResource: 1
   variation: 0.1
+  meshIdx: 0
+  displayMesh: []
   canGrow: 0
   growthTime: 20
   finalSize: 1
@@ -213,6 +215,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: log_small
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: ee709d40908989445a4eae76396afa9f,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ee709d40908989445a4eae76396afa9f, type: 3}

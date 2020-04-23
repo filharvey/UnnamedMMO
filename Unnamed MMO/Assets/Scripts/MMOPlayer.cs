@@ -135,6 +135,18 @@ namespace Acemobe.MMO
             }
         }
 
+        enum GAME_LAYERS
+        {
+            PLANE = 8,
+            MAIN_PLAYER = 9,
+            PLAYERS = 10,
+            MONSTES = 11,
+            PROJECTILES = 12,
+            OBJECTS =  13,
+            TERRAIN = 14,
+            GROUND_OBJECTS = 15,
+        };
+
         void Update()
         {
             if (isLocalPlayer)
@@ -147,7 +159,7 @@ namespace Acemobe.MMO
                     moveVector.y = player.GetAxis("Move Vertical");
 
                     RaycastHit hit;
-                    int layerMask = (1 << 14) + (1 << 13);
+                    int layerMask = (1 << (int) GAME_LAYERS.TERRAIN) + (1 << (int) GAME_LAYERS.OBJECTS) + (1 << (int)GAME_LAYERS.GROUND_OBJECTS);
 
                     // show inventory
                     if (player.GetButtonDown("Inventory"))

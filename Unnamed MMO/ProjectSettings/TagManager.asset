@@ -15,14 +15,14 @@ TagManager:
   - UI
   - 
   - 
-  - Plane
+  - Plane - OLD
   - MainPlayer
   - Players
   - Monsters
   - Projectiles
   - Objects
   - Terrain
-  - 
+  - GroundObjects
   - 
   - 
   - 

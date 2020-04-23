@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5978997238207050462}
   - component: {fileID: 3273249810627016080}
   - component: {fileID: 8272691489877758592}
-  m_Layer: 13
+  m_Layer: 15
   m_Name: Stone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -115,6 +115,8 @@ MonoBehaviour:
   harvestGain: 1
   harvestResource: 2
   variation: 0.1
+  meshIdx: 0
+  displayMesh: []
   canGrow: 0
   growthTime: 20
   finalSize: 1
@@ -213,6 +215,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: stone_large1
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 56e7a5a123a7d3742acdedcbb52098ed,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 56e7a5a123a7d3742acdedcbb52098ed, type: 3}
