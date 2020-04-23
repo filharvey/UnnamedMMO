@@ -1,5 +1,6 @@
 ﻿using Acemobe.MMO.Data;
 using Acemobe.MMO.UI.UIItems;
+using Mirror;
 using UnityEngine;
 
 namespace Acemobe.MMO.UI
@@ -21,6 +22,8 @@ namespace Acemobe.MMO.UI
         public GameObject mobileUI;
 
         public GameObject dragLayer;
+
+        public TMPro.TMP_Text ping;
 
         public static UIManager instance
         {
@@ -49,6 +52,11 @@ namespace Acemobe.MMO.UI
                 loginUI.gameObject.SetActive(false);
             else
                 loginUI.gameObject.SetActive(true);
+        }
+
+        private void Update()
+        {
+            ping.text = "Ping: " + (int)(NetworkTime.rtt * 1000);
         }
 
         public void showItemGain (MMOInventoryItem item)
