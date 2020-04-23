@@ -32,15 +32,31 @@ namespace Acemobe.MMO.UI
         void Update()
         {
             updateRecipie();
+
+            // need to move
+            if (MMOPlayer.localPlayer.player.GetButtonDown("Escape"))
+            {
+                onClose();
+            }
         }
 
         public void onShow ()
         {
-            gameObject.SetActive(true);
+            if (UIManager.instance.craftUI.gameObject.activeInHierarchy)
+            {
+                onClose();
+            }
+            else
+            {
+                gameObject.SetActive(true);
 
-            clearRecipies();
-            updateAvaibleRecipies();
-            updateRecipie();
+                clearRecipies();
+                updateAvaibleRecipies();
+                updateRecipie();
+
+                // turn other UI off
+                UIManager.instance.inventoryUI.gameObject.SetActive(false);
+            }
         }
 
         public void onClose()

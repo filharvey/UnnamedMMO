@@ -72,7 +72,7 @@ namespace Acemobe.MMO
         public Recipies curRecipe;
 
         // Rewired
-        private Rewired.Player player; // The Rewired Player
+        public Rewired.Player player; // The Rewired Player
 
         // Server Update timer
         float serverUpdateTimer = 0;
@@ -164,34 +164,13 @@ namespace Acemobe.MMO
                     // show inventory
                     if (player.GetButtonDown("Inventory"))
                     {
-                        if (UIManager.instance.inventoryUI.gameObject.activeInHierarchy == true)
-                        {
-                            UIManager.instance.inventoryUI.gameObject.SetActive(false);
-                        }
-                        else
-                        {
-                            UIManager.instance.inventoryUI.gameObject.SetActive(true);
-                            UIManager.instance.inventoryUI.updateInventory();
-
-                            // turn other UI off
-                            UIManager.instance.craftUI.gameObject.SetActive(false);
-                        }
+                        UIManager.instance.inventoryUI.onShow();
                     }
 
                     // show crafting
                     if (player.GetButtonDown("Craft"))
                     {
-                        if (UIManager.instance.craftUI.gameObject.activeInHierarchy == true)
-                        {
-                            UIManager.instance.craftUI.gameObject.SetActive(false);
-                        }
-                        else
-                        {
-                            UIManager.instance.craftUI.onShow();
-
-                            // turn other UI off
-                            UIManager.instance.inventoryUI.gameObject.SetActive(false);
-                        }
+                        UIManager.instance.craftUI.onShow();
                     }
 
                     // select inventory 1

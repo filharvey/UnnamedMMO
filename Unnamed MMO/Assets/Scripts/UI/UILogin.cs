@@ -49,7 +49,6 @@ namespace Acemobe.MMO.UI
             {
                 debug.SetActive(false);
             }
-            debug.SetActive(true);
 
             username.text= PlayerPrefs.GetString("username");
             password.text = PlayerPrefs.GetString("password");
