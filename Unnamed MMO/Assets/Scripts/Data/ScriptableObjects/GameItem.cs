@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 namespace Acemobe.MMO.Data.ScriptableObjects
@@ -8,7 +9,9 @@ namespace Acemobe.MMO.Data.ScriptableObjects
     public class DropItens
     {
         public GameItem material;
-        public int count;
+        public int min;
+        public int max;
+        public int chance;
     }
 
     [CreateAssetMenu]

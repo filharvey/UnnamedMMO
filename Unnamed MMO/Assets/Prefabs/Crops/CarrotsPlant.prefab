@@ -13,9 +13,10 @@ GameObject:
   - component: {fileID: 2985411189322175897}
   - component: {fileID: 1766333557175742120}
   - component: {fileID: 4596110284567958081}
-  - component: {fileID: 4874550423148030958}
   - component: {fileID: -4906012347232315069}
   - component: {fileID: -7189018000865826543}
+  - component: {fileID: -1838398862472247638}
+  - component: {fileID: 4874550423148030958}
   m_Layer: 0
   m_Name: CarrotsPlant
   m_TagString: Untagged
@@ -625,34 +626,6 @@ MonoBehaviour:
   sceneId: 0
   serverOnly: 0
   m_AssetId: 
---- !u!114 &4874550423148030958
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5040940490070232708}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1ec5b7d69e685774aacfaa890ed33417, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  health: 10
-  maxHealth: 10
-  lifeTime: 0
-  gameItem: {fileID: 11400000, guid: a3829ae039cbb1f4987d6c9c9b435828, type: 2}
-  manager: {fileID: 0}
-  isWatered: 0
-  isFertalized: 0
-  cropData: {fileID: 11400000, guid: 5df0391cc752d7a47a54b161e78875a2, type: 2}
-  crop: {fileID: 11400000, guid: a3829ae039cbb1f4987d6c9c9b435828, type: 2}
-  states:
-  - {fileID: 8257800032538182391}
-  - {fileID: 8655183844855107889}
-  - {fileID: 9153740155354935332}
-  - {fileID: 5746019569234722516}
 --- !u!114 &-4906012347232315069
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -693,6 +666,48 @@ MonoBehaviour:
   castLayers:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &-1838398862472247638
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5040940490070232708}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7fdb599e1359924bad6255660370252, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  forceHidden: 0
+--- !u!114 &4874550423148030958
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5040940490070232708}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ec5b7d69e685774aacfaa890ed33417, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  health: 10
+  maxHealth: 10
+  lifeTime: 0
+  gameItem: {fileID: 11400000, guid: a3829ae039cbb1f4987d6c9c9b435828, type: 2}
+  manager: {fileID: 0}
+  isWatered: 0
+  isFertalized: 0
+  crop: {fileID: 11400000, guid: a3829ae039cbb1f4987d6c9c9b435828, type: 2}
+  states:
+  - {fileID: 8257800032538182391}
+  - {fileID: 8655183844855107889}
+  - {fileID: 9153740155354935332}
+  - {fileID: 5746019569234722516}
 --- !u!1 &5746019569234722516
 GameObject:
   m_ObjectHideFlags: 0
