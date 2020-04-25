@@ -10,6 +10,7 @@
         Gather,
         Talk,
         Craft,
-        Attack
+        Attack,
+        Build
     };
 }

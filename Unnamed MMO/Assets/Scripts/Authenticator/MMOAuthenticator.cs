@@ -97,7 +97,6 @@ namespace Acemobe.MMO
 
                         // Invoke the event to complete a successful authentication
                         base.OnServerAuthenticated.Invoke(conn);
-
                         return;
                     }
                 }
@@ -143,6 +142,8 @@ namespace Acemobe.MMO
 
                 // disconnect the client
                 conn.Disconnect();
+
+                UILogin.instance.onBadAuth();
             }
         }
     }

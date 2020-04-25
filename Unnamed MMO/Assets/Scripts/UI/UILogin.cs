@@ -50,8 +50,6 @@ namespace Acemobe.MMO.UI
                 debug.SetActive(false);
             }
 
-//            debug.SetActive(true);
-
             username.text= PlayerPrefs.GetString("username");
             password.text = PlayerPrefs.GetString("password");
 
@@ -66,6 +64,12 @@ namespace Acemobe.MMO.UI
                 curTabInput = (++curTabInput) % tabInput.Count;
                 tabInput[curTabInput].OnPointerClick(new UnityEngine.EventSystems.PointerEventData(EventSystem.current));
             }
+        }
+
+        // show connection error
+        public void onBadAuth()
+        {
+            connectionLayer.SetActive(true);
         }
 
         public void onConnect()

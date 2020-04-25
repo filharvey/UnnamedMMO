@@ -1,4 +1,4 @@
-﻿using Acemobe.MMO.MMOObjects;
+﻿using Acemobe.MMO.Objects;
 using UnityEngine;
 
 namespace Acemobe.MMO.MapData

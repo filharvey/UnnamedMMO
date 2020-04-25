@@ -19,6 +19,8 @@ namespace Acemobe.MMO.UI
 
         public UICraft craftUI;
 
+        public UIChat chatUI;
+
         public GameObject mobileUI;
 
         public GameObject dragLayer;
@@ -41,12 +43,12 @@ namespace Acemobe.MMO.UI
         void Start()
         {
             _instance = this;
-            actionBarUI.gameObject.SetActive(false);
-            inventoryUI.gameObject.SetActive(false);
-            gameUI.gameObject.SetActive(false);
-            craftUI.gameObject.SetActive(false);
 
+            actionBarUI.gameObject.SetActive(false);
+            gameUI.gameObject.SetActive(false);
             mobileUI.SetActive(false);
+
+            hideAllUIPanels();
 
             if (MMONetworkManager.isHeadless)
                 loginUI.gameObject.SetActive(false);
@@ -62,6 +64,13 @@ namespace Acemobe.MMO.UI
         public void showItemGain (MMOInventoryItem item)
         {
             gameUI.addNotification(item);
+        }
+
+        public void hideAllUIPanels ()
+        {
+            UIManager.instance.craftUI.gameObject.SetActive(false);
+            UIManager.instance.chatUI.gameObject.SetActive(false);
+            UIManager.instance.inventoryUI.gameObject.SetActive(false);
         }
     }
 }

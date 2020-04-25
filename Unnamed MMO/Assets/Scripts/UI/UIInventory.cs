@@ -1,4 +1,5 @@
 ﻿using Acemobe.MMO.Data;
+using Acemobe.MMO.Objects;
 using Acemobe.MMO.UI.UIItems;
 using System.Collections;
 using System.Collections.Generic;
@@ -34,11 +35,10 @@ namespace Acemobe.MMO.UI
             }
             else
             {
-                UIManager.instance.inventoryUI.gameObject.SetActive(true);
-                UIManager.instance.inventoryUI.updateInventory();
+                UIManager.instance.hideAllUIPanels();
 
-                // turn other UI off
-                UIManager.instance.craftUI.gameObject.SetActive(false);
+                gameObject.SetActive(true);
+                updateInventory();
             }
         }
 

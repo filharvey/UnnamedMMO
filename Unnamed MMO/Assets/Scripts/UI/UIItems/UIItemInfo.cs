@@ -3,8 +3,6 @@ using Acemobe.MMO.Data.ScriptableObjects;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
-using Acemobe.MMO.MMOObjects;
 
 namespace Acemobe.MMO.UI.UIItems
 {

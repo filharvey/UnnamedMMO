@@ -14,9 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Rock
   icon: {fileID: 0}
-  type: 1
+  prefab: {fileID: 0}
   itemType: 751
+  type: 1
+  actionType: 0
   maxStack: 0
   isHarvestable: 1
   isStorable: 0
   isPickable: 0
+  isCrop: 0
+  growthTime: 0

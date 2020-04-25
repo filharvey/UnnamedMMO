@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Acemobe.MMO.UI;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -18,11 +19,11 @@ public class UIMobile : MonoBehaviour
 
     public void onCraft ()
     {
-
+        UIManager.instance.craftUI.onShow();
     }
 
     public void onInventory ()
     {
-
+        UIManager.instance.inventoryUI.onShow();
     }
 }

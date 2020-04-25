@@ -15,7 +15,15 @@ MonoBehaviour:
   name: Wooden Plow
   description: Basic Plow
   icon: {fileID: 21300000, guid: 5df2814df647276419276f395c2a6799, type: 3}
+  mat:
+    material: {fileID: 0}
+    count: 0
   item: {fileID: 11400000, guid: 9489ec1e456ed6e41baca042bf058465, type: 2}
+  materials:
+  - material: {fileID: 11400000, guid: 840d6eaa3804db344bb86a7f352e2fe2, type: 2}
+    count: 4
+  - material: {fileID: 11400000, guid: e66f5264173e78c4d881d5047293ff07, type: 2}
+    count: 2
   material1: {fileID: 11400000, guid: 840d6eaa3804db344bb86a7f352e2fe2, type: 2}
   count1: 5
   material2: {fileID: 11400000, guid: e66f5264173e78c4d881d5047293ff07, type: 2}

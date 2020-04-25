@@ -1,9 +1,8 @@
 ﻿using UnityEngine;
 using Mirror;
 using BestHTTP;
-using System;
-using System.Collections;
 using Acemobe.MMO.UI;
+using Acemobe.MMO.Objects;
 
 namespace Acemobe.MMO
 {
@@ -23,7 +22,6 @@ namespace Acemobe.MMO
         public string feet;
         public string hand;
         public string belt;
-        public Weapon weapon;
     }
 
     public class MMONetworkManager : NetworkManager
@@ -58,23 +56,29 @@ namespace Acemobe.MMO
             base.OnClientConnect(conn);
 
             // get user info
-            new HTTPRequest(new Uri("http://gnash.io"), (request, response) =>
+            new HTTPRequest(new System.Uri("http://gnash.io"), (request, response) =>
             {
                 if (response.IsSuccess)
                 {
                     Debug.Log("Request Finished! Text received: " + response.DataAsText);
 
+                    int head = (int)(Mathf.Floor(Random.Range(0, 1 - 1)) + 1);
+                    int torso = (int)(Mathf.Floor(Random.Range(0, 18 - 1)) + 1);
+                    int bottom = (int)(Mathf.Floor(Random.Range(0, 20 - 1)) + 1);
+                    int feet = (int)(Mathf.Floor(Random.Range(0, 6 - 1)) + 1);
+                    int hand = (int)(Mathf.Floor(Random.Range(0, 4 - 1)) + 1);
+                    int belt = (int)(Mathf.Floor(Random.Range(0, 10 - 1)) + 1);
+                
                     // you can send the message here, or wherever else you want
                     MMOCharacterCreateMessage characterMessage = new MMOCharacterCreateMessage
                     {
                         name = "Phil",
-                        head = "01 Head 01",
-                        torso = "02 Torso 02",
-                        bottom = "03 Bottom 02",
-                        feet = "04 Feet 01",
-                        hand = "05 Hand 01",
-                        belt = "06 Belt 01",
-                        weapon = Weapon.Rifle
+                        head = "01 Head " + head.ToString("D2"),
+                        torso = "02 Torso " + torso.ToString("D2"),
+                        bottom = "03 Bottom " + bottom.ToString("D2"),
+                        feet = "04 Feet " + feet.ToString("D2"),
+                        hand = "05 Hand " + hand.ToString("D2"),
+                        belt = "06 Belt " + belt.ToString("D2")
                     };
 
                     conn.Send(characterMessage);
@@ -126,7 +130,6 @@ namespace Acemobe.MMO
             player.feet = message.feet;
             player.belt = message.belt;
             player.head = message.head;
-            player.weapon = message.weapon;
             player.health = 100;
 
             // call this to use this gameobject as the primary controller

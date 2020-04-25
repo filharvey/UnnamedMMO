@@ -22,8 +22,6 @@ namespace Acemobe.MMO
         }
         public List<GameItem> gameItems;
 
-        public List<CropData> gameCrops;
-
         public List<Recipies> gameRecipies;
 
         // Start is called before the first frame update
@@ -46,11 +44,6 @@ namespace Acemobe.MMO
         public GameItem getItemByType (MMOItemType type)
         {
             return gameItems.Find((x) => x.itemType == type);
-        }
-
-        public CropData getCropObject (string name)
-        {
-            return gameCrops.Find((x) => x.name == name);
         }
 
         public Recipies getRecipeObject(string name)

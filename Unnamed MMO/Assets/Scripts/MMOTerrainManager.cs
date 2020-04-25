@@ -2,9 +2,8 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using Acemobe.MMO.MapData;
-using Acemobe.MMO.MMOObjects;
 using Acemobe.MMO.Data.ScriptableObjects;
+using Acemobe.MMO.Objects;
 
 namespace Acemobe.MMO
 {

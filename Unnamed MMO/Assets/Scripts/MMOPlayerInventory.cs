@@ -1,11 +1,7 @@
 ﻿using Acemobe.MMO.Data;
 using Acemobe.MMO.Data.ScriptableObjects;
-using Acemobe.MMO.MMOObjects;
 using Acemobe.MMO.UI;
 using Mirror;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 namespace Acemobe.MMO
 {
@@ -264,27 +260,19 @@ namespace Acemobe.MMO
 
         public void removeRecipeMaterials (Recipies recipe)
         {
-            removeItem(recipe.material1.itemType, recipe.count1);
-
-            if (recipe.material2)
-                removeItem(recipe.material2.itemType, recipe.count2);
-
-            if (recipe.material3)
-                removeItem(recipe.material3.itemType, recipe.count3);
+            for (var a = 0; a < recipe.materials.Count; a++)
+            {
+                removeItem(recipe.materials[a].material.itemType, recipe.materials[a].count);
+            }
         }
 
         public bool checkRecipe(Recipies recipe)
         {
-            if (!hasItemCount(recipe.material1.itemType, recipe.count1))
-                return false;
-
-            if (recipe.material2 &&
-                !hasItemCount(recipe.material2.itemType, recipe.count2))
-                return false;
-
-            if (recipe.material3 && 
-                !hasItemCount(recipe.material3.itemType, recipe.count3))
-                return false;
+            for (var a = 0; a < recipe.materials.Count; a++)
+            {
+                if (!hasItemCount(recipe.materials[a].material.itemType, recipe.materials[a].count))
+                    return false;
+            }
 
             return true;
         }

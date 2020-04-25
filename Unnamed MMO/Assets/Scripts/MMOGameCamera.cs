@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Acemobe.MMO.Objects;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;

@@ -10,6 +10,8 @@
 
         Carrot = 500,
 
+        CarrotPlant = 600,
+
         Tree = 750,
         Rock,
 
@@ -18,8 +20,10 @@
         Spade,
         WateringCan,
         Plow,
+        Hammer,
 
-        Sword = 2000
+        Sword = 2000,
+
+        Building = 10000
     };
-
 }

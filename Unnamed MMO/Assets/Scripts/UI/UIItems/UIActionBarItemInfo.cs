@@ -1,8 +1,4 @@
 ﻿using Acemobe.MMO.Data;
-using Acemobe.MMO.MMOObjects;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.UI;
 
 namespace Acemobe.MMO.UI.UIItems

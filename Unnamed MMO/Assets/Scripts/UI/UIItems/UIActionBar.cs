@@ -1,5 +1,5 @@
 ﻿using Acemobe.MMO.Data;
-using System.Collections;
+using Acemobe.MMO.Objects;
 using System.Collections.Generic;
 using UnityEngine;
 

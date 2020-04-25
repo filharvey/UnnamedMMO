@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 537c3457ee3f316458da52ccf272522c, type: 3}
+  m_Name: Wood
+  m_EditorClassIdentifier: 
+  name: Wood
+  icon: {fileID: 21300000, guid: ab9255ff0279e36408a1949c0e868ded, type: 3}
+  prefab: {fileID: 4654149526327455663, guid: 3197d030c5555c84bbe168dced114770, type: 3}
+  itemType: 1
+  type: 2
+  actionType: 0
+  maxStack: 99
+  isHarvestable: 0
+  isStorable: 1
+  isPickable: 1
+  isCrop: 0
+  growthTime: 0

@@ -1,10 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using Acemobe.MMO.Data.ScriptableObjects;
 using Acemobe.MMO.UI.UIItems;
+using Acemobe.MMO.Objects;
 
 namespace Acemobe.MMO.UI
 {
@@ -48,14 +48,12 @@ namespace Acemobe.MMO.UI
             }
             else
             {
+                UIManager.instance.hideAllUIPanels();
                 gameObject.SetActive(true);
 
                 clearRecipies();
                 updateAvaibleRecipies();
                 updateRecipie();
-
-                // turn other UI off
-                UIManager.instance.inventoryUI.gameObject.SetActive(false);
             }
         }
 
@@ -132,77 +130,31 @@ namespace Acemobe.MMO.UI
                 itemDescription.text = curRecipies.description;
                 itemImage.sprite = curRecipies.icon;
 
-                if (curRecipies.material1)
+                for (var a = 0; a < curRecipies.materials.Count; a++)
                 {
-                    UICraftMaterialItem matInfo = materials[0];
+                    RecipieMaterial mat = curRecipies.materials[a];
+                    UICraftMaterialItem matInfo = materials[a];
+
                     matInfo.gameObject.SetActive(true);
 
-                    matInfo.itemName.text = curRecipies.material1.name;
-                    matInfo.itemImage.sprite = curRecipies.material1.icon;
+                    matInfo.itemName.text = mat.material.name;
+                    matInfo.itemImage.sprite = mat.material.icon;
 
                     // check that player has the correct count of an item
-                    int count = MMOPlayer.localPlayer.inventory.getItemCount(curRecipies.material1.itemType);
-                    if (MMOPlayer.localPlayer.inventory.hasItemCount(curRecipies.material1.itemType, curRecipies.count1))
+                    int count = MMOPlayer.localPlayer.inventory.getItemCount (mat.material.itemType);
+                    if (MMOPlayer.localPlayer.inventory.hasItemCount(mat.material.itemType, mat.count))
                     {
-                        matInfo.itemCount.text = count + "/" + curRecipies.count1;
+                        matInfo.itemCount.text = count + "/" + mat.count;
                         matInfo.itemCount.color = Color.black;
                     }
                     else
                     {
                         matInfo.itemCount.color = Color.red;
-                        matInfo.itemCount.text = count + "/" + curRecipies.count1;
+                        matInfo.itemCount.text = count + "/" + mat.count;
                     }
                 }
 
-                if (curRecipies.material2)
-                {
-                    UICraftMaterialItem matInfo = materials[1];
-                    matInfo.gameObject.SetActive(true);
-
-                    matInfo.itemName.text = curRecipies.material2.name;
-                    matInfo.itemImage.sprite = curRecipies.material2.icon;
-
-                    // check that player has the correct count of an item
-                    int count = MMOPlayer.localPlayer.inventory.getItemCount(curRecipies.material2.itemType);
-                    if (MMOPlayer.localPlayer.inventory.hasItemCount(curRecipies.material2.itemType, curRecipies.count2))
-                    {
-                        matInfo.itemCount.text = count + "/" + curRecipies.count2;
-                        matInfo.itemCount.color = Color.black;
-                    }
-                    else
-                    {
-                        matInfo.itemCount.color = Color.red;
-                        matInfo.itemCount.text = count + "/" + curRecipies.count2;
-                    }
-                }
-                else
-                {
-                    UICraftMaterialItem matInfo = materials[1];
-                    matInfo.gameObject.SetActive(false);
-                }
-
-                if (curRecipies.material3)
-                {
-                    UICraftMaterialItem matInfo = materials[2];
-                    matInfo.gameObject.SetActive(true);
-
-                    matInfo.itemName.text = curRecipies.material3.name;
-                    matInfo.itemImage.sprite = curRecipies.material3.icon;
-
-                    // check that player has the correct count of an item
-                    int count = MMOPlayer.localPlayer.inventory.getItemCount(curRecipies.material3.itemType);
-                    if (MMOPlayer.localPlayer.inventory.hasItemCount(curRecipies.material3.itemType, curRecipies.count3))
-                    {
-                        matInfo.itemCount.text = count + "/" + curRecipies.count3;
-                        matInfo.itemCount.color = Color.black;
-                    }
-                    else
-                    {
-                        matInfo.itemCount.color = Color.red;
-                        matInfo.itemCount.text = count + "/" + curRecipies.count3;
-                    }
-                }
-                else
+                for (var a = 0; a < 3; a++)
                 {
                     UICraftMaterialItem matInfo = materials[2];
                     matInfo.gameObject.SetActive(false);
