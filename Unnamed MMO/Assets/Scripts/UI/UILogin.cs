@@ -28,7 +28,7 @@ namespace Acemobe.MMO.UI
         public TMP_InputField username;
         public TMP_InputField password;
 
-        public TextMeshProUGUI error;
+        public TMP_Text error;
 
         public GameObject connectionLayer;
         public GameObject debug;
@@ -69,7 +69,12 @@ namespace Acemobe.MMO.UI
         // show connection error
         public void onBadAuth()
         {
+            gameObject.SetActive(true);
             connectionLayer.SetActive(true);
+
+            manager.StopHost();
+
+            error.text = "Invalid Username / Password combination";
         }
 
         public void onConnect()
@@ -94,7 +99,6 @@ namespace Acemobe.MMO.UI
             PlayerPrefs.SetString("password", password.text);
 
             manager.StartHost();
-            gameObject.SetActive(false);
 
             connectionLayer.SetActive(false);
         }

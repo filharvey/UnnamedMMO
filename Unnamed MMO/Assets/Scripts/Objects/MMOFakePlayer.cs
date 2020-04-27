@@ -16,17 +16,17 @@ namespace Acemobe.MMO.Objects
 
         [Header("Params")]
         [SyncVar]
-        public string head;
+        public int head;
         [SyncVar]
-        public string torso;
+        public int torso;
         [SyncVar]
-        public string bottom;
+        public int bottom;
         [SyncVar]
-        public string feet;
+        public int feet;
         [SyncVar]
-        public string hand;
+        public int hand;
         [SyncVar]
-        public string belt;
+        public int belt;
 
         [SyncVar]
         public float health;
@@ -100,12 +100,19 @@ namespace Acemobe.MMO.Objects
                 }
             }
 
-            Transform head = mesh.transform.Find(this.head);
-            Transform body = mesh.transform.Find(this.torso);
-            Transform bottom = mesh.transform.Find(this.bottom);
-            Transform feet = mesh.transform.Find(this.feet);
-            Transform hands = mesh.transform.Find(this.hand);
-            Transform belt = mesh.transform.Find(this.belt);
+            string _head = "01 Head " + this.head.ToString("D2");
+            string _torso = "02 Torso " + this.torso.ToString("D2");
+            string _bottom = "03 Bottom " + this.bottom.ToString("D2");
+            string _feet = "04 Feet " + this.feet.ToString("D2");
+            string _hand = "05 Hand " + this.hand.ToString("D2");
+            string _belt = "06 Belt " + this.belt.ToString("D2");
+
+            Transform head = mesh.transform.Find (_head);
+            Transform body = mesh.transform.Find (_torso);
+            Transform bottom = mesh.transform.Find (_bottom);
+            Transform feet = mesh.transform.Find (_feet);
+            Transform hands = mesh.transform.Find (_hand);
+            Transform belt = mesh.transform.Find (_belt);
 
             weapons.Add("pickaxe", mesh.transform.Find("RigPelvis/RigSpine1/RigSpine2/RigSpine3/RigRibcage/RigRCollarbone/RigRUpperarm/RigRForearm/RigRPalm/+ R Hand/VillagerPickaxe"));
             weapons.Add("plow", mesh.transform.Find("RigPelvis/RigSpine1/RigSpine2/RigSpine3/RigRibcage/RigRCollarbone/RigRUpperarm/RigRForearm/RigRPalm/+ R Hand/VillagerPlow"));

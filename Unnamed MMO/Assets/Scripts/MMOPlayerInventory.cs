@@ -83,6 +83,42 @@ namespace Acemobe.MMO
             }
         }
 
+        public bool addItemAt(MMOItemType type, int count, int idx)
+        {
+            if (idx < inventory.Count &&
+                inventory[idx].type == MMOItemType.None)
+            {
+                inventory[idx] = new MMOInventoryItem
+                {
+                    type = type,
+                    amount = count,
+                    idx = inventory[idx].idx,
+                    action = inventory[idx].action
+                };
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool addItemActionBarAt(MMOItemType type, int count, int idx)
+        {
+            if (idx < actionBar.Count &&
+                actionBar[idx].type == MMOItemType.None)
+            {
+                actionBar[idx] = new MMOInventoryItem
+                {
+                    type = type,
+                    amount = count,
+                    idx = actionBar[idx].idx,
+                    action = actionBar[idx].action
+                };
+                return true;
+            }
+
+            return false;
+        }
+
         public bool addItem (MMOInventoryItem item)
         {
             GameItem gameItem = MMOResourceManager.instance.getItemByType(item.type);

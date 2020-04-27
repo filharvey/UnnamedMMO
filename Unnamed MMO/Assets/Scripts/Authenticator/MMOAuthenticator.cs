@@ -5,14 +5,14 @@ using BestHTTP;
 using BestHTTP.JSON;
 using System.Collections.Generic;
 using Acemobe.MMO.UI;
+using SimpleJSON;
+using Acemobe.MMO.Objects;
 
 namespace Acemobe.MMO
 {
     public class MMOAuthenticator : NetworkAuthenticator
     {
-        [Header("Custom Properties")]
-
-        // set these in the inspector
+        public MMONetworkManager networkManager;
         public string username;
         public string password;
 
@@ -28,6 +28,7 @@ namespace Acemobe.MMO
         {
             public byte code;
             public string message;
+            public string hash;
         }
 
         public override void OnStartServer()
@@ -78,20 +79,28 @@ namespace Acemobe.MMO
                 if (response != null && response.IsSuccess)
                 {
                     bool ok = false;
-                    IDictionary<string, object> result = Json.Decode(response.DataAsText, ref ok) as IDictionary<string, object>;
+                    JSONNode result = JSON.Parse(response.DataAsText);
 
                     Debug.Log("Request Finished! Text received: " + response.DataAsText);
 
-                    if ((bool)(result["ok"]) == true)
+                    if (result["ok"].AsBool == true)
                     {
                         Debug.Log("ok");
+
+                        var json = result["json"];
 
                         // create and send msg to client so it knows to proceed
                         AuthResponseMessage authResponseMessage = new AuthResponseMessage
                         {
                             code = 100,
-                            message = "Success"
+                            message = "Success",
+                            hash = result["hash"]
                         };
+
+                        MMOCharacterCustomization charInfo = new MMOCharacterCustomization();
+                        charInfo.processData(json);
+
+                        networkManager.userData.Add(username, charInfo);
 
                         conn.Send(authResponseMessage);
 
@@ -129,6 +138,11 @@ namespace Acemobe.MMO
             if (msg.code == 100)
             {
                 Debug.LogFormat("Authentication Response: {0}", msg.message);
+
+                MMOPlayer.userName = PlayerPrefs.GetString("username");
+                MMOPlayer.userHash = msg.hash;
+
+                Debug.Log(conn.identity);
 
                 // Invoke the event to complete a successful authentication
                 base.OnClientAuthenticated.Invoke(conn);

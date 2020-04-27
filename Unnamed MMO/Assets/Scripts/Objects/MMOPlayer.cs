@@ -13,6 +13,9 @@ namespace Acemobe.MMO.Objects
     public class MMOPlayer : NetworkBehaviour
     {
         static public MMOPlayer localPlayer;
+        static public string userName;
+        static public string userHash;
+        static public string userData;
 
         Camera mainCamera;
 
@@ -21,18 +24,23 @@ namespace Acemobe.MMO.Objects
         public MMOPlayerInventory inventory;
 
         [Header("Body Params")]
+        public string username;
+        public string hash;
+        public MMOCharacterCustomization characterInfo;
+
+        [Header("Body Params")]
         [SyncVar]
-        public string head;
+        public int head;
         [SyncVar]
-        public string torso;
+        public int torso;
         [SyncVar]
-        public string bottom;
+        public int bottom;
         [SyncVar]
-        public string feet;
+        public int feet;
         [SyncVar]
-        public string hand;
+        public int hand;
         [SyncVar]
-        public string belt;
+        public int belt;
 
         [Header("Spawn Objects")]
         public GameObject projectilePrefab;
@@ -72,6 +80,7 @@ namespace Acemobe.MMO.Objects
         // Server Update timer
         float serverUpdateTimer = 0;
         bool isUserDirty = false;
+        public bool isUpdating = false;
 
         // on server
         public override void OnStartServer()
@@ -79,6 +88,8 @@ namespace Acemobe.MMO.Objects
             base.OnStartServer();
 
             Debug.Log("Player OnStartServer," + torso + "," + head);
+
+            characterInfo.updateInventory(inventory);
         }
 
         // on client
@@ -97,6 +108,7 @@ namespace Acemobe.MMO.Objects
 
             base.OnStartLocalPlayer();
 
+            UIManager.instance.loginUI.gameObject.SetActive(false);
             UIManager.instance.actionBarUI.gameObject.SetActive (true);
 
             mainCamera = MMOGameCamera.instance.GetComponent<Camera>();
@@ -321,10 +333,16 @@ namespace Acemobe.MMO.Objects
                 {
                     serverUpdateTimer += Time.deltaTime;
 
-                    if (serverUpdateTimer > 3)
+                    if (!isUpdating && 
+                        (serverUpdateTimer > 3 || isUserDirty))
                     {
+                        isUpdating = true;
+
+                        characterInfo.updatePlayer();
+
                         // update server
                         serverUpdateTimer = 0;
+                        isUserDirty = false;
                     }
                 }
             }

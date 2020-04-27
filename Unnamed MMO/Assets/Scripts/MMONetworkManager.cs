@@ -3,29 +3,21 @@ using Mirror;
 using BestHTTP;
 using Acemobe.MMO.UI;
 using Acemobe.MMO.Objects;
+using SimpleJSON;
+using System.Collections.Generic;
 
 namespace Acemobe.MMO
 {
-    public enum Weapon
-    {
-        None,
-        Pistol,
-        Rifle
-    }
-
     public class MMOCharacterCreateMessage : MessageBase
     {
-        public string name;
-        public string head;
-        public string torso;
-        public string bottom;
-        public string feet;
-        public string hand;
-        public string belt;
+        public string username;
+        public string hash;
     }
 
     public class MMONetworkManager : NetworkManager
     {
+        public Dictionary<string, MMOCharacterCustomization> userData = new Dictionary<string, MMOCharacterCustomization>();
+
         public override void OnStartServer()
         {
             base.OnStartServer();
@@ -55,51 +47,13 @@ namespace Acemobe.MMO
         {
             base.OnClientConnect(conn);
 
-            // get user info
-            new HTTPRequest(new System.Uri("http://gnash.io"), (request, response) =>
+            MMOCharacterCreateMessage characterMessage = new MMOCharacterCreateMessage
             {
-                if (response.IsSuccess)
-                {
-                    Debug.Log("Request Finished! Text received: " + response.DataAsText);
+                username = MMOPlayer.userName,
+                hash = MMOPlayer.userHash
+            };
 
-                    int head = (int)(Mathf.Floor(Random.Range(0, 1 - 1)) + 1);
-                    int torso = (int)(Mathf.Floor(Random.Range(0, 18 - 1)) + 1);
-                    int bottom = (int)(Mathf.Floor(Random.Range(0, 20 - 1)) + 1);
-                    int feet = (int)(Mathf.Floor(Random.Range(0, 6 - 1)) + 1);
-                    int hand = (int)(Mathf.Floor(Random.Range(0, 4 - 1)) + 1);
-                    int belt = (int)(Mathf.Floor(Random.Range(0, 10 - 1)) + 1);
-                
-                    // you can send the message here, or wherever else you want
-                    MMOCharacterCreateMessage characterMessage = new MMOCharacterCreateMessage
-                    {
-                        name = "Phil",
-                        head = "01 Head " + head.ToString("D2"),
-                        torso = "02 Torso " + torso.ToString("D2"),
-                        bottom = "03 Bottom " + bottom.ToString("D2"),
-                        feet = "04 Feet " + feet.ToString("D2"),
-                        hand = "05 Hand " + hand.ToString("D2"),
-                        belt = "06 Belt " + belt.ToString("D2")
-                    };
-
-                    conn.Send(characterMessage);
-                }
-            }).Send();
-            /*
-                        // you can send the message here, or wherever else you want
-                        MMOCharacterCreateMessage characterMessage = new MMOCharacterCreateMessage
-                        {
-                            name = "Phil",
-                            head = "01 Head 01",
-                            torso = "02 Torso 02",
-                            bottom = "03 Bottom 02",
-                            feet = "04 Feet 01",
-                            hand = "05 Hand 01",
-                            belt = "06 Belt 01",
-                            weapon = Weapon.Rifle
-                        };
-
-                        conn.Send(characterMessage);
-            */
+            conn.Send(characterMessage);
         }
 
         // server handler
@@ -111,30 +65,28 @@ namespace Acemobe.MMO
             float dist = 10;
 
             // get random position around the world
-            float x = UnityEngine.Random.Range(-dist, dist);
-            float z = UnityEngine.Random.Range(-dist, dist);
+            float x = Random.Range(-dist, dist);
+            float z = Random.Range(-dist, dist);
 
             Vector3 pos = startPos.position;
             Quaternion rotation = startPos.rotation;
 
-            pos.x = x;
-            pos.y = 0.1f;
-            pos.z = z;
-
-            GameObject gameobject = Instantiate(playerPrefab, pos, startPos.rotation);
+            GameObject gameobject = Instantiate(playerPrefab, new Vector3(x, 0.1f, z), startPos.rotation);
             MMOPlayer player = gameobject.GetComponent<MMOPlayer>();
-            player.name = message.name;
-            player.torso = message.torso;
-            player.bottom = message.bottom;
-            player.hand = message.hand;
-            player.feet = message.feet;
-            player.belt = message.belt;
-            player.head = message.head;
+            player.name = message.username;
+            player.characterInfo = userData[message.username];
+            player.characterInfo.setPlayer(player);
+
+            player.torso = player.characterInfo.torso;
+            player.bottom = player.characterInfo.bottom;
+            player.hand = player.characterInfo.hand;
+            player.feet = player.characterInfo.feet;
+            player.belt = player.characterInfo.belt;
+            player.head = player.characterInfo.head;
             player.health = 100;
 
             // call this to use this gameobject as the primary controller
             NetworkServer.AddPlayerForConnection(conn, player.gameObject);
-
             MMOGameManager.instance.addPlayer(player, conn);
         }
 

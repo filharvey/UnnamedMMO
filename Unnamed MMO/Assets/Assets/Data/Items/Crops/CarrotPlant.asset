@@ -23,4 +23,9 @@ MonoBehaviour:
   isStorable: 0
   isPickable: 0
   isCrop: 1
+  dropItems:
+  - material: {fileID: 11400000, guid: d6326a16e914ef24583c36cad3b3320a, type: 2}
+    min: 3
+    max: 5
+    chance: 100
   growthTime: 0

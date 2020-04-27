@@ -558,7 +558,7 @@ namespace Smooth
 
         public bool hasAuthorityOrUnownedOnServer {
             get {
-                return base.hasAuthority || (NetworkServer.active && netIdentity.clientAuthorityOwner == null);
+                return base.hasAuthority || (NetworkServer.active && netIdentity.connectionToClient == null);
             }
         }
 
@@ -2037,7 +2037,7 @@ namespace Smooth
                 
                 // Skip sending to clientAuthorityOwner since owners don't need their own State back.
                 // Also skip sending to localClient since the State was already recorded.
-                if (conn != null && conn != netID.clientAuthorityOwner && conn.GetType() == typeof(NetworkConnectionToClient) && conn.isReady)
+                if (conn != null && conn != netID.connectionToClient && conn.GetType() == typeof(NetworkConnectionToClient) && conn.isReady)
                 {
                     // Send the message. This calls HandleSync on the receiving clients.
                     conn.Send<NetworkStateMirror>(state, networkChannel);
@@ -2050,10 +2050,10 @@ namespace Smooth
             if (NetworkServer.active)
             {
                 if (networkState.smoothSync == null ||
-                    networkState.smoothSync.netID.clientAuthorityOwner != conn) return;
+                    networkState.smoothSync.netID.connectionToClient != conn) return;
 
                 // Ignore all messages that do not match the server determined authority.
-                if (networkState.smoothSync.netID.clientAuthorityOwner != conn) return;
+                if (networkState.smoothSync.netID.connectionToClient != conn) return;
 
                 // Always accept the first State so we have something to compare to. (if latestValidatedState == null)
                 // Check each other State to make sure it passes the validation method. By default all States are accepted.
