@@ -11,7 +11,8 @@ namespace Acemobe.MMO
         static MMOGameManager _instance;
 
         public Dictionary<NetworkConnection, MMOPlayer> players = new Dictionary<NetworkConnection, MMOPlayer>();
-        public Dictionary<uint, MMOPlayer> clientPlayers = new Dictionary<uint, MMOPlayer>();
+//        public Dictionary<uint, MMOPlayer> clientPlayers = new Dictionary<uint, MMOPlayer>();
+        public Dictionary<string, MMOCharacterCustomization> userData = new Dictionary<string, MMOCharacterCustomization>();
 
         public static MMOGameManager instance
         {
@@ -61,6 +62,9 @@ namespace Acemobe.MMO
         {
             if (isServer)
             {
+                MMOPlayer player = conn.identity.GetComponent<MMOPlayer>();
+                userData.Remove(player.characterInfo.userName);
+
                 players.Remove(conn);
             }
         }

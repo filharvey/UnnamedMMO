@@ -50,6 +50,8 @@ namespace Acemobe.MMO.UI
                 debug.SetActive(false);
             }
 
+//            debug.SetActive(true);
+
             username.text= PlayerPrefs.GetString("username");
             password.text = PlayerPrefs.GetString("password");
 
@@ -81,9 +83,6 @@ namespace Acemobe.MMO.UI
         {
             connectionLayer.SetActive(false);
 
-            authenticator.username = username.text;
-            authenticator.password = password.text;
-
             PlayerPrefs.SetString("username", username.text);
             PlayerPrefs.SetString("password", password.text);
 
@@ -92,9 +91,6 @@ namespace Acemobe.MMO.UI
 
         public void onStartLocalServer()
         {
-            authenticator.username = username.text;
-            authenticator.password = password.text;
-
             PlayerPrefs.SetString("username", username.text);
             PlayerPrefs.SetString("password", password.text);
 
@@ -105,9 +101,6 @@ namespace Acemobe.MMO.UI
 
         public void onConnectLocalServer()
         {
-            authenticator.username = username.text;
-            authenticator.password = password.text;
-
             PlayerPrefs.SetString("username", username.text);
             PlayerPrefs.SetString("password", password.text);
 

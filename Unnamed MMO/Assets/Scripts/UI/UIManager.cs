@@ -2,6 +2,8 @@
 using Acemobe.MMO.UI.UIItems;
 using Mirror;
 using UnityEngine;
+using ZXing;
+using ZXing.QrCode;
 
 namespace Acemobe.MMO.UI
 {
@@ -71,6 +73,38 @@ namespace Acemobe.MMO.UI
             UIManager.instance.craftUI.gameObject.SetActive(false);
             UIManager.instance.chatUI.gameObject.SetActive(false);
             UIManager.instance.inventoryUI.gameObject.SetActive(false);
+        }
+
+        // QR code generator
+        // https://github.com/nenuadrian/qr-code-unity-3d-read-generate
+        // https://medium.com/@adrian.n/reading-and-generating-qr-codes-with-c-in-unity-3d-the-easy-way-a25e1d85ba51
+        //
+        private static Color32[] Encode(string textForEncoding, int width, int height)
+        {
+            var writer = new BarcodeWriter
+            {
+                Format = BarcodeFormat.QR_CODE,
+                Options = new QrCodeEncodingOptions
+                {
+                    Height = height,
+                    Width = width
+                }
+            };
+            return writer.Write(textForEncoding);
+        }
+
+        public Texture2D generateQR(string text)
+        {
+            var encoded = new Texture2D(256, 256);
+            var color32 = Encode(text, encoded.width, encoded.height);
+            encoded.SetPixels32(color32);
+            encoded.Apply();
+            return encoded;
+        }
+
+        void create ()
+        {
+            Texture2D myQR = generateQR("test");
         }
     }
 }

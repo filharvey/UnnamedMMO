@@ -13,8 +13,6 @@ namespace Acemobe.MMO
     public class MMOAuthenticator : NetworkAuthenticator
     {
         public MMONetworkManager networkManager;
-        public string username;
-        public string password;
 
         public class AuthRequestMessage : MessageBase
         {
@@ -50,10 +48,12 @@ namespace Acemobe.MMO
 
         public override void OnClientAuthenticate(NetworkConnection conn)
         {
+            Debug.Log("OnClientAuthenticate, " + PlayerPrefs.GetString("username"));
+
             AuthRequestMessage authRequestMessage = new AuthRequestMessage
             {
-                authUsername = username,
-                authPassword = password
+                authUsername = PlayerPrefs.GetString("username"),
+                authPassword = PlayerPrefs.GetString("password")
             };
 
             NetworkClient.Send(authRequestMessage);
@@ -100,7 +100,7 @@ namespace Acemobe.MMO
                         MMOCharacterCustomization charInfo = new MMOCharacterCustomization();
                         charInfo.processData(json);
 
-                        networkManager.userData.Add(username, charInfo);
+                        MMOGameManager.instance.userData.Add(msg.authUsername, charInfo);
 
                         conn.Send(authResponseMessage);
 
@@ -135,6 +135,7 @@ namespace Acemobe.MMO
 
         public void OnAuthResponseMessage(NetworkConnection conn, AuthResponseMessage msg)
         {
+            Debug.Log("OnAuthResponseMessage, " + msg.code);
             if (msg.code == 100)
             {
                 Debug.LogFormat("Authentication Response: {0}", msg.message);

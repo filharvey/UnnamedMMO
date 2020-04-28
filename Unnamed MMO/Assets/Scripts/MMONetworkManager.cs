@@ -16,8 +16,6 @@ namespace Acemobe.MMO
 
     public class MMONetworkManager : NetworkManager
     {
-        public Dictionary<string, MMOCharacterCustomization> userData = new Dictionary<string, MMOCharacterCustomization>();
-
         public override void OnStartServer()
         {
             base.OnStartServer();
@@ -45,6 +43,7 @@ namespace Acemobe.MMO
         // client
         public override void OnClientConnect(NetworkConnection conn)
         {
+            Debug.Log("OnClientConnect");
             base.OnClientConnect(conn);
 
             MMOCharacterCreateMessage characterMessage = new MMOCharacterCreateMessage
@@ -74,8 +73,8 @@ namespace Acemobe.MMO
             GameObject gameobject = Instantiate(playerPrefab, new Vector3(x, 0.1f, z), startPos.rotation);
             MMOPlayer player = gameobject.GetComponent<MMOPlayer>();
             player.name = message.username;
-            player.characterInfo = userData[message.username];
-            player.characterInfo.setPlayer(player);
+            player.characterInfo = MMOGameManager.instance.userData[message.username];
+            player.characterInfo.setPlayer(player, message.username, message.hash);
 
             player.torso = player.characterInfo.torso;
             player.bottom = player.characterInfo.bottom;

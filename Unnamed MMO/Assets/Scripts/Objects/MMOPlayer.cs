@@ -13,6 +13,7 @@ namespace Acemobe.MMO.Objects
     public class MMOPlayer : NetworkBehaviour
     {
         static public MMOPlayer localPlayer;
+
         static public string userName;
         static public string userHash;
         static public string userData;

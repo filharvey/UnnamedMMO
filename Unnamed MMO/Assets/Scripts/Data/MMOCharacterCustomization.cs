@@ -11,8 +11,11 @@ namespace Acemobe.MMO
     public class MMOCharacterCustomization
     {
         MMOPlayer player;
-        JSONNode json;
+        public string userName;
+        string userHash;
 
+        JSONNode json;
+  
         public int head;
         public int torso;
         public int bottom;
@@ -20,9 +23,11 @@ namespace Acemobe.MMO
         public int hand;
         public int belt;
 
-        public void setPlayer (MMOPlayer _player)
+        public void setPlayer (MMOPlayer _player, string name, string hash)
         {
             player = _player;
+            userName = name;
+            userHash = hash;
         }
 
         public void updatePlayer()
@@ -31,11 +36,11 @@ namespace Acemobe.MMO
             {
                 HTTPRequest request = new HTTPRequest(new System.Uri("http://157.245.226.33:3000/updateUser"), HTTPMethods.Post, (req, response) =>
                 {
+                    player.isUpdating = false;
+
                     if (response.IsSuccess)
                     {
                     }
-
-                    player.isUpdating = false;
                 });
 
                 JSONClass data = new JSONClass();
@@ -85,8 +90,8 @@ namespace Acemobe.MMO
                 var json = data.ToString();
 
                 request.SetHeader("Content-Type", "application/json; charset=UTF-8");
-                request.SetHeader("username", MMOPlayer.userName);
-                request.SetHeader("hash", MMOPlayer.userHash);
+                request.SetHeader("username", userName);
+                request.SetHeader("hash", userHash);
                 request.RawData = System.Text.Encoding.UTF8.GetBytes(json);
 
                 request.Send();
@@ -102,22 +107,32 @@ namespace Acemobe.MMO
 
             if (charInfo != null)
             {
-                head = charInfo["head"].AsInt;
-                torso = charInfo["torso"].AsInt;
-                bottom = charInfo["bottom"].AsInt;
-                feet = charInfo["feet"].AsInt;
-                hand = charInfo["hand"].AsInt;
-                belt = charInfo["belt"].AsInt;
+                if (charInfo["head"] != null)
+                    head = charInfo["head"].AsInt;
+                if (charInfo["torso"] != null)
+                    torso = charInfo["torso"].AsInt;
+                if (charInfo["bottom"] != null)
+                    bottom = charInfo["bottom"].AsInt;
+                if (charInfo["feet"] != null)
+                    feet = charInfo["feet"].AsInt;
+                if (charInfo["hand"] != null)
+                    hand = charInfo["hand"].AsInt;
+                if (charInfo["belt"] != null)
+                    belt = charInfo["belt"].AsInt;
             }
-            else
-            {
+
+            if (head == 0)
                 head = (int)(Mathf.Floor(Random.Range(0, 1 - 1)) + 1);
+            if (torso == 0)
                 torso = (int)(Mathf.Floor(Random.Range(0, 18 - 1)) + 1);
+            if (bottom == 0)
                 bottom = (int)(Mathf.Floor(Random.Range(0, 20 - 1)) + 1);
+            if (feet == 0)
                 feet = (int)(Mathf.Floor(Random.Range(0, 6 - 1)) + 1);
+            if (hand == 0)
                 hand = (int)(Mathf.Floor(Random.Range(0, 4 - 1)) + 1);
+            if (belt == 0)
                 belt = (int)(Mathf.Floor(Random.Range(0, 10 - 1)) + 1);
-            }
         }
 
         public void updateInventory(MMOPlayerInventory inventory)
