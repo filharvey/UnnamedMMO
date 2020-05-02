@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Acemobe.MMO.Data.ScriptableObjects;
+using Acemobe.MMO.Data;
 using Acemobe.MMO.Objects;
 
 namespace Acemobe.MMO
@@ -25,11 +26,11 @@ namespace Acemobe.MMO
 
         [Header("Components")]
         public GameObject terrainBase;  // holds all the 
-        public Dictionary<string, MapData.TerrainData> terrain = new Dictionary<string, MapData.TerrainData>();
-        public MapData.TerrainData[,] mapData;
+        public Dictionary<string, Data.MapData.TerrainData> terrain = new Dictionary<string, Data.MapData.TerrainData>();
+        public Data.MapData.TerrainData[,] mapData;
+        public GameObject startMap;
 
         // map loaded in
-        GameObject map;
         Bounds bounds;
         int mapWidth;
         int mapDepth;
@@ -39,7 +40,7 @@ namespace Acemobe.MMO
             _instance = this;
         }
 
-        public void registerTerrainData (MapData.TerrainData terrainData)
+        public void registerTerrainData (Data.MapData.TerrainData terrainData)
         {
             string name = terrainData.transform.localPosition.x + ":" + terrainData.transform.localPosition.y + ":" + terrainData.transform.localPosition.z;
 
@@ -56,12 +57,16 @@ namespace Acemobe.MMO
         {
             base.OnStartServer();
 
-            map = Resources.Load<GameObject>("Maps/Map1");
+            startMap = Resources.Load<GameObject>("Maps/Map1");
 
-            GameObject obj = Instantiate(map);
+            GameObject obj = Instantiate(startMap);
             obj.transform.SetParent(terrainBase.transform);
+            obj.SetActive(true);
 
             this.createTerrain();
+
+
+
 
             // add the quest giver
             int x = 0;
@@ -86,9 +91,9 @@ namespace Acemobe.MMO
 
             if (isClientOnly)
             {
-                map = Resources.Load<GameObject>("Maps/Map1");
+                startMap = Resources.Load<GameObject>("Maps/Map1");
 
-                GameObject obj = Instantiate(map);
+                GameObject obj = Instantiate(startMap);
                 obj.transform.SetParent(terrainBase.transform);
             }
         }
@@ -99,7 +104,7 @@ namespace Acemobe.MMO
 
             foreach (var k in terrain)
             {
-                MapData.TerrainData terrain = k.Value;
+                Data.MapData.TerrainData terrain = k.Value;
 
                 bounds.Encapsulate(terrain.transform.localPosition);
             }
@@ -107,11 +112,11 @@ namespace Acemobe.MMO
             mapWidth = (int)(bounds.max.x - bounds.min.x) + 1;
             mapDepth = (int)(bounds.max.z - bounds.min.z) + 1;
 
-            mapData = new MapData.TerrainData[mapWidth, mapDepth];
+            mapData = new Data.MapData.TerrainData[mapWidth, mapDepth];
 
             foreach (var k in terrain)
             {
-                MapData.TerrainData terrain = k.Value;
+                Data.MapData.TerrainData terrain = k.Value;
                 int x = (int)(terrain.transform.localPosition.x - bounds.min.x);
                 int z = (int)(terrain.transform.localPosition.z - bounds.min.z);
 
@@ -137,53 +142,6 @@ namespace Acemobe.MMO
                     }
                 }
             }
-
-
-            /*            TextAsset jsonData = Resources.Load<TextAsset>("Maps/Map1");
-
-                        if (jsonData)
-                        {
-                            JSONNode json = JSON.Parse(jsonData.text);
-
-                            JSONNode mapData = json["data"].AsArray;
-
-                            if (mapData != null)
-                            {
-                                int height = mapData.Count;
-                                int width = mapData[0].AsArray.Count;
-
-                                offX = -width / 2;
-                                offZ = -height / 2;
-
-                                height = (int)Mathf.Ceil(height / chunkWidth);
-                                width = (int)Mathf.Ceil(width / chunkWidth);
-
-                                for (int x = 0; x <= width; x++)
-                                {
-                                    for (int z = 0; z <= height; z++)
-                                    {
-                                        int xPos = (int)(x * chunkWidth + offX) + chunkWidth / 2;
-                                        int zPos = (int)(z * chunkHeight + offZ) + chunkHeight / 2;
-
-                                        // create Map Chunk 
-                                        Vector3 pos = new Vector3(xPos, 0, zPos);
-                                        Quaternion rotation = new Quaternion();
-
-                                        GameObject gameobject = Instantiate(mapChunkPrefab, pos, rotation);
-                                        MapChunk chunk = gameobject.GetComponent<MapChunk>();
-                                        chunk.init(xPos, zPos, chunkWidth, chunkHeight);
-                                        gameobject.name = chunk.chunkName = xPos + ":" + zPos;
-
-                                        NetworkServer.Spawn(gameobject);
-                                        gameobject.transform.SetParent(MMOTerrainManager.instance.terrainBase.transform);
-
-                                        chunk.create(mapData, (int)(x * chunkWidth), (int)(z * chunkHeight));
-                                        mapChunks.Add(chunk.chunkName, chunk);
-                                    }
-                                }
-                            }
-                        }
-            */
         }
 
         internal void addObj(float x, float z, MMOObject mmoObj)
@@ -203,7 +161,7 @@ namespace Acemobe.MMO
                     if (posX >= 0 && posZ >= 0 && posX < mapWidth && posZ < mapDepth)
                     {
                         if (mapData[posX, posZ] && 
-                            (mapData[posX, posZ].obj || mapData[posX, posZ].isInUse))
+                            (mapData[posX, posZ].obj || mapData[posX, posZ].isInUse || !mapData[posX, posZ].canUse))
                         {
                             return false;
                         }
@@ -214,7 +172,7 @@ namespace Acemobe.MMO
             return true;
         }
 
-        public MapData.TerrainData getTerrainData (int x, int z)
+        public Data.MapData.TerrainData getTerrainData (int x, int z)
         {
             var posX = (int)(x - bounds.min.x);
             var posZ = (int)(z - bounds.min.z);

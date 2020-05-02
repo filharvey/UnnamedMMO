@@ -9,7 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8605476835724038959}
-  m_Layer: 0
+  - component: {fileID: 6146461231750816988}
+  - component: {fileID: -6807679838166604718}
+  m_Layer: 14
   m_Name: cliff_blockDiagonal_rock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -32,6 +34,78 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6146461231750816988
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1673631647194030648}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef55b7afe4a6b9242af461de878ad575, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isWalkable: 0
+  isWater: 0
+  isPublic: 1
+  isInUse: 0
+  obj: {fileID: 0}
+--- !u!114 &-6807679838166604718
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1673631647194030648}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f6be16025ec88e4c88efb60e6a61e8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  categoryID: 0
+  placeInsideOthers: 0
+  offsetPos: {x: 0, y: 0, z: 0}
+  rotationFactor: {x: 90, y: 90, z: 90}
+  scalable: 0
+  randomizer:
+    randomizable: 0
+    replaceable: 0
+    rotate: {x: 1, y: 1, z: 1}
+    scaleMin: {x: 0.75, y: 0.75, z: 0.75}
+    scaleMax: {x: 1.25, y: 1.25, z: 1.25}
+    scaleLock: 1
+    posMin: {x: -0.5, y: -0.1, z: -0.5}
+    posMax: {x: 0.5, y: 0.1, z: 0.5}
+  includeInMerge: 1
+--- !u!64 &6863767806597875387
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6193467545026700743}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -903554758084440749, guid: ee275d22e4322094f9e8446cd3da0a94, type: 3}
+--- !u!64 &7801512303535839244
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7212803804282386211}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -6554265531978025224, guid: 28e08eb6bd6c7fd479674af67b5e1860, type: 3}
 --- !u!1001 &1673346532148588074
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -104,8 +178,29 @@ PrefabInstance:
       propertyPath: m_Name
       value: cliff_topDiagonal_rock
       objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 28e08eb6bd6c7fd479674af67b5e1860,
+        type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 28e08eb6bd6c7fd479674af67b5e1860,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 28e08eb6bd6c7fd479674af67b5e1860,
+        type: 3}
+      propertyPath: m_NavMeshLayer
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 28e08eb6bd6c7fd479674af67b5e1860, type: 3}
+--- !u!1 &7212803804282386211 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -927199367670048503, guid: 28e08eb6bd6c7fd479674af67b5e1860,
+    type: 3}
+  m_PrefabInstance: {fileID: 1673346532148588074}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5927404515916547376 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: 28e08eb6bd6c7fd479674af67b5e1860,
@@ -184,8 +279,24 @@ PrefabInstance:
       propertyPath: m_Name
       value: cliff_blockDiagonal_rock
       objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: ee275d22e4322094f9e8446cd3da0a94,
+        type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: ee275d22e4322094f9e8446cd3da0a94,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ee275d22e4322094f9e8446cd3da0a94, type: 3}
+--- !u!1 &6193467545026700743 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -927199367670048503, guid: ee275d22e4322094f9e8446cd3da0a94,
+    type: 3}
+  m_PrefabInstance: {fileID: 2797422548788542670}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7181205325317199828 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: ee275d22e4322094f9e8446cd3da0a94,

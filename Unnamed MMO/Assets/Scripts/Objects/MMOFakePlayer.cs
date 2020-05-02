@@ -88,33 +88,62 @@ namespace Acemobe.MMO.Objects
 
         void handleMeshStartup ()
         {
-/*            for (var a = 0; a < mesh.transform.childCount; a++)
-            {
-                var child = mesh.transform.GetChild(a);
+            /*            for (var a = 0; a < mesh.transform.childCount; a++)
+                        {
+                            var child = mesh.transform.GetChild(a);
 
-                if (child.gameObject.name.Contains("Torso") ||
-                    child.gameObject.name.Contains("Bottom") ||
-                    child.gameObject.name.Contains("Feet") ||
-                    child.gameObject.name.Contains("Hand") ||
-                    child.gameObject.name.Contains("Belt"))
-                {
-                    child.gameObject.SetActive(false);
-                }
-            }
+                            if (child.gameObject.name.Contains("Torso") ||
+                                child.gameObject.name.Contains("Bottom") ||
+                                child.gameObject.name.Contains("Feet") ||
+                                child.gameObject.name.Contains("Hand") ||
+                                child.gameObject.name.Contains("Belt"))
+                            {
+                                child.gameObject.SetActive(false);
+                            }
+                        }
 
-            string _head = "01 Head " + this.head.ToString("D2");
-                        string _torso = "02 Torso " + this.torso.ToString("D2");
-                        string _bottom = "03 Bottom " + this.bottom.ToString("D2");
-                        string _feet = "04 Feet " + this.feet.ToString("D2");
-                        string _hand = "05 Hand " + this.hand.ToString("D2");
-                        string _belt = "06 Belt " + this.belt.ToString("D2");
+                        string _head = "01 Head " + this.head.ToString("D2");
+                                    string _torso = "02 Torso " + this.torso.ToString("D2");
+                                    string _bottom = "03 Bottom " + this.bottom.ToString("D2");
+                                    string _feet = "04 Feet " + this.feet.ToString("D2");
+                                    string _hand = "05 Hand " + this.hand.ToString("D2");
+                                    string _belt = "06 Belt " + this.belt.ToString("D2");
 
-                        Transform head = mesh.transform.Find (_head);
-                        Transform body = mesh.transform.Find (_torso);
-                        Transform bottom = mesh.transform.Find (_bottom);
-                        Transform feet = mesh.transform.Find (_feet);
-                        Transform hands = mesh.transform.Find (_hand);
-                        Transform belt = mesh.transform.Find (_belt);
+                                    Transform head = mesh.transform.Find (_head);
+                                    Transform body = mesh.transform.Find (_torso);
+                                    Transform bottom = mesh.transform.Find (_bottom);
+                                    Transform feet = mesh.transform.Find (_feet);
+                                    Transform hands = mesh.transform.Find (_hand);
+                                    Transform belt = mesh.transform.Find (_belt);
+                                                            
+                                    if (body)
+                                    {
+                                        body.gameObject.SetActive(true);
+                                        SkinnedMeshRenderer skin = body.GetComponent<SkinnedMeshRenderer>();
+                                    }
+
+                                    if (bottom)
+                                    {
+                                        bottom.gameObject.SetActive(true);
+                                    }
+
+                                    if (feet)
+                                    {
+                                        feet.gameObject.SetActive(true);
+                                    }
+
+                                    if (hands)
+                                    {
+                                        hands.gameObject.SetActive(true);
+                                    }
+
+                                    if (belt)
+                                    {
+                                        belt.gameObject.SetActive(true);
+                                    }
+
+             */
+            /*            var axe = mesh.transform.Find("RigPelvis/RigSpine1/RigSpine2/RigSpine3/RigRibcage/RigRCollarbone/RigRUpperarm/RigRForearm/RigRPalm/+ R Hand/VillagerPickaxe");
 
                         weapons.Add("pickaxe", mesh.transform.Find("RigPelvis/RigSpine1/RigSpine2/RigSpine3/RigRibcage/RigRCollarbone/RigRUpperarm/RigRForearm/RigRPalm/+ R Hand/VillagerPickaxe"));
                         weapons.Add("plow", mesh.transform.Find("RigPelvis/RigSpine1/RigSpine2/RigSpine3/RigRibcage/RigRCollarbone/RigRUpperarm/RigRForearm/RigRPalm/+ R Hand/VillagerPlow"));
@@ -124,32 +153,6 @@ namespace Acemobe.MMO.Objects
                         foreach (var weapon in weapons)
                         {
                             weapon.Value.gameObject.SetActive(false);
-                        }
-
-                        if (body)
-                        {
-                            body.gameObject.SetActive(true);
-                            SkinnedMeshRenderer skin = body.GetComponent<SkinnedMeshRenderer>();
-                        }
-
-                        if (bottom)
-                        {
-                            bottom.gameObject.SetActive(true);
-                        }
-
-                        if (feet)
-                        {
-                            feet.gameObject.SetActive(true);
-                        }
-
-                        if (hands)
-                        {
-                            hands.gameObject.SetActive(true);
-                        }
-
-                        if (belt)
-                        {
-                            belt.gameObject.SetActive(true);
                         }
             */
         }

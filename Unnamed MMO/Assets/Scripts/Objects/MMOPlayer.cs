@@ -452,22 +452,39 @@ namespace Acemobe.MMO.Objects
                         break;
                 }
             }
-            else if (curHeldAction == MMOResourceAction.Plant)
+            else
             {
-                MapData.TerrainData terrainData = MMOTerrainManager.instance.getTerrainData(actionX, actionZ);
+                Data.MapData.TerrainData terrainData = MMOTerrainManager.instance.getTerrainData(actionX, actionZ);
 
-                if (!terrainData.isInUse)
+                if (!terrainData.isInUse && terrainData.canUse)
                 {
                     // plant crop
-                    curAction = MMOResourceAction.Plant;
+                    if (curHeldAction == MMOResourceAction.Plant)
+                    {
+                        curAction = MMOResourceAction.Plant;
 
-                    // look at
-                    Vector3 pos = new Vector3(actionX + 0.5f, transform.position.y, actionZ + 0.5f);
-                    Vector3 dir = (pos - transform.position).normalized;
-                    Quaternion rot = Quaternion.LookRotation(dir);
-                    serverobj.transform.rotation = rot;
+                        // look at
+                        Vector3 pos = new Vector3(actionX + 0.5f, transform.position.y, actionZ + 0.5f);
+                        Vector3 dir = (pos - transform.position).normalized;
+                        Quaternion rot = Quaternion.LookRotation(dir);
+                        serverobj.transform.rotation = rot;
 
-                    terrainData.isInUse = true;
+                        terrainData.isInUse = true;
+                    } 
+                    else if (curHeldAction == MMOResourceAction.Build)
+                    {
+                        // if activeItem is object
+//                        GameItem activeItem
+                        curAction = MMOResourceAction.Build;
+
+                        // look at
+                        Vector3 pos = new Vector3(actionX + 0.5f, transform.position.y, actionZ + 0.5f);
+                        Vector3 dir = (pos - transform.position).normalized;
+                        Quaternion rot = Quaternion.LookRotation(dir);
+                        serverobj.transform.rotation = rot;
+
+                        terrainData.isInUse = true;
+                    }
                 }
             }
 
@@ -603,7 +620,7 @@ namespace Acemobe.MMO.Objects
                         var z = actionZ;
 
                         // we hit empty ground?
-                        MapData.TerrainData terrainData = MMOTerrainManager.instance.getTerrainData(x, z);
+                        Data.MapData.TerrainData terrainData = MMOTerrainManager.instance.getTerrainData(x, z);
 
                         if (terrainData && terrainData.isPublic && terrainData.obj == null)
                         {
@@ -863,7 +880,7 @@ namespace Acemobe.MMO.Objects
             else
             {
                 // we hit empty ground?
-                MapData.TerrainData terrainData = MMOTerrainManager.instance.getTerrainData(x, z);
+                Data.MapData.TerrainData terrainData = MMOTerrainManager.instance.getTerrainData(x, z);
 
                 if (terrainData && terrainData.isPublic && terrainData.obj == null)
                 {

@@ -20,6 +20,8 @@ namespace Acemobe.MMO.Data.ScriptableObjects
 
         public GameItem item;
 
+        public MMOItemType requiredItem;
+
         public List<RecipieMaterial> materials;
     }
 }

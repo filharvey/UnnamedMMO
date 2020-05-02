@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using Acemobe.MMO.Data.ScriptableObjects;
 using Acemobe.MMO.UI.UIItems;
 using Acemobe.MMO.Objects;
+using Acemobe.MMO.Data;
 
 namespace Acemobe.MMO.UI
 {
@@ -14,6 +15,7 @@ namespace Acemobe.MMO.UI
         public TMP_Text itemName;
         public Image itemImage;
         public TMP_Text itemDescription;
+        public TMP_Text requiredItem;
 
         public List<UICraftMaterialItem> materials;
 
@@ -158,6 +160,21 @@ namespace Acemobe.MMO.UI
                 {
                     UICraftMaterialItem matInfo = materials[2];
                     matInfo.gameObject.SetActive(false);
+                }
+
+                if (curRecipies.requiredItem != MMOItemType.None)
+                {
+                    GameItem item = MMOResourceManager.instance.getItemByType(curRecipies.requiredItem);
+                    requiredItem.text = "Required Item: " + item.name;
+
+                    if (!MMOPlayer.localPlayer.inventory.hasItemCount(curRecipies.requiredItem, 1))
+                    {
+                        requiredItem.color = Color.red;
+                    }
+                    else
+                    {
+                        requiredItem.color = Color.black;
+                    }
                 }
             }
         }

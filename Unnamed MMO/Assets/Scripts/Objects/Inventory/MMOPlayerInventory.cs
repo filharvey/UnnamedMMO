@@ -310,6 +310,10 @@ namespace Acemobe.MMO
                     return false;
             }
 
+            if (recipe.requiredItem != MMOItemType.None &&
+                !hasItemCount(recipe.requiredItem, 1))
+                return false;
+
             return true;
         }
 

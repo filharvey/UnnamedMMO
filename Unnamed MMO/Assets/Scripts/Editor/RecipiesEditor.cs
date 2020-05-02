@@ -47,6 +47,7 @@ namespace Acemobe.MMO
         SerializedProperty description;
         SerializedProperty item;
         SerializedProperty materials;
+        SerializedProperty required;
 
         void OnEnable()
         {
@@ -55,6 +56,7 @@ namespace Acemobe.MMO
             name = serializedObject.FindProperty("name");
             description = serializedObject.FindProperty("description");
             item = serializedObject.FindProperty("item");
+            required = serializedObject.FindProperty("requiredItem");
             materials = serializedObject.FindProperty("materials");
         }
 
@@ -65,6 +67,7 @@ namespace Acemobe.MMO
             EditorGUILayout.PropertyField(name);
             EditorGUILayout.PropertyField(description);
             EditorGUILayout.PropertyField(item);
+            EditorGUILayout.PropertyField(required);
             RecipieEditorList.Show(materials);
 
             serializedObject.ApplyModifiedProperties();
