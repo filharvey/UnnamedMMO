@@ -14,10 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: NPC
   icon: {fileID: 0}
-  prefab: {fileID: 7942195447945513703, guid: 0f24f1119eabacf4a8d29d7622943910, type: 3}
-  type: 6
+  prefab: {fileID: 367856014681492739, guid: 6e7e7365f99853e4f8bec66db3d6c179, type: 3}
   itemType: 0
+  type: 6
+  actionType: 0
   maxStack: 0
   isHarvestable: 0
   isStorable: 0
   isPickable: 0
+  isCrop: 0
+  dropItems: []
+  growthTime: 0

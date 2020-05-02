@@ -42,7 +42,7 @@ BoxCollider:
   m_GameObject: {fileID: 6959708292231479693}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1, y: 2.2, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
@@ -61,6 +61,7 @@ MonoBehaviour:
   isWalkable: 0
   isWater: 0
   isPublic: 1
+  isInUse: 0
   obj: {fileID: 0}
 --- !u!1 &7422262437677468916
 GameObject:
@@ -79,8 +80,8 @@ GameObject:
   m_Name: Grass_sand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_NavMeshLayer: 1
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &4329030647424257585
 Transform:
@@ -333,7 +334,7 @@ MonoBehaviour:
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
-  m_SelectedVertices: 12000000
+  m_SelectedVertices: 
 --- !u!64 &4321806178528701480
 MeshCollider:
   m_ObjectHideFlags: 0

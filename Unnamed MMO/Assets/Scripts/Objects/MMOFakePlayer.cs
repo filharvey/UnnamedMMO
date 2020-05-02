@@ -3,6 +3,7 @@ using Acemobe.MMO.UI;
 using Mirror;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace Acemobe.MMO.Objects
 {
@@ -13,6 +14,7 @@ namespace Acemobe.MMO.Objects
         public Rigidbody rigidBody;
         public GameObject mesh;
         public Animator animator;
+        public NavMeshAgent navMeshAgent;
 
         [Header("Params")]
         [SyncVar]
@@ -86,7 +88,7 @@ namespace Acemobe.MMO.Objects
 
         void handleMeshStartup ()
         {
-            for (var a = 0; a < mesh.transform.childCount; a++)
+/*            for (var a = 0; a < mesh.transform.childCount; a++)
             {
                 var child = mesh.transform.GetChild(a);
 
@@ -101,54 +103,55 @@ namespace Acemobe.MMO.Objects
             }
 
             string _head = "01 Head " + this.head.ToString("D2");
-            string _torso = "02 Torso " + this.torso.ToString("D2");
-            string _bottom = "03 Bottom " + this.bottom.ToString("D2");
-            string _feet = "04 Feet " + this.feet.ToString("D2");
-            string _hand = "05 Hand " + this.hand.ToString("D2");
-            string _belt = "06 Belt " + this.belt.ToString("D2");
+                        string _torso = "02 Torso " + this.torso.ToString("D2");
+                        string _bottom = "03 Bottom " + this.bottom.ToString("D2");
+                        string _feet = "04 Feet " + this.feet.ToString("D2");
+                        string _hand = "05 Hand " + this.hand.ToString("D2");
+                        string _belt = "06 Belt " + this.belt.ToString("D2");
 
-            Transform head = mesh.transform.Find (_head);
-            Transform body = mesh.transform.Find (_torso);
-            Transform bottom = mesh.transform.Find (_bottom);
-            Transform feet = mesh.transform.Find (_feet);
-            Transform hands = mesh.transform.Find (_hand);
-            Transform belt = mesh.transform.Find (_belt);
+                        Transform head = mesh.transform.Find (_head);
+                        Transform body = mesh.transform.Find (_torso);
+                        Transform bottom = mesh.transform.Find (_bottom);
+                        Transform feet = mesh.transform.Find (_feet);
+                        Transform hands = mesh.transform.Find (_hand);
+                        Transform belt = mesh.transform.Find (_belt);
 
-            weapons.Add("pickaxe", mesh.transform.Find("RigPelvis/RigSpine1/RigSpine2/RigSpine3/RigRibcage/RigRCollarbone/RigRUpperarm/RigRForearm/RigRPalm/+ R Hand/VillagerPickaxe"));
-            weapons.Add("plow", mesh.transform.Find("RigPelvis/RigSpine1/RigSpine2/RigSpine3/RigRibcage/RigRCollarbone/RigRUpperarm/RigRForearm/RigRPalm/+ R Hand/VillagerPlow"));
-            weapons.Add("axe", mesh.transform.Find("RigPelvis/RigSpine1/RigSpine2/RigSpine3/RigRibcage/RigRCollarbone/RigRUpperarm/RigRForearm/RigRPalm/+ R Hand/VillagerAxe"));
-            weapons.Add("hammer", mesh.transform.Find("RigPelvis/RigSpine1/RigSpine2/RigSpine3/RigRibcage/RigRCollarbone/RigRUpperarm/RigRForearm/RigRPalm/+ R Hand/VillagerHammer"));
+                        weapons.Add("pickaxe", mesh.transform.Find("RigPelvis/RigSpine1/RigSpine2/RigSpine3/RigRibcage/RigRCollarbone/RigRUpperarm/RigRForearm/RigRPalm/+ R Hand/VillagerPickaxe"));
+                        weapons.Add("plow", mesh.transform.Find("RigPelvis/RigSpine1/RigSpine2/RigSpine3/RigRibcage/RigRCollarbone/RigRUpperarm/RigRForearm/RigRPalm/+ R Hand/VillagerPlow"));
+                        weapons.Add("axe", mesh.transform.Find("RigPelvis/RigSpine1/RigSpine2/RigSpine3/RigRibcage/RigRCollarbone/RigRUpperarm/RigRForearm/RigRPalm/+ R Hand/VillagerAxe"));
+                        weapons.Add("hammer", mesh.transform.Find("RigPelvis/RigSpine1/RigSpine2/RigSpine3/RigRibcage/RigRCollarbone/RigRUpperarm/RigRForearm/RigRPalm/+ R Hand/VillagerHammer"));
 
-            foreach (var weapon in weapons)
-            {
-                weapon.Value.gameObject.SetActive(false);
-            }
+                        foreach (var weapon in weapons)
+                        {
+                            weapon.Value.gameObject.SetActive(false);
+                        }
 
-            if (body)
-            {
-                body.gameObject.SetActive(true);
-                SkinnedMeshRenderer skin = body.GetComponent<SkinnedMeshRenderer>();
-            }
+                        if (body)
+                        {
+                            body.gameObject.SetActive(true);
+                            SkinnedMeshRenderer skin = body.GetComponent<SkinnedMeshRenderer>();
+                        }
 
-            if (bottom)
-            {
-                bottom.gameObject.SetActive(true);
-            }
+                        if (bottom)
+                        {
+                            bottom.gameObject.SetActive(true);
+                        }
 
-            if (feet)
-            {
-                feet.gameObject.SetActive(true);
-            }
+                        if (feet)
+                        {
+                            feet.gameObject.SetActive(true);
+                        }
 
-            if (hands)
-            {
-                hands.gameObject.SetActive(true);
-            }
+                        if (hands)
+                        {
+                            hands.gameObject.SetActive(true);
+                        }
 
-            if (belt)
-            {
-                belt.gameObject.SetActive(true);
-            }
+                        if (belt)
+                        {
+                            belt.gameObject.SetActive(true);
+                        }
+            */
         }
 
         void FixedUpdate()
@@ -213,7 +216,7 @@ namespace Acemobe.MMO.Objects
             move *= (speed * Time.fixedDeltaTime);
 
             bool newMove = (move != Vector3.zero);
-            rigidBody.velocity = move;
+//            rigidBody.velocity = move;
 
             // send move flag
             if (isMoving != newMove)
@@ -228,6 +231,8 @@ namespace Acemobe.MMO.Objects
                 float angle = Mathf.Atan2(-moveHoriz, -moveVert) * 180 / Mathf.PI;
                 rotation.eulerAngles = new Vector3(0, angle + 90, 0);
             }
+
+            navMeshAgent.velocity = move;
 
             rigidBody.angularVelocity = Vector3.zero;
             transform.rotation = rotation;

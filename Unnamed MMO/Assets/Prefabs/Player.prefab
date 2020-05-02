@@ -70,7 +70,6 @@ MonoBehaviour:
   localPositionSensitivity: 0.01
   localRotationSensitivity: 0.01
   localScaleSensitivity: 0.01
-  compressRotation: 1
 --- !u!114 &8396473232801178200
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -153,15 +152,17 @@ MonoBehaviour:
   syncInterval: 0.1
   serverobj: {fileID: 0}
   inventory: {fileID: 2577231012441808618}
-  head: Head_01
-  torso: 
-  bottom: 
-  feet: 
-  hand: 
-  belt: 
+  username: 
+  hash: 
+  head: 0
+  torso: 0
+  bottom: 0
+  feet: 0
+  hand: 0
+  belt: 0
   projectilePrefab: {fileID: 5271991172593972804, guid: 0a7f1dfec5be60a48a65d75903894718,
     type: 3}
-  fakePlayer: {fileID: 1199911291520428371, guid: 569cc015f3e351b438fd19c5cd0ac810,
+  fakePlayer: {fileID: 8719161546940914485, guid: bf95a0f1b571d244cbf934ceae37ebef,
     type: 3}
   health: 0
   isFiring: 0
@@ -179,3 +180,4 @@ MonoBehaviour:
   actionZ: -1
   mouseRange: 1.9
   curRecipe: {fileID: 0}
+  isUpdating: 0

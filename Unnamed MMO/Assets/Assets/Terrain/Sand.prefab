@@ -47,6 +47,7 @@ MonoBehaviour:
   isWalkable: 0
   isWater: 0
   isPublic: 1
+  isInUse: 0
   obj: {fileID: 0}
 --- !u!1 &8390407438595021306
 GameObject:
@@ -65,8 +66,8 @@ GameObject:
   m_Name: Sand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_NavMeshLayer: 1
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &3414385135380683583
 Transform:
