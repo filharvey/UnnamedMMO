@@ -192,6 +192,7 @@ namespace Acemobe.MMO.Objects
             if (isServer)
             {
                 movePlayer(Time.fixedDeltaTime);
+                mesh.transform.localEulerAngles = Vector3.zero;
             }
             else
             {
