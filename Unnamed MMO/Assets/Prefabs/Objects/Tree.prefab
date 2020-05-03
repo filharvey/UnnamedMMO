@@ -163,8 +163,8 @@ MonoBehaviour:
   - {fileID: 4569624988451760173}
   canGrow: 1
   growthTime: 20
-  finalSize: 0.75
-  startScale: 0.25
+  finalSize: 0.5
+  startScale: 0.2
 --- !u!208 &8804022501665649366
 NavMeshObstacle:
   m_ObjectHideFlags: 0

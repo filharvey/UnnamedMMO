@@ -26,6 +26,7 @@ namespace Acemobe.MMO
             name = serializedObject.FindProperty("name");
             icon = serializedObject.FindProperty("icon");
             prefab = serializedObject.FindProperty("prefab");
+            type = serializedObject.FindProperty("type");
             itemType = serializedObject.FindProperty("itemType");
             actionType = serializedObject.FindProperty("actionType");
             maxStack = serializedObject.FindProperty("maxStack");
@@ -46,6 +47,7 @@ namespace Acemobe.MMO
             EditorGUILayout.PropertyField(icon);
             EditorGUILayout.PropertyField(prefab);
 
+            EditorGUILayout.PropertyField(type);
             EditorGUILayout.PropertyField(itemType);
             EditorGUILayout.PropertyField(actionType);
             EditorGUILayout.PropertyField(maxStack);

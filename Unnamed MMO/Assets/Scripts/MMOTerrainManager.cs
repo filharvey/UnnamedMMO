@@ -28,6 +28,8 @@ namespace Acemobe.MMO
         public Data.MapData.TerrainData[,] mapData;
         public GameObject startMap;
 
+        public MMOMap islandMap;
+
         // map loaded in
         Bounds bounds;
         int mapWidth;
@@ -59,6 +61,8 @@ namespace Acemobe.MMO
 
             GameObject obj = Instantiate(startMap);
             obj.transform.SetParent(terrainBase.transform);
+            islandMap = obj.GetComponent<MMOMap>();
+
             //obj.SetActive(true);
 
             this.createTerrain();

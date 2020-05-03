@@ -118,6 +118,8 @@ MonoBehaviour:
   lifeTime: 0
   gameItem: {fileID: 0}
   manager: {fileID: 0}
+  colliders:
+  - {fileID: 7613626901284533890}
 --- !u!114 &8081157636708825444
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -179,7 +181,7 @@ PrefabInstance:
     - target: {fileID: -4216859302048453862, guid: d9e21026e6c37f142a4fe8548c797891,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.29999995
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: d9e21026e6c37f142a4fe8548c797891,
         type: 3}
@@ -236,6 +238,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Untitled-3
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: d9e21026e6c37f142a4fe8548c797891,
+        type: 3}
+      propertyPath: m_Layer
+      value: 16
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d9e21026e6c37f142a4fe8548c797891, type: 3}

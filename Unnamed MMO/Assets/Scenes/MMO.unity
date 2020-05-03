@@ -1044,6 +1044,85 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14a0179f56ff7a4438a052968c5cb005, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1001 &88691589
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 378204625349712794, guid: dd060fed78483fe488209d8b0542605c,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.87
+      objectReference: {fileID: 0}
+    - target: {fileID: 6629416897834540532, guid: dd060fed78483fe488209d8b0542605c,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6629416897834540532, guid: dd060fed78483fe488209d8b0542605c,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6629416897834540532, guid: dd060fed78483fe488209d8b0542605c,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6629416897834540532, guid: dd060fed78483fe488209d8b0542605c,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6629416897834540532, guid: dd060fed78483fe488209d8b0542605c,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6629416897834540532, guid: dd060fed78483fe488209d8b0542605c,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6629416897834540532, guid: dd060fed78483fe488209d8b0542605c,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6629416897834540532, guid: dd060fed78483fe488209d8b0542605c,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6629416897834540532, guid: dd060fed78483fe488209d8b0542605c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6629416897834540532, guid: dd060fed78483fe488209d8b0542605c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6629416897834540532, guid: dd060fed78483fe488209d8b0542605c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6629416897834540533, guid: dd060fed78483fe488209d8b0542605c,
+        type: 3}
+      propertyPath: m_Name
+      value: Map1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8701678869497109013, guid: dd060fed78483fe488209d8b0542605c,
+        type: 3}
+      propertyPath: sceneId
+      value: 3666511791
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: dd060fed78483fe488209d8b0542605c, type: 3}
 --- !u!1 &108112950
 GameObject:
   m_ObjectHideFlags: 0
@@ -15377,6 +15456,7 @@ MonoBehaviour:
   terrainBase: {fileID: 2065058342}
   startMap: {fileID: 1537342518052257782, guid: 99cee567c3a148c47a21c048c89c445a,
     type: 3}
+  islandMap: {fileID: 0}
 --- !u!1 &1870018085
 GameObject:
   m_ObjectHideFlags: 0
