@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: Wooden Building Base
   m_EditorClassIdentifier: 
   name: Wooden Building Base
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: d36fdcada9b47f84a86fe998075220ab, type: 3}
   prefab: {fileID: 1016820450196785558, guid: 41ff4cfa3c0259842b019782e38b3ea7, type: 3}
   itemType: 10000
   type: 1
   actionType: 9
-  maxStack: 0
+  maxStack: 25
   isHarvestable: 0
   isStorable: 0
   isPickable: 0

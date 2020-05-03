@@ -11,8 +11,9 @@ namespace Acemobe.MMO
         static MMOGameManager _instance;
 
         public Dictionary<NetworkConnection, MMOPlayer> players = new Dictionary<NetworkConnection, MMOPlayer>();
-//        public Dictionary<uint, MMOPlayer> clientPlayers = new Dictionary<uint, MMOPlayer>();
         public Dictionary<string, MMOCharacterCustomization> userData = new Dictionary<string, MMOCharacterCustomization>();
+
+        public MMOResourceManager resourceManager;
 
         public static MMOGameManager instance
         {

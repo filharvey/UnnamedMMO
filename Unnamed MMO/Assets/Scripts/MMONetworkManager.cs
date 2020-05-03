@@ -60,17 +60,13 @@ namespace Acemobe.MMO
         {
             Debug.Log("OnCreateCharacter");
 
+            // get start position
             Transform startPos = GetStartPosition();
-            float dist = 10;
-
-            // get random position around the world
-            float x = Random.Range(-dist, dist);
-            float z = Random.Range(-dist, dist);
 
             Vector3 pos = startPos.position;
             Quaternion rotation = startPos.rotation;
 
-            GameObject gameobject = Instantiate(playerPrefab, new Vector3(x, 0.1f, z), startPos.rotation);
+            GameObject gameobject = Instantiate(playerPrefab, new Vector3(0f, 0f, 0f), startPos.rotation);
             MMOPlayer player = gameobject.GetComponent<MMOPlayer>();
             player.name = message.username;
             player.characterInfo = MMOGameManager.instance.userData[message.username];

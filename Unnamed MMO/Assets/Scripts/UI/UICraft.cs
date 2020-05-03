@@ -130,7 +130,11 @@ namespace Acemobe.MMO.UI
             {
                 itemName.text = curRecipies.name;
                 itemDescription.text = curRecipies.description;
-                itemImage.sprite = curRecipies.icon;
+
+                if (curRecipies.icon == null)
+                    itemImage.sprite = curRecipies.item.icon;
+                else
+                    itemImage.sprite = curRecipies.icon;
 
                 for (var a = 0; a < curRecipies.materials.Count; a++)
                 {
@@ -164,8 +168,8 @@ namespace Acemobe.MMO.UI
 
                 if (curRecipies.requiredItem != MMOItemType.None)
                 {
-                    GameItem item = MMOResourceManager.instance.getItemByType(curRecipies.requiredItem);
-                    requiredItem.text = "Required Item: " + item.name;
+                    GameItem required = MMOResourceManager.instance.getItemByType(curRecipies.requiredItem);
+                    requiredItem.text = "Required Item: " + required.name;
 
                     if (!MMOPlayer.localPlayer.inventory.hasItemCount(curRecipies.requiredItem, 1))
                     {
@@ -175,6 +179,10 @@ namespace Acemobe.MMO.UI
                     {
                         requiredItem.color = Color.black;
                     }
+                }
+                else
+                {
+                    requiredItem.text = "";
                 }
             }
         }

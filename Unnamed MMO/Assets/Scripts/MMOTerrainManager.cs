@@ -1,9 +1,7 @@
-﻿using Mirror;
-using System;
+﻿using System;
+using Mirror;
 using System.Collections.Generic;
 using UnityEngine;
-using Acemobe.MMO.Data.ScriptableObjects;
-using Acemobe.MMO.Data;
 using Acemobe.MMO.Objects;
 
 namespace Acemobe.MMO
@@ -46,8 +44,8 @@ namespace Acemobe.MMO
 
             if (terrain.ContainsKey(name))
             {
-                Debug.Log(name);
-                terrainData.transform.parent.gameObject.SetActive(false);
+                Debug.Log("Duplicate location: " + terrainData.gameObject.name + " - " + name);
+                terrainData.transform.gameObject.SetActive(false);
             }
             else
                 terrain.Add(name, terrainData);
@@ -61,27 +59,25 @@ namespace Acemobe.MMO
 
             GameObject obj = Instantiate(startMap);
             obj.transform.SetParent(terrainBase.transform);
-            obj.SetActive(true);
+            //obj.SetActive(true);
 
             this.createTerrain();
+            /*
+                        // add the quest giver
+                        int x = 0;
+                        int z = 8;
+                        GameItem npc = MMOResourceManager.instance.getItem("NPC");
 
+                        Vector3 pos = new Vector3(x + 0.5f, 0f, z + 0.5f);
+                        Quaternion rotation = new Quaternion();
+                        rotation.eulerAngles = new Vector3(0, 90, 0);
 
+                        obj = Instantiate(npc.prefab, pos, rotation);
+                        MMOObject spawnObj = obj.GetComponent<MMOObject>();
 
-
-            // add the quest giver
-            int x = 0;
-            int z = 8;
-            GameItem npc = MMOResourceManager.instance.getItem("NPC");
-
-            Vector3 pos = new Vector3(x + 0.5f, 0.25f, z + 0.5f);
-            Quaternion rotation = new Quaternion();
-            rotation.eulerAngles = new Vector3(0, 90, 0);
-
-            obj = Instantiate(npc.prefab, pos, rotation);
-            MMOObject spawnObj = obj.GetComponent<MMOObject>();
-
-            addObjectAt(x, z, spawnObj);
-            NetworkServer.Spawn(obj);
+                        addObjectAt(x, z, spawnObj);
+                        NetworkServer.Spawn(obj);
+            */
         }
 
         // on client
@@ -111,6 +107,8 @@ namespace Acemobe.MMO
 
             mapWidth = (int)(bounds.max.x - bounds.min.x) + 1;
             mapDepth = (int)(bounds.max.z - bounds.min.z) + 1;
+
+            Debug.Log("Size: " + mapWidth + ", " + mapDepth);
 
             mapData = new Data.MapData.TerrainData[mapWidth, mapDepth];
 
@@ -160,11 +158,20 @@ namespace Acemobe.MMO
 
                     if (posX >= 0 && posZ >= 0 && posX < mapWidth && posZ < mapDepth)
                     {
+                        if (!mapData[posX, posZ])
+                        {
+                            return false;
+                        }
+
                         if (mapData[posX, posZ] && 
                             (mapData[posX, posZ].obj || mapData[posX, posZ].isInUse || !mapData[posX, posZ].canUse))
                         {
                             return false;
                         }
+                    }
+                    else
+                    {
+                        return false;
                     }
                 }
             }

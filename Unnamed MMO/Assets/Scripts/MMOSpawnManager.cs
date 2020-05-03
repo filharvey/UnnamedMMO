@@ -22,6 +22,7 @@ namespace Acemobe.MMO
 
         void Start()
         {
+            Debug.Log("Spawn");
             int a = 0;
 
             while (a < 20 && objects.Count < maxNum)
@@ -69,7 +70,7 @@ namespace Acemobe.MMO
             if (checks >= 5)
                 return;
 
-            GameObject obj = Instantiate(spawnObj, pos + new Vector3 (0.5f, 0.25f, 0.5f), rotation);
+            GameObject obj = Instantiate(spawnObj, pos + new Vector3 (0.5f, 0f, 0.5f), rotation);
             MMOObject mmoObj = obj.GetComponent<MMOObject>();
 
             // give link to manager

@@ -143,18 +143,16 @@ namespace Acemobe.MMO.Objects
                                     }
 
              */
-            /*            var axe = mesh.transform.Find("RigPelvis/RigSpine1/RigSpine2/RigSpine3/RigRibcage/RigRCollarbone/RigRUpperarm/RigRForearm/RigRPalm/+ R Hand/VillagerPickaxe");
+  
+            weapons.Add("pickaxe", mesh.transform.Find("RigPelvis/RigSpine1/RigSpine2/RigSpine3/RigRibcage/RigRCollarbone/RigRUpperarm/RigRForearm/RigRPalm/+R Hand/VillagerPickaxe"));
+            weapons.Add("plow", mesh.transform.Find("RigPelvis/RigSpine1/RigSpine2/RigSpine3/RigRibcage/RigRCollarbone/RigRUpperarm/RigRForearm/RigRPalm/+R Hand/VillagerPlow"));
+            weapons.Add("axe", mesh.transform.Find("RigPelvis/RigSpine1/RigSpine2/RigSpine3/RigRibcage/RigRCollarbone/RigRUpperarm/RigRForearm/RigRPalm/+R Hand/VillagerAxe"));
+            weapons.Add("hammer", mesh.transform.Find("RigPelvis/RigSpine1/RigSpine2/RigSpine3/RigRibcage/RigRCollarbone/RigRUpperarm/RigRForearm/RigRPalm/+R Hand/VillagerHammer"));
 
-                        weapons.Add("pickaxe", mesh.transform.Find("RigPelvis/RigSpine1/RigSpine2/RigSpine3/RigRibcage/RigRCollarbone/RigRUpperarm/RigRForearm/RigRPalm/+ R Hand/VillagerPickaxe"));
-                        weapons.Add("plow", mesh.transform.Find("RigPelvis/RigSpine1/RigSpine2/RigSpine3/RigRibcage/RigRCollarbone/RigRUpperarm/RigRForearm/RigRPalm/+ R Hand/VillagerPlow"));
-                        weapons.Add("axe", mesh.transform.Find("RigPelvis/RigSpine1/RigSpine2/RigSpine3/RigRibcage/RigRCollarbone/RigRUpperarm/RigRForearm/RigRPalm/+ R Hand/VillagerAxe"));
-                        weapons.Add("hammer", mesh.transform.Find("RigPelvis/RigSpine1/RigSpine2/RigSpine3/RigRibcage/RigRCollarbone/RigRUpperarm/RigRForearm/RigRPalm/+ R Hand/VillagerHammer"));
-
-                        foreach (var weapon in weapons)
-                        {
-                            weapon.Value.gameObject.SetActive(false);
-                        }
-            */
+            foreach (var weapon in weapons)
+            {
+                weapon.Value.gameObject.SetActive(false);
+            }
         }
 
         void FixedUpdate()

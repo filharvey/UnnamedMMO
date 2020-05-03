@@ -1,19 +1,19 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!64 &2644181416751250015
+--- !u!64 &9164671603493865129
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1148067029333798777}
+  m_GameObject: {fileID: 3295237062027732648}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 3
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: 693494434751826561, guid: a03cc785102bd7b48ad9cfce11d45e46, type: 3}
+  m_Mesh: {fileID: 424183918592438486, guid: 6d8bc767177e11f469450a8f0228a4f0, type: 3}
 --- !u!1 &8778373880637534159
 GameObject:
   m_ObjectHideFlags: 0
@@ -23,9 +23,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6472377670861801423}
-  - component: {fileID: 8229693312733146665}
   - component: {fileID: -5278849100895354343}
-  - component: {fileID: 6345463843911954943}
   m_Layer: 14
   m_Name: cliff_blockSlopeHalfWalls_rock
   m_TagString: Untagged
@@ -44,43 +42,10 @@ Transform:
   m_LocalPosition: {x: 2, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 4158398303359311210}
+  - {fileID: 2008695038825698491}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!218 &8229693312733146665
-Terrain:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8778373880637534159}
-  m_Enabled: 1
-  serializedVersion: 6
-  m_TerrainData: {fileID: 0}
-  m_TreeDistance: 5000
-  m_TreeBillboardDistance: 50
-  m_TreeCrossFadeLength: 5
-  m_TreeMaximumFullLODCount: 50
-  m_DetailObjectDistance: 80
-  m_DetailObjectDensity: 1
-  m_HeightmapPixelError: 5
-  m_SplatMapDistance: 1000
-  m_HeightmapMaximumLOD: 0
-  m_ShadowCastingMode: 2
-  m_DrawHeightmap: 1
-  m_DrawInstanced: 0
-  m_DrawTreesAndFoliage: 1
-  m_ReflectionProbeUsage: 1
-  m_MaterialTemplate: {fileID: 0}
-  m_BakeLightProbesForTrees: 1
-  m_PreserveTreePrototypeLayers: 0
-  m_DeringLightProbesForTrees: 1
-  m_ScaleInLightmap: 1
-  m_LightmapParameters: {fileID: 15203, guid: 0000000000000000f000000000000000, type: 0}
-  m_GroupingID: 0
-  m_RenderingLayerMask: 1
-  m_AllowAutoConnect: 0
 --- !u!114 &-5278849100895354343
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -97,117 +62,91 @@ MonoBehaviour:
   isWater: 0
   isPublic: 1
   isInUse: 0
+  canUse: 0
   obj: {fileID: 0}
---- !u!114 &6345463843911954943
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8778373880637534159}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1f6be16025ec88e4c88efb60e6a61e8a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  categoryID: 0
-  placeInsideOthers: 0
-  offsetPos: {x: 0, y: 0, z: 0}
-  rotationFactor: {x: 90, y: 90, z: 90}
-  scalable: 0
-  randomizer:
-    randomizable: 0
-    replaceable: 0
-    rotate: {x: 1, y: 1, z: 1}
-    scaleMin: {x: 0.75, y: 0.75, z: 0.75}
-    scaleMax: {x: 1.25, y: 1.25, z: 1.25}
-    scaleLock: 1
-    posMin: {x: -0.5, y: -0.1, z: -0.5}
-    posMax: {x: 0.5, y: 0.1, z: 0.5}
-  includeInMerge: 1
---- !u!1001 &8993457519960012400
+--- !u!1001 &6817013531310964641
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 6472377670861801423}
     m_Modifications:
-    - target: {fileID: -4216859302048453862, guid: a03cc785102bd7b48ad9cfce11d45e46,
+    - target: {fileID: -4216859302048453862, guid: 6d8bc767177e11f469450a8f0228a4f0,
         type: 3}
       propertyPath: m_LocalPosition.x
       value: -0
       objectReference: {fileID: 0}
-    - target: {fileID: -4216859302048453862, guid: a03cc785102bd7b48ad9cfce11d45e46,
+    - target: {fileID: -4216859302048453862, guid: 6d8bc767177e11f469450a8f0228a4f0,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.5
+      value: -2
       objectReference: {fileID: 0}
-    - target: {fileID: -4216859302048453862, guid: a03cc785102bd7b48ad9cfce11d45e46,
+    - target: {fileID: -4216859302048453862, guid: 6d8bc767177e11f469450a8f0228a4f0,
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -4216859302048453862, guid: a03cc785102bd7b48ad9cfce11d45e46,
+    - target: {fileID: -4216859302048453862, guid: 6d8bc767177e11f469450a8f0228a4f0,
         type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -4216859302048453862, guid: a03cc785102bd7b48ad9cfce11d45e46,
+    - target: {fileID: -4216859302048453862, guid: 6d8bc767177e11f469450a8f0228a4f0,
         type: 3}
       propertyPath: m_LocalRotation.y
       value: -0
       objectReference: {fileID: 0}
-    - target: {fileID: -4216859302048453862, guid: a03cc785102bd7b48ad9cfce11d45e46,
+    - target: {fileID: -4216859302048453862, guid: 6d8bc767177e11f469450a8f0228a4f0,
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
       objectReference: {fileID: 0}
-    - target: {fileID: -4216859302048453862, guid: a03cc785102bd7b48ad9cfce11d45e46,
+    - target: {fileID: -4216859302048453862, guid: 6d8bc767177e11f469450a8f0228a4f0,
         type: 3}
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: -4216859302048453862, guid: a03cc785102bd7b48ad9cfce11d45e46,
+    - target: {fileID: -4216859302048453862, guid: 6d8bc767177e11f469450a8f0228a4f0,
         type: 3}
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -4216859302048453862, guid: a03cc785102bd7b48ad9cfce11d45e46,
+    - target: {fileID: -4216859302048453862, guid: 6d8bc767177e11f469450a8f0228a4f0,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -4216859302048453862, guid: a03cc785102bd7b48ad9cfce11d45e46,
+    - target: {fileID: -4216859302048453862, guid: 6d8bc767177e11f469450a8f0228a4f0,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -4216859302048453862, guid: a03cc785102bd7b48ad9cfce11d45e46,
+    - target: {fileID: -4216859302048453862, guid: 6d8bc767177e11f469450a8f0228a4f0,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -927199367670048503, guid: a03cc785102bd7b48ad9cfce11d45e46,
+    - target: {fileID: -927199367670048503, guid: 6d8bc767177e11f469450a8f0228a4f0,
         type: 3}
       propertyPath: m_Name
-      value: cliff_blockSlopeHalfWalls_rock
+      value: cliff_blockSlope_rock
       objectReference: {fileID: 0}
-    - target: {fileID: -927199367670048503, guid: a03cc785102bd7b48ad9cfce11d45e46,
+    - target: {fileID: -927199367670048503, guid: 6d8bc767177e11f469450a8f0228a4f0,
         type: 3}
       propertyPath: m_Layer
       value: 14
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: a03cc785102bd7b48ad9cfce11d45e46, type: 3}
---- !u!1 &1148067029333798777 stripped
+  m_SourcePrefab: {fileID: 100100000, guid: 6d8bc767177e11f469450a8f0228a4f0, type: 3}
+--- !u!1 &3295237062027732648 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: -927199367670048503, guid: a03cc785102bd7b48ad9cfce11d45e46,
+  m_CorrespondingSourceObject: {fileID: -927199367670048503, guid: 6d8bc767177e11f469450a8f0228a4f0,
     type: 3}
-  m_PrefabInstance: {fileID: 8993457519960012400}
+  m_PrefabInstance: {fileID: 6817013531310964641}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &4158398303359311210 stripped
+--- !u!4 &2008695038825698491 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: a03cc785102bd7b48ad9cfce11d45e46,
+  m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: 6d8bc767177e11f469450a8f0228a4f0,
     type: 3}
-  m_PrefabInstance: {fileID: 8993457519960012400}
+  m_PrefabInstance: {fileID: 6817013531310964641}
   m_PrefabAsset: {fileID: 0}

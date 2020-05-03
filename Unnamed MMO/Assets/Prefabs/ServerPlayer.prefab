@@ -1,5 +1,18 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &1859927608447915303
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7804141887386229766}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c5056f1bfd053f44b6a0a7e7d48bf0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fakePlayer: {fileID: 8719161546940915705}
 --- !u!1 &8719161546940914485
 GameObject:
   m_ObjectHideFlags: 0
@@ -13,11 +26,10 @@ GameObject:
   - component: {fileID: 8719161546940915709}
   - component: {fileID: 8719161546940915682}
   - component: {fileID: 8719161546940915710}
-  - component: {fileID: 8719161546940915473}
   - component: {fileID: 8719161546940915275}
   - component: {fileID: 8719161546940915293}
   - component: {fileID: 8719161546940915711}
-  - component: {fileID: 8719161546940915407}
+  - component: {fileID: 8166639796412543902}
   - component: {fileID: 8719161546940915705}
   m_Layer: 10
   m_Name: ServerPlayer
@@ -97,35 +109,20 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8719161546940914485}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1731d8de2d0c84333b08ebe1e79f4118, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  visRange: 20
+  visRange: 1000
   visUpdateInterval: 1
   checkMethod: 0
   forceHidden: 0
   castLayers:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &8719161546940915473
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8719161546940914485}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b7fdb599e1359924bad6255660370252, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  forceHidden: 0
 --- !u!54 &8719161546940915275
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -211,7 +208,7 @@ MonoBehaviour:
   useLocalTransformOnly: 0
   ownerChangeIndicator: 1
   receivedStatesCounter: 0
---- !u!195 &8719161546940915407
+--- !u!195 &8166639796412543902
 NavMeshAgent:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -251,7 +248,7 @@ MonoBehaviour:
   rigidBody: {fileID: 8719161546940915275}
   mesh: {fileID: 7804141887386229766}
   animator: {fileID: 7861165976754251206}
-  navMeshAgent: {fileID: 8719161546940915407}
+  navMeshAgent: {fileID: 8166639796412543902}
   head: 0
   torso: 0
   bottom: 0
