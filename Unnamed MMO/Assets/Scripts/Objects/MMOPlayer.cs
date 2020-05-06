@@ -76,6 +76,7 @@ namespace Acemobe.MMO.Objects
         public Recipies curRecipe;
 
         GameObject buildItem;
+        public int buildAngle = 0;
 
         // Rewired
         public Rewired.Player player; // The Rewired Player
@@ -153,6 +154,14 @@ namespace Acemobe.MMO.Objects
                     if (player.GetButtonDown("Craft"))
                     {
                         UIManager.instance.craftUI.onShow();
+                    }
+
+                    if (player.GetButtonDown ("Rotate"))
+                    {
+                        if (buildItem)
+                        {
+                            buildAngle = (buildAngle + 90) % 360;
+                        }
                     }
 
                     // select inventory 1
@@ -506,13 +515,34 @@ namespace Acemobe.MMO.Objects
                             // if activeItem is object
                             curAction = MMOResourceAction.Build;
 
-                            // look at
-                            Vector3 pos = new Vector3(actionX + 0.5f, transform.position.y, actionZ + 0.5f);
-                            Vector3 dir = (pos - transform.position).normalized;
-                            Quaternion rot = Quaternion.LookRotation(dir);
-                            serverobj.transform.rotation = rot;
+                            bool good = false;
 
-                            terrainData.isInUse = true;
+                            // if we require a base, is there a base
+                            if (activeItem.requiresBase)
+                            {
+                                if (terrainData &&
+                                    terrainData.isPublic &&
+                                    terrainData.obj &&
+                                    terrainData.obj.gameItem.itemType == MMOItemType.Building_Base)
+                                {
+                                    good = true;
+                                }
+                            }
+                            else
+                            {
+                                good = true;
+                            }
+
+                            if (good)
+                            {
+                                // look at
+                                Vector3 pos = new Vector3(actionX + 0.5f, transform.position.y, actionZ + 0.5f);
+                                Vector3 dir = (pos - transform.position).normalized;
+                                Quaternion rot = Quaternion.LookRotation(dir);
+                                serverobj.transform.rotation = rot;
+
+                                terrainData.isInUse = true;
+                            }
                         }
 
                         // remove if we don't have it
@@ -633,20 +663,6 @@ namespace Acemobe.MMO.Objects
 
                             MMOTerrainManager.instance.removeObjectAt(x, z);
                             NetworkServer.Destroy(cropItem.gameObject);
-
-                            /*                            item = new MMOInventoryItem
-                                                        {
-                                                            type = newItem.itemType,
-                                                            amount = 1
-                                                        };
-
-                                                        TargetInventoryGain(item);
-
-                                                        if (!inventory.addItem(item))
-                                                        {
-                                                            // drop on floor
-                                                        }
-                            */
                         }
 
                         actionTarget = null;
@@ -768,18 +784,38 @@ namespace Acemobe.MMO.Objects
                             {
                                 Vector3 pos = new Vector3(x + 0.5f, 0, z + 0.5f);
                                 Quaternion rotation = new Quaternion();
-                                rotation.eulerAngles = new Vector3(0, 0, 0);
+                                bool canBuild = false;
 
-                                GameObject obj = Instantiate(activeItem.prefab, pos, rotation);
-                                MMOBuilding spawnObj = obj.GetComponent<MMOBuilding>();
+                                if (activeItem.requiresBase)
+                                {
+                                    if (terrainData.obj && terrainData.obj.gameItem.itemType == MMOItemType.Building_Base)
+                                    {
+                                        rotation.eulerAngles = new Vector3(0, buildAngle, 0);
+                                        canBuild = true;
+                                    }
+                                }
+                                else
+                                {
+                                    canBuild = true;
+                                }
 
-                                MMOTerrainManager.instance.addObjectAt(x, z, spawnObj);
-                                NetworkServer.Spawn(obj);
+                                if (canBuild)
+                                {
+                                    GameObject obj = Instantiate(activeItem.prefab, pos, rotation);
+                                    MMOBuilding spawnObj = obj.GetComponent<MMOBuilding>();
 
-                                inventory.removeItem(activeItem.itemType, 1);
+                                    if (activeItem.requiresBase)
+                                        MMOTerrainManager.instance.addWallAt(x, z, buildAngle, spawnObj);
+                                    else
+                                        MMOTerrainManager.instance.addObjectAt(x, z, spawnObj);
 
-                                MMOTerrainManager.instance.islandMap.navMeshSurface.RemoveData();
-                                MMOTerrainManager.instance.islandMap.navMeshSurface.BuildNavMesh();
+                                    NetworkServer.Spawn(obj);
+
+                                    inventory.removeItem(activeItem.itemType, 1);
+
+                                    MMOTerrainManager.instance.islandMap.navMeshSurface.RemoveData();
+                                    MMOTerrainManager.instance.islandMap.navMeshSurface.BuildNavMesh();
+                                }
                             }
 
                             terrainData.isInUse = false;

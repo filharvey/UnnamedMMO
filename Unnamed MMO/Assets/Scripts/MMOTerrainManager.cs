@@ -3,6 +3,7 @@ using Mirror;
 using System.Collections.Generic;
 using UnityEngine;
 using Acemobe.MMO.Objects;
+using Acemobe.MMO.Data.MapData;
 
 namespace Acemobe.MMO
 {
@@ -231,6 +232,65 @@ namespace Acemobe.MMO
             if (posX >= 0 && posZ >= 0 && posX < mapWidth && posZ < mapDepth && mapData[posX, posZ])
             {
                 mapData[posX, posZ].obj = null;
+            }
+        }
+
+        public MMOObject getWallAt(int x, int z, MAP_DIRECTION dir)
+        {
+            var posX = (int)(x - bounds.min.x);
+            var posZ = (int)(z - bounds.min.z);
+
+            if (posX >= 0 && posZ >= 0 && posX < mapWidth && posZ < mapDepth && mapData[posX, posZ])
+            {
+                if (mapData[posX, posZ].obj &&
+                    mapData[posX, posZ].obj.gameItem.itemType == Data.MMOItemType.Building_Base)
+                {
+
+                }
+            }
+
+            return null;
+        }
+
+        public void addWallAt(int x, int z, MAP_DIRECTION dir, MMOObject obj)
+        {
+            var posX = (int)(x - bounds.min.x);
+            var posZ = (int)(z - bounds.min.z);
+
+            if (posX >= 0 && posZ >= 0 && posX < mapWidth && posZ < mapDepth && mapData[posX, posZ])
+            {
+                if (mapData[posX, posZ].obj &&
+                    mapData[posX, posZ].obj.gameItem.itemType == Data.MMOItemType.Building_Base)
+                {
+
+                }
+            }
+        }
+
+        public void addWallAt(int x, int z, int dir, MMOObject obj)
+        {
+            if (dir < 45 || dir >= 315)
+                addWallAt(x, z, MAP_DIRECTION.NORTH, obj);
+            else if (dir < 135)
+                addWallAt(x, z, MAP_DIRECTION.EAST, obj);
+            else if (dir == 225)
+                addWallAt(x, z, MAP_DIRECTION.SOUTH, obj);
+            else
+                addWallAt(x, z, MAP_DIRECTION.WEST, obj);
+        }
+
+        public void removeWallAt(int x, int z, MAP_DIRECTION dir)
+        {
+            var posX = (int)(x - bounds.min.x);
+            var posZ = (int)(z - bounds.min.z);
+
+            if (posX >= 0 && posZ >= 0 && posX < mapWidth && posZ < mapDepth && mapData[posX, posZ])
+            {
+                if (mapData[posX, posZ].obj &&
+                    mapData[posX, posZ].obj.gameItem.itemType == Data.MMOItemType.Building_Base)
+                {
+
+                }
             }
         }
     }

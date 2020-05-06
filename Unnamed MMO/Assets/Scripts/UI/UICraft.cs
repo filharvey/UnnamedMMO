@@ -160,9 +160,9 @@ namespace Acemobe.MMO.UI
                     }
                 }
 
-                for (var a = 0; a < 3; a++)
+                for (var a = curRecipies.materials.Count; a < 3; a++)
                 {
-                    UICraftMaterialItem matInfo = materials[2];
+                    UICraftMaterialItem matInfo = materials[a];
                     matInfo.gameObject.SetActive(false);
                 }
 

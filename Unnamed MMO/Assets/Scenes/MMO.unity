@@ -1044,85 +1044,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14a0179f56ff7a4438a052968c5cb005, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1001 &88691589
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 378204625349712794, guid: dd060fed78483fe488209d8b0542605c,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1.87
-      objectReference: {fileID: 0}
-    - target: {fileID: 6629416897834540532, guid: dd060fed78483fe488209d8b0542605c,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6629416897834540532, guid: dd060fed78483fe488209d8b0542605c,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6629416897834540532, guid: dd060fed78483fe488209d8b0542605c,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6629416897834540532, guid: dd060fed78483fe488209d8b0542605c,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6629416897834540532, guid: dd060fed78483fe488209d8b0542605c,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6629416897834540532, guid: dd060fed78483fe488209d8b0542605c,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6629416897834540532, guid: dd060fed78483fe488209d8b0542605c,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6629416897834540532, guid: dd060fed78483fe488209d8b0542605c,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 6629416897834540532, guid: dd060fed78483fe488209d8b0542605c,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6629416897834540532, guid: dd060fed78483fe488209d8b0542605c,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6629416897834540532, guid: dd060fed78483fe488209d8b0542605c,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6629416897834540533, guid: dd060fed78483fe488209d8b0542605c,
-        type: 3}
-      propertyPath: m_Name
-      value: Map1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8701678869497109013, guid: dd060fed78483fe488209d8b0542605c,
-        type: 3}
-      propertyPath: sceneId
-      value: 3666511791
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: dd060fed78483fe488209d8b0542605c, type: 3}
 --- !u!1 &108112950
 GameObject:
   m_ObjectHideFlags: 0
@@ -15912,12 +15833,14 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a3829ae039cbb1f4987d6c9c9b435828, type: 2}
   - {fileID: 11400000, guid: 209bda490d6a47c419341dce0211e944, type: 2}
   - {fileID: 11400000, guid: 2798ddb62504d474990e6a27ad60b69d, type: 2}
+  - {fileID: 11400000, guid: 0a294764cafcff94c9f75974d2b85fd9, type: 2}
   gameRecipies:
   - {fileID: 11400000, guid: 707bda16fe5003142a2533b07ca989de, type: 2}
   - {fileID: 11400000, guid: 43baa9055f5023342ad3749772e5a1bc, type: 2}
   - {fileID: 11400000, guid: 5df5819dd7cc6d2459059bde522f09ec, type: 2}
   - {fileID: 11400000, guid: 27b2610970d16894cb3859be0b88a3b2, type: 2}
   - {fileID: 11400000, guid: e7e8d341eb42b1d498dfd8c6c88db79c, type: 2}
+  - {fileID: 11400000, guid: 51586d06f28c1dd4786ba64c552b015d, type: 2}
 --- !u!1 &1897354584
 GameObject:
   m_ObjectHideFlags: 0
@@ -17142,6 +17065,15 @@ MonoBehaviour:
       _behaviorId: 0
       _userAssignable: 1
       _categoryId: 0
+    - _id: 17
+      _name: Rotate
+      _type: 1
+      _descriptiveName: Rotate
+      _positiveDescriptiveName: 
+      _negativeDescriptiveName: 
+      _behaviorId: 0
+      _userAssignable: 1
+      _categoryId: 0
     actionCategories:
     - _name: Default
       _descriptiveName: Default
@@ -17151,7 +17083,7 @@ MonoBehaviour:
     actionCategoryMap:
       list:
       - categoryId: 0
-        actionIds: 000000000100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e0000000f00000010000000
+        actionIds: 000000000100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e0000000f0000001000000011000000
     inputBehaviors:
     - _id: 0
       _name: Default
@@ -17667,6 +17599,17 @@ MonoBehaviour:
         _modifierKey1: 0
         _modifierKey2: 0
         _modifierKey3: 0
+      - _actionCategoryId: 0
+        _actionId: 17
+        _elementType: 1
+        _elementIdentifierId: -1
+        _axisRange: 0
+        _invert: 0
+        _axisContribution: 0
+        _keyboardKeyCode: 114
+        _modifierKey1: 0
+        _modifierKey2: 0
+        _modifierKey3: 0
     mouseMaps:
     - id: 0
       categoryId: 0
@@ -17839,7 +17782,7 @@ MonoBehaviour:
     controllerMapLayoutManagerRuleSets: []
     controllerMapEnablerRuleSets: []
     playerIdCounter: 3
-    actionIdCounter: 17
+    actionIdCounter: 18
     actionCategoryIdCounter: 1
     inputBehaviorIdCounter: 1
     mapCategoryIdCounter: 1

@@ -29,11 +29,10 @@ namespace Acemobe.MMO.Data.ScriptableObjects
         public int maxStack;
 
         public bool isHarvestable;              //
-        public bool isStorable;                 
         public bool isPickable;                 // pickup
-        public bool isCrop;                     // crop
+        public bool requiresBase;
 
-        // items from harvesting / picking up
+        // items from harvesting
         public List<DropItens> dropItems;
 
         // crop

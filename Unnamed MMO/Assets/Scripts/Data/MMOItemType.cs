@@ -24,6 +24,7 @@
 
         Sword = 2000,
 
-        Building = 10000
+        Building_Base = 10000,
+        Building_Wall,
     };
 }

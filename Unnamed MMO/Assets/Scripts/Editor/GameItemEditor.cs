@@ -15,9 +15,8 @@ namespace Acemobe.MMO
         SerializedProperty actionType;
         SerializedProperty maxStack;
         SerializedProperty isHarvestable;
-        SerializedProperty isStorable;
         SerializedProperty isPickable;
-        SerializedProperty isCrop;
+        SerializedProperty requiresBase;
         SerializedProperty dropItems;
         SerializedProperty growthTime;
 
@@ -31,9 +30,8 @@ namespace Acemobe.MMO
             actionType = serializedObject.FindProperty("actionType");
             maxStack = serializedObject.FindProperty("maxStack");
             isHarvestable = serializedObject.FindProperty("isHarvestable");
-            isStorable = serializedObject.FindProperty("isStorable");
             isPickable = serializedObject.FindProperty("isPickable");
-            isCrop = serializedObject.FindProperty("isCrop");
+            requiresBase = serializedObject.FindProperty("requiresBase");
 
             growthTime = serializedObject.FindProperty("growthTime");
             dropItems = serializedObject.FindProperty("dropItems");
@@ -52,9 +50,8 @@ namespace Acemobe.MMO
             EditorGUILayout.PropertyField(actionType);
             EditorGUILayout.PropertyField(maxStack);
             EditorGUILayout.PropertyField(isHarvestable);
-            EditorGUILayout.PropertyField(isStorable);
             EditorGUILayout.PropertyField(isPickable);
-            EditorGUILayout.PropertyField(isCrop);
+            EditorGUILayout.PropertyField(requiresBase);
             EditorGUILayout.PropertyField(growthTime);
 
             GameItemEditorList.Show(dropItems);
