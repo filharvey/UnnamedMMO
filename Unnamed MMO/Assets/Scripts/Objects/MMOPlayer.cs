@@ -137,12 +137,11 @@ namespace Acemobe.MMO.Objects
                 if (isClient)
                 {
                     Vector3 moveVector = new Vector3();
+                    Vector3 cursorPos = new Vector3();
+                    Vector3 forwardPos = new Vector3();
 
                     moveVector.x = player.GetAxis("Move Horizontal"); // get input by name or action id
                     moveVector.y = player.GetAxis("Move Vertical");
-
-                    RaycastHit hit;
-                    int layerMask = (1 << (int) GAME_LAYERS.TERRAIN) + (1 << (int) GAME_LAYERS.OBJECTS) + (1 << (int)GAME_LAYERS.GROUND_OBJECTS);
 
                     // show inventory
                     if (player.GetButtonDown("Inventory"))
@@ -211,74 +210,66 @@ namespace Acemobe.MMO.Objects
                     {
                         Vector3 pos = transform.position + (transform.rotation * new Vector3(0, 0, 1));
 
-                        int x = (int)Mathf.Floor(pos.x);
-                        int z = (int)Mathf.Floor(pos.z);
+                        forwardPos.x = (int)Mathf.Floor(pos.x);
+                        forwardPos.z = (int)Mathf.Floor(pos.z);
 
                         // send to server command mouse down
-                        mouseDown(x, z);
-                    }
-                    else if (player.GetButton("FireJoy"))
-                    {
-
+                        mouseDown(Mathf.FloorToInt (forwardPos.x), Mathf.FloorToInt(forwardPos.z));
                     }
 
                     // if not over UI
                     if (!EventSystem.current.IsPointerOverGameObject())
                     {
+                        RaycastHit hit;
+                        int layerMask = (1 << (int)GAME_LAYERS.TERRAIN) + (1 << (int)GAME_LAYERS.OBJECTS) + (1 << (int)GAME_LAYERS.GROUND_OBJECTS);
+                        Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+                        GameObject gameObject;
+                        MMOObject mmoObj = null;
+
+                        // Does the ray intersect any objects excluding the player layer
+                        if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
+                        {
+                            gameObject = hit.transform.gameObject;
+
+                            if (gameObject)
+                            {
+                                mmoObj = gameObject.GetComponent<MMOObject>();
+
+                                if (mmoObj != null)
+                                {
+//                                    mouseDownObject(gameObject);
+                                }
+                                else
+                                {
+                                    cursorPos.x = (int)Mathf.Floor(hit.point.x);
+                                    cursorPos.z = (int)Mathf.Floor(hit.point.z);
+
+                                    // send to server command mouse down
+//                                    mouseDown(x, z);
+                                }
+                            }
+                        }
+
                         if (player.GetButtonDown("Fire"))
                         {
-                            Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-
-                            // Does the ray intersect any objects excluding the player layer
-                            if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
+                            if (mmoObj != null)
                             {
-                                var gameObject = hit.transform.gameObject;
-
-                                if (gameObject)
-                                {
-                                    MMOObject mmoObj = gameObject.GetComponent<MMOObject>();
-
-                                    if (mmoObj != null)
-                                    {
-                                        mouseDownObject(gameObject);
-                                    }
-                                    else
-                                    {
-                                        int x = (int)Mathf.Floor(hit.point.x);
-                                        int z = (int)Mathf.Floor(hit.point.z);
-
-                                        // send to server command mouse down
-                                        mouseDown(x, z);
-                                    }
-                                }
+                                mouseDownObject(mmoObj.gameObject);
+                            }
+                            else
+                            {
+                                mouseDown(Mathf.FloorToInt(cursorPos.x), Mathf.FloorToInt(cursorPos.z));
                             }
                         }
                         else if (player.GetButton("Fire"))
                         {
-                            Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-
-                            // Does the ray intersect any objects excluding the player layer
-                            if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
+                            if (mmoObj != null)
                             {
-                                var gameObject = hit.transform.gameObject;
-
-                                if (gameObject)
-                                {
-                                    MMOObject mmoObj = gameObject.GetComponent<MMOObject>();
-
-                                    if (mmoObj != null)
-                                    {
-                                        mouseUpdateObject(gameObject);
-                                    }
-                                    else
-                                    {
-                                        int x = (int)Mathf.Floor(hit.point.x);
-                                        int z = (int)Mathf.Floor(hit.point.z);
-
-                                        // send to server command mouse down
-                                        mouseUpdate(x, z);
-                                    }
-                                }
+                                mouseUpdateObject(mmoObj.gameObject);
+                            }
+                            else
+                            {
+                                mouseUpdate(Mathf.FloorToInt(cursorPos.x), Mathf.FloorToInt(cursorPos.z));
                             }
                         }
                     }
@@ -321,24 +312,26 @@ namespace Acemobe.MMO.Objects
                             activeItem.itemType != MMOItemType.Hammer &&
                             inventory.hasItemCount(MMOItemType.Hammer, 1))
                         {
-                            // display the item infront of us
-                            Vector3 pos = transform.position + (transform.rotation * new Vector3(0, 0, 1));
+                            Vector3 targetPos = new Vector3(Mathf.FloorToInt(cursorPos.x) + 0.5f, 0, Mathf.FloorToInt(cursorPos.z) + 0.5f);
+                            float dist = getDist(new Vector3(transform.position.x, 0, transform.position.z), targetPos);
 
-                            int x = (int)Mathf.Floor(pos.x);
-                            int z = (int)Mathf.Floor(pos.z);
-                            pos = new Vector3(x + 0.5f, 0, z + 0.5f);
+                            if (dist >= mouseRange)
+                            {
+                                targetPos = new Vector3(Mathf.FloorToInt(forwardPos.x) + 0.5f, 0, Mathf.FloorToInt(forwardPos.z) + 0.5f);
+                            }
 
                             if (!buildItem)
                             {
                                 Quaternion rotation = new Quaternion();
-                                rotation.eulerAngles = new Vector3(0, 0, 0);
+                                rotation.eulerAngles = new Vector3(0, buildAngle, 0);
 
-                                buildItem = Instantiate(activeItem.prefab, pos, rotation);
+                                buildItem = Instantiate(activeItem.prefab, targetPos, rotation);
                                 MMOBuilding building = buildItem.GetComponent<MMOBuilding>();
                                 building.disableColliders();
                             }
 
-                            buildItem.transform.position = pos;
+                            buildItem.transform.eulerAngles = new Vector3(0, buildAngle, 0);
+                            buildItem.transform.position = targetPos;
                         }
                     }
                     else
@@ -680,9 +673,7 @@ namespace Acemobe.MMO.Objects
 
                         if (terrainData && terrainData.isPublic && terrainData.obj == null)
                         {
-                            var tx = Mathf.Floor(transform.position.x);
-                            var tz = Mathf.Floor(transform.position.z);
-                            float dist = getDist(new Vector3(tx, 0, tz), new Vector3(x + 0.5f, 0, z + 0.5f));
+                            float dist = getDist(new Vector3(transform.position.x, 0, transform.position.z), new Vector3(x + 0.5f, 0, z + 0.5f));
 
                             if (dist < mouseRange)
                             {
