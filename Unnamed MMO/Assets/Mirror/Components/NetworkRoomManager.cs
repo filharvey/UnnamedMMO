@@ -163,7 +163,6 @@ namespace Mirror
                 gamePlayer = startPos != null
                     ? Instantiate(playerPrefab, startPos.position, startPos.rotation)
                     : Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
-                gamePlayer.name = playerPrefab.name;
             }
 
             if (!OnRoomServerSceneLoadedForPlayer(conn, roomPlayer, gamePlayer))
@@ -248,10 +247,17 @@ namespace Mirror
         {
             if (conn.identity != null)
             {
-                NetworkRoomPlayer player = conn.identity.GetComponent<NetworkRoomPlayer>();
+                NetworkRoomPlayer roomPlayer = conn.identity.GetComponent<NetworkRoomPlayer>();
 
-                if (player != null)
-                    roomSlots.Remove(player);
+                if (roomPlayer != null)
+                    roomSlots.Remove(roomPlayer);
+
+                foreach (NetworkIdentity clientOwnedObject in conn.clientOwnedObjects)
+                {
+                    roomPlayer = clientOwnedObject.GetComponent<NetworkRoomPlayer>();
+                    if (roomPlayer != null)
+                        roomSlots.Remove(roomPlayer);
+                }
             }
 
             allPlayersReady = false;
@@ -265,8 +271,8 @@ namespace Mirror
             if (IsSceneActive(RoomScene))
                 RecalculateRoomPlayerIndices();
 
-            base.OnServerDisconnect(conn);
             OnRoomServerDisconnect(conn);
+            base.OnServerDisconnect(conn);
         }
 
         /// <summary>
@@ -535,7 +541,7 @@ namespace Mirror
         /// </summary>
         /// <param name="conn">The connection the player object is for.</param>
         /// <returns>A new GamePlayer object.</returns>
-        [EditorBrowsable(EditorBrowsableState.Never), Obsolete("Use OnRoomServerCreateGamePlayer(NetworkConnection conn, GameObject roomPlayer) instead")]
+        [EditorBrowsable(EditorBrowsableState.Never), Obsolete("Use OnRoomServerCreateGamePlayer(NetworkConnection conn, GameObject roomPlayer) instead", true)]
         public virtual GameObject OnRoomServerCreateGamePlayer(NetworkConnection conn)
         {
             return null;
