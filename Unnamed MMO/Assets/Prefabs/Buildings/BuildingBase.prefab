@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 9024533989848404114}
   - component: {fileID: 9024533989848404113}
   - component: {fileID: 8081157636708825444}
+  - component: {fileID: 109557573956708080}
   m_Layer: 16
   m_Name: BuildingBase
   m_TagString: Untagged
@@ -30,7 +31,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1016820450196785558}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 54219219929043227}
@@ -60,6 +61,7 @@ MonoBehaviour:
   sceneId: 0
   serverOnly: 0
   m_AssetId: 
+  hasSpawned: 0
 --- !u!114 &9024533989848404115
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -94,11 +96,7 @@ MonoBehaviour:
   syncInterval: 0.1
   visRange: 30
   visUpdateInterval: 1
-  checkMethod: 0
   forceHidden: 0
-  castLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
 --- !u!114 &9024533989848404113
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -116,10 +114,10 @@ MonoBehaviour:
   health: 0
   maxHealth: 0
   lifeTime: 0
-  gameItem: {fileID: 0}
+  gameItem: {fileID: 11400000, guid: 209bda490d6a47c419341dce0211e944, type: 2}
   manager: {fileID: 0}
   colliders:
-  - {fileID: 7613626901284533890}
+  - {fileID: 109557573956708080}
 --- !u!114 &8081157636708825444
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -136,20 +134,19 @@ MonoBehaviour:
   m_Area: 0
   m_IgnoreFromBuild: 0
   m_AffectedAgents: ffffffff
---- !u!64 &7613626901284533890
-MeshCollider:
+--- !u!65 &109557573956708080
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3935013367701857032}
+  m_GameObject: {fileID: 1016820450196785558}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -3145058497754134291, guid: d9e21026e6c37f142a4fe8548c797891, type: 3}
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: -0.3, z: 0}
 --- !u!114 &8736344647508378837
 MonoBehaviour:
   m_ObjectHideFlags: 0

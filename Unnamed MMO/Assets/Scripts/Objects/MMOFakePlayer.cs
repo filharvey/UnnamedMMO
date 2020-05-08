@@ -160,7 +160,8 @@ namespace Acemobe.MMO.Objects
             if (isClient)
             {
                 // make sure localPlayer is set
-                if (MMOPlayer.localPlayer.serverobj == null &&
+                if (MMOPlayer.localPlayer &&
+                    MMOPlayer.localPlayer.serverobj == null &&
                     MMOPlayer.localPlayer.netId == netIdOwner)
                 {
                     MMOPlayer.localPlayer.serverobj = this;
@@ -169,7 +170,7 @@ namespace Acemobe.MMO.Objects
                 }
 
                 // display item if they are using one
-                if (displayItem != "")
+                if (displayItem != "") 
                 {
                     if (activeTool != weapons[displayItem])
                     {

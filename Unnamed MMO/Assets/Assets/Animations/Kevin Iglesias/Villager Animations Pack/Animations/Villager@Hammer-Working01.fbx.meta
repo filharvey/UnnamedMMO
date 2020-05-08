@@ -446,7 +446,7 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.91999996
+      - time: 1
         functionName: AnimComplete
         data: 
         objectReferenceParameter: {fileID: 1199911291520428371, guid: 569cc015f3e351b438fd19c5cd0ac810,

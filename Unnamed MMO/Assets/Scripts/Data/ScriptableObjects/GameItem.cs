@@ -30,6 +30,7 @@ namespace Acemobe.MMO.Data.ScriptableObjects
 
         public bool isHarvestable;              //
         public bool isPickable;                 // pickup
+        public bool isBuildingBase;
         public bool requiresBase;
 
         // items from harvesting

@@ -19,13 +19,13 @@ MonoBehaviour:
   type: 4
   actionType: 0
   maxStack: 0
-  isHarvestable: 0
-  isStorable: 0
+  isHarvestable: 1
   isPickable: 0
-  isCrop: 1
+  isBuildingBase: 0
+  requiresBase: 0
   dropItems:
   - material: {fileID: 11400000, guid: d6326a16e914ef24583c36cad3b3320a, type: 2}
     min: 3
     max: 5
     chance: 100
-  growthTime: 0
+  growthTime: 60

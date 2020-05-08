@@ -16,6 +16,7 @@ namespace Acemobe.MMO
         SerializedProperty maxStack;
         SerializedProperty isHarvestable;
         SerializedProperty isPickable;
+        SerializedProperty isBuildingBase;
         SerializedProperty requiresBase;
         SerializedProperty dropItems;
         SerializedProperty growthTime;
@@ -31,6 +32,8 @@ namespace Acemobe.MMO
             maxStack = serializedObject.FindProperty("maxStack");
             isHarvestable = serializedObject.FindProperty("isHarvestable");
             isPickable = serializedObject.FindProperty("isPickable");
+            isBuildingBase = serializedObject.FindProperty("isBuildingBase");
+            
             requiresBase = serializedObject.FindProperty("requiresBase");
 
             growthTime = serializedObject.FindProperty("growthTime");
@@ -51,6 +54,7 @@ namespace Acemobe.MMO
             EditorGUILayout.PropertyField(maxStack);
             EditorGUILayout.PropertyField(isHarvestable);
             EditorGUILayout.PropertyField(isPickable);
+            EditorGUILayout.PropertyField(isBuildingBase);
             EditorGUILayout.PropertyField(requiresBase);
             EditorGUILayout.PropertyField(growthTime);
 

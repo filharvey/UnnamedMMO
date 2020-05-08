@@ -20,8 +20,8 @@ MonoBehaviour:
   actionType: 9
   maxStack: 25
   isHarvestable: 0
-  isStorable: 0
   isPickable: 0
-  isCrop: 0
+  isBuildingBase: 1
+  requiresBase: 0
   dropItems: []
   growthTime: 0

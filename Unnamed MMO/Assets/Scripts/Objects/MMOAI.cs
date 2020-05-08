@@ -75,5 +75,10 @@ namespace Acemobe.MMO.Objects
                 }
             }
         }
+
+        public void OnCollisionEnter(Collision collision)
+        {
+
+        }
     }
 }

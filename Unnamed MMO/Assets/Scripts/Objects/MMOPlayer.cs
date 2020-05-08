@@ -76,6 +76,7 @@ namespace Acemobe.MMO.Objects
         public Recipies curRecipe;
 
         GameObject buildItem;
+        GameObject highlightItem;
         public int buildAngle = 0;
 
         // Rewired
@@ -113,7 +114,7 @@ namespace Acemobe.MMO.Objects
             base.OnStartLocalPlayer();
 
             UIManager.instance.loginUI.gameObject.SetActive(false);
-            UIManager.instance.actionBarUI.gameObject.SetActive (true);
+            UIManager.instance.actionBarUI.gameObject.SetActive(true);
 
             mainCamera = MMOGameCamera.instance.GetComponent<Camera>();
         }
@@ -125,9 +126,12 @@ namespace Acemobe.MMO.Objects
             PLAYERS = 10,
             MONSTES = 11,
             PROJECTILES = 12,
-            OBJECTS =  13,
+            OBJECTS = 13,
             TERRAIN = 14,
             GROUND_OBJECTS = 15,
+            BUILDING = 16,
+            SELECTED = 29,
+            HIGHLIGHTED = 30
         };
 
         void Update()
@@ -139,6 +143,11 @@ namespace Acemobe.MMO.Objects
                     Vector3 moveVector = new Vector3();
                     Vector3 cursorPos = new Vector3();
                     Vector3 forwardPos = new Vector3();
+                    MMOObject mmoObj = null;
+                    GameItem activeItem = inventory.getActiveItem();
+
+                    Vector3 pos = transform.position + (transform.rotation * new Vector3(0, 0, 1));
+                    forwardPos = new Vector3(Mathf.Floor(pos.x), 0, Mathf.Floor(pos.z));
 
                     moveVector.x = player.GetAxis("Move Horizontal"); // get input by name or action id
                     moveVector.y = player.GetAxis("Move Vertical");
@@ -155,7 +164,7 @@ namespace Acemobe.MMO.Objects
                         UIManager.instance.craftUI.onShow();
                     }
 
-                    if (player.GetButtonDown ("Rotate"))
+                    if (player.GetButtonDown("Rotate"))
                     {
                         if (buildItem)
                         {
@@ -208,23 +217,17 @@ namespace Acemobe.MMO.Objects
                     // mouse pointer
                     if (player.GetButtonDown("FireJoy"))
                     {
-                        Vector3 pos = transform.position + (transform.rotation * new Vector3(0, 0, 1));
-
-                        forwardPos.x = (int)Mathf.Floor(pos.x);
-                        forwardPos.z = (int)Mathf.Floor(pos.z);
-
                         // send to server command mouse down
-                        mouseDown(Mathf.FloorToInt (forwardPos.x), Mathf.FloorToInt(forwardPos.z));
+                        mouseDown(Mathf.FloorToInt(forwardPos.x), Mathf.FloorToInt(forwardPos.z));
                     }
 
                     // if not over UI
                     if (!EventSystem.current.IsPointerOverGameObject())
                     {
                         RaycastHit hit;
-                        int layerMask = (1 << (int)GAME_LAYERS.TERRAIN) + (1 << (int)GAME_LAYERS.OBJECTS) + (1 << (int)GAME_LAYERS.GROUND_OBJECTS);
+                        int layerMask = (1 << (int)GAME_LAYERS.TERRAIN) + (1 << (int)GAME_LAYERS.OBJECTS) + (1 << (int)GAME_LAYERS.GROUND_OBJECTS) + (1 << (int)GAME_LAYERS.BUILDING) + (1 << 30);
                         Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
                         GameObject gameObject;
-                        MMOObject mmoObj = null;
 
                         // Does the ray intersect any objects excluding the player layer
                         if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
@@ -235,18 +238,8 @@ namespace Acemobe.MMO.Objects
                             {
                                 mmoObj = gameObject.GetComponent<MMOObject>();
 
-                                if (mmoObj != null)
-                                {
-//                                    mouseDownObject(gameObject);
-                                }
-                                else
-                                {
-                                    cursorPos.x = (int)Mathf.Floor(hit.point.x);
-                                    cursorPos.z = (int)Mathf.Floor(hit.point.z);
-
-                                    // send to server command mouse down
-//                                    mouseDown(x, z);
-                                }
+                                cursorPos.x = (int)Mathf.Floor(hit.point.x);
+                                cursorPos.z = (int)Mathf.Floor(hit.point.z);
                             }
                         }
 
@@ -274,7 +267,7 @@ namespace Acemobe.MMO.Objects
                         }
                     }
 
-                    if (isMouseDown && 
+                    if (isMouseDown &&
                         !player.GetButton("Fire") && !player.GetButton("FireJoy"))
                     {
                         CmdMouseUp();
@@ -306,32 +299,80 @@ namespace Acemobe.MMO.Objects
                         }
 
                         // show item if buildable item is selected
-                        GameItem activeItem = inventory.getActiveItem();
                         if (activeItem &&
                             activeItem.actionType == MMOResourceAction.Build &&
                             activeItem.itemType != MMOItemType.Hammer &&
                             inventory.hasItemCount(MMOItemType.Hammer, 1))
                         {
                             Vector3 targetPos = new Vector3(Mathf.FloorToInt(cursorPos.x) + 0.5f, 0, Mathf.FloorToInt(cursorPos.z) + 0.5f);
-                            float dist = getDist(new Vector3(transform.position.x, 0, transform.position.z), targetPos);
-
+                            float dist = getDist(transform.position, targetPos);
                             if (dist >= mouseRange)
                             {
                                 targetPos = new Vector3(Mathf.FloorToInt(forwardPos.x) + 0.5f, 0, Mathf.FloorToInt(forwardPos.z) + 0.5f);
                             }
 
+                            // remove object if different
+                            if (buildItem)
+                            {
+                                MMOBuilding building = buildItem.GetComponent<MMOBuilding>();
+
+                                if (activeItem.itemType != building.gameItem.itemType)
+                                {
+                                    Destroy(buildItem);
+                                    buildItem = null;
+                                }
+                            }
+
+                            // create object
                             if (!buildItem)
                             {
                                 Quaternion rotation = new Quaternion();
                                 rotation.eulerAngles = new Vector3(0, buildAngle, 0);
 
                                 buildItem = Instantiate(activeItem.prefab, targetPos, rotation);
+                                buildItem.layer = (int)GAME_LAYERS.SELECTED;
                                 MMOBuilding building = buildItem.GetComponent<MMOBuilding>();
                                 building.disableColliders();
                             }
 
                             buildItem.transform.eulerAngles = new Vector3(0, buildAngle, 0);
                             buildItem.transform.position = targetPos;
+
+                            // no highlight object
+                            mmoObj = null;
+                        }
+                        else
+                        {
+                            // remove build item
+                            if (buildItem)
+                            {
+                                Destroy(buildItem);
+                                buildItem = null;
+                            }
+                        }
+
+                        // highlight the object
+                        if (highlightItem)
+                        {
+                            if (!mmoObj ||
+                                (mmoObj && mmoObj.gameObject != highlightItem))
+                            {
+                                var outline = highlightItem.GetComponent<Outline>();
+                                Destroy(outline);
+                                highlightItem = null;
+                            }
+                        }
+
+                        if (mmoObj)
+                        {
+                            if (!mmoObj.gameObject.GetComponent<Outline>())
+                            {
+                                var outline = mmoObj.gameObject.AddComponent<Outline>();
+                                outline.OutlineMode = Outline.Mode.OutlineVisible;
+                                outline.OutlineColor = Color.yellow;
+                                outline.OutlineWidth = 10f;
+                                highlightItem = mmoObj.gameObject;
+                            }
                         }
                     }
                     else
@@ -363,7 +404,7 @@ namespace Acemobe.MMO.Objects
                 {
                     serverUpdateTimer += Time.deltaTime;
 
-                    if (!isUpdating && 
+                    if (!isUpdating &&
                         (serverUpdateTimer > 3 || isUserDirty))
                     {
                         isUpdating = true;
@@ -382,12 +423,12 @@ namespace Acemobe.MMO.Objects
         {
             float dx = pos1.x - pos2.x;
             float dz = pos1.z - pos2.z;
-            float dist = Mathf.Sqrt ((dx * dx) + (dz * dz));
+            float dist = Mathf.Sqrt((dx * dx) + (dz * dz));
 
             return dist;
         }
 
-        bool checkDist (Vector3 pos1, Vector3 pos2, float d)
+        bool checkDist(Vector3 pos1, Vector3 pos2, float d)
         {
             float dx = pos1.x - pos2.x;
             float dz = pos1.z - pos2.z;
@@ -400,10 +441,11 @@ namespace Acemobe.MMO.Objects
         }
 
         #region Handle Actions
-        void startAction (MMOObject obj)
+        void startAction(MMOObject obj)
         {
             GameItem activeItem = inventory.getActiveItem();
             MMOResourceAction curHeldAction = MMOResourceAction.None;
+            Data.MapData.TerrainData terrainData;
 
             if (activeItem)
             {
@@ -412,6 +454,9 @@ namespace Acemobe.MMO.Objects
 
             if (obj)
             {
+                int x = Mathf.FloorToInt(obj.transform.position.x);
+                int z = Mathf.FloorToInt(obj.transform.position.z);
+
                 switch (obj.gameItem.type)
                 {
                     case MMOObjectTypes.NPC:
@@ -478,72 +523,28 @@ namespace Acemobe.MMO.Objects
 
                             serverobj.transform.LookAt(pos, Vector3.up);
                         }
+                        else if (obj.gameItem.isBuildingBase)
+                        {
+                            startBuildAction (activeItem, x, z);
+                        }
                         break;
                 }
             }
             else
             {
-                Data.MapData.TerrainData terrainData = MMOTerrainManager.instance.getTerrainData(actionX, actionZ);
-
-                if (!terrainData.isInUse && terrainData.canUse)
+                // plant crop
+                if (curHeldAction == MMOResourceAction.Plant)
                 {
-                    // plant crop
-                    if (curHeldAction == MMOResourceAction.Plant)
+                    startPlantAction(activeItem, actionX, actionZ);
+                }
+                // build item
+                else if (curHeldAction == MMOResourceAction.Build)
+                {
+                    // if not hammer held
+                    // must be building item
+                    if (activeItem.itemType != MMOItemType.Hammer)
                     {
-                        curAction = MMOResourceAction.Plant;
-
-                        // look at
-                        Vector3 pos = new Vector3(actionX + 0.5f, transform.position.y, actionZ + 0.5f);
-                        Vector3 dir = (pos - transform.position).normalized;
-                        Quaternion rot = Quaternion.LookRotation(dir);
-                        serverobj.transform.rotation = rot;
-
-                        terrainData.isInUse = true;
-                    } 
-                    // build item
-                    else if (curHeldAction == MMOResourceAction.Build)
-                    {
-                        if (activeItem.itemType != MMOItemType.Hammer)
-                        {
-                            // if activeItem is object
-                            curAction = MMOResourceAction.Build;
-
-                            bool good = false;
-
-                            // if we require a base, is there a base
-                            if (activeItem.requiresBase)
-                            {
-                                if (terrainData &&
-                                    terrainData.isPublic &&
-                                    terrainData.obj &&
-                                    terrainData.obj.gameItem.itemType == MMOItemType.Building_Base)
-                                {
-                                    good = true;
-                                }
-                            }
-                            else
-                            {
-                                good = true;
-                            }
-
-                            if (good)
-                            {
-                                // look at
-                                Vector3 pos = new Vector3(actionX + 0.5f, transform.position.y, actionZ + 0.5f);
-                                Vector3 dir = (pos - transform.position).normalized;
-                                Quaternion rot = Quaternion.LookRotation(dir);
-                                serverobj.transform.rotation = rot;
-
-                                terrainData.isInUse = true;
-                            }
-                        }
-
-                        // remove if we don't have it
-                        if (buildItem)
-                        {
-                            Destroy(buildItem);
-                            buildItem = null;
-                        }
+                        startBuildAction(activeItem, actionX, actionZ);
                     }
                 }
             }
@@ -571,6 +572,77 @@ namespace Acemobe.MMO.Objects
                     // show item needed
                     serverobj.animator.SetBool("Mining", true);
                     break;
+            }
+        }
+
+        public void startPlantAction(GameItem activeItem, int x, int z)
+        {
+            Data.MapData.TerrainData terrainData = MMOTerrainManager.instance.getTerrainData(x, z);
+
+            if (terrainData && 
+                !terrainData.isInUse && 
+                terrainData.canUse && 
+                terrainData.isPublic)
+            {
+                curAction = MMOResourceAction.Plant;
+
+                // look at
+                Vector3 pos = new Vector3(actionX + 0.5f, transform.position.y, actionZ + 0.5f);
+                Vector3 dir = (pos - transform.position).normalized;
+                Quaternion rot = Quaternion.LookRotation(dir);
+                serverobj.transform.rotation = rot;
+
+                terrainData.isInUse = true;
+            }
+        }
+
+        public void startBuildAction (GameItem activeItem, int x, int z)
+        {
+            Data.MapData.TerrainData terrainData = MMOTerrainManager.instance.getTerrainData(x, z);
+
+            bool good = false;
+
+            // if we require a base, is there a base
+            if (activeItem.requiresBase)
+            {
+                if (terrainData &&
+                    terrainData.isPublic &&
+                    terrainData.obj &&
+                    terrainData.obj.gameItem.itemType == MMOItemType.Building_Base &&
+                    !terrainData.hasWall (buildAngle))
+                {
+                    good = true;
+                }
+            }
+            else if (terrainData &&
+                    terrainData.isPublic &&
+                    !terrainData.obj)
+            {
+                good = true;
+            }
+
+            if (good)
+            {
+                // if activeItem is object
+                curAction = MMOResourceAction.Build;
+
+                actionX = x;
+                actionZ = z;
+
+                // look at
+                Vector3 pos = new Vector3(actionX + 0.5f, transform.position.y, actionZ + 0.5f);
+                Vector3 dir = (pos - transform.position).normalized;
+                Quaternion rot = Quaternion.LookRotation(dir);
+                serverobj.transform.rotation = rot;
+
+                terrainData.isInUse = true;
+            }
+
+            // remove if we don't have it
+            if (buildItem)
+            {
+                Destroy(buildItem);
+                buildItem = null;
             }
         }
 
@@ -673,7 +745,7 @@ namespace Acemobe.MMO.Objects
 
                         if (terrainData && terrainData.isPublic && terrainData.obj == null)
                         {
-                            float dist = getDist(new Vector3(transform.position.x, 0, transform.position.z), new Vector3(x + 0.5f, 0, z + 0.5f));
+                            float dist = getDist(transform.position, new Vector3(x + 0.5f, 0, z + 0.5f));
 
                             if (dist < mouseRange)
                             {
@@ -765,12 +837,9 @@ namespace Acemobe.MMO.Objects
                         // we hit empty ground?
                         Data.MapData.TerrainData terrainData = MMOTerrainManager.instance.getTerrainData(x, z);
 
-                        if (terrainData && terrainData.isPublic && terrainData.obj == null)
+                        if (terrainData && terrainData.isPublic)
                         {
-                            var tx = Mathf.Floor(transform.position.x);
-                            var tz = Mathf.Floor(transform.position.z);
-                            float dist = getDist(new Vector3(tx, 0, tz), new Vector3(x + 0.5f, 0, z + 0.5f));
-
+                            float dist = getDist(transform.position, new Vector3(x + 0.5f, 0, z + 0.5f));
                             if (dist < mouseRange)
                             {
                                 Vector3 pos = new Vector3(x + 0.5f, 0, z + 0.5f);
@@ -785,7 +854,7 @@ namespace Acemobe.MMO.Objects
                                         canBuild = true;
                                     }
                                 }
-                                else
+                                else if (terrainData.obj == null)
                                 {
                                     canBuild = true;
                                 }
@@ -848,6 +917,10 @@ namespace Acemobe.MMO.Objects
             {
                 switch (curAction)
                 {
+                    case MMOResourceAction.Talk:
+                        serverobj.animator.SetBool("Talk", false);
+                        break;
+
                     case MMOResourceAction.Craft:
                     case MMOResourceAction.Gather:
                     case MMOResourceAction.Pickup:
@@ -1091,7 +1164,7 @@ namespace Acemobe.MMO.Objects
                 switch (activeItem.actionType)
                 {
                     case MMOResourceAction.Plant:
-                        serverobj.displayItem = "Plow";
+                        serverobj.displayItem = "plow";
                         break;
                     case MMOResourceAction.Chop:
                         serverobj.displayItem = "axe";
@@ -1108,15 +1181,8 @@ namespace Acemobe.MMO.Objects
                         else
                         {
                             serverobj.displayItem = "";
-                            clearBuilding = false;
                         }
                         break;
-                }
-
-                if (buildItem && clearBuilding)
-                {
-                    Destroy(buildItem);
-                    buildItem = null;
                 }
             }
             else

@@ -1,5 +1,31 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!65 &8808104172777751964
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 386068420802054715}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.27949753, y: 1.1624197, z: 0.09416879}
+  m_Center: {x: 0.00000013733595, y: -0.39178213, z: -0.00000011291254}
+--- !u!114 &6498716818570701137
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 386068420802054715}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 020235e37fda9f9429ce3a836c144d87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fakePlayer: {fileID: 8719161546940915705}
 --- !u!114 &1859927608447915303
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -68,6 +94,7 @@ MonoBehaviour:
   sceneId: 0
   serverOnly: 0
   m_AssetId: 
+  hasSpawned: 0
 --- !u!114 &8719161546940915709
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -118,11 +145,7 @@ MonoBehaviour:
   syncInterval: 0.1
   visRange: 1000
   visUpdateInterval: 1
-  checkMethod: 0
   forceHidden: 0
-  castLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
 --- !u!54 &8719161546940915275
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -267,6 +290,69 @@ MonoBehaviour:
   speed: 150
   netIdOwner: 0
   player: {fileID: 0}
+--- !u!1001 &386676754233615835
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 7801436120954023920}
+    m_Modifications:
+    - target: {fileID: 1784900262424544, guid: b7a3f9a8bdbf27548848a5f7dba03617, type: 3}
+      propertyPath: m_Name
+      value: Sword 02A Blue
+      objectReference: {fileID: 0}
+    - target: {fileID: 4475062984990592, guid: b7a3f9a8bdbf27548848a5f7dba03617, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4475062984990592, guid: b7a3f9a8bdbf27548848a5f7dba03617, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4475062984990592, guid: b7a3f9a8bdbf27548848a5f7dba03617, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4475062984990592, guid: b7a3f9a8bdbf27548848a5f7dba03617, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 4475062984990592, guid: b7a3f9a8bdbf27548848a5f7dba03617, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4475062984990592, guid: b7a3f9a8bdbf27548848a5f7dba03617, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4475062984990592, guid: b7a3f9a8bdbf27548848a5f7dba03617, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 4475062984990592, guid: b7a3f9a8bdbf27548848a5f7dba03617, type: 3}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4475062984990592, guid: b7a3f9a8bdbf27548848a5f7dba03617, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4475062984990592, guid: b7a3f9a8bdbf27548848a5f7dba03617, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4475062984990592, guid: b7a3f9a8bdbf27548848a5f7dba03617, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: b7a3f9a8bdbf27548848a5f7dba03617, type: 3}
+--- !u!1 &386068420802054715 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1784900262424544, guid: b7a3f9a8bdbf27548848a5f7dba03617,
+    type: 3}
+  m_PrefabInstance: {fileID: 386676754233615835}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1341005381474497048
 PrefabInstance:
   m_ObjectHideFlags: 0
