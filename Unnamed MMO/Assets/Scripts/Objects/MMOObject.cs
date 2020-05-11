@@ -31,5 +31,9 @@ namespace Acemobe.MMO.Objects
         {
             base.OnStartClient();
         }
+
+        public virtual void AnimComplete()
+        {
+        }
     }
 }

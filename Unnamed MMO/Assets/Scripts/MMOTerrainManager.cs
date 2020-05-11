@@ -4,12 +4,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Acemobe.MMO.Objects;
 using Acemobe.MMO.Data.MapData;
+using Acemobe.MMO.Data.ScriptableObjects;
 
 namespace Acemobe.MMO
 {
     public class MMOTerrainManager : NetworkBehaviour
     {
-        static MMOTerrainManager _instance;
+/*        static MMOTerrainManager _instance;
 
         public static MMOTerrainManager instance
         {
@@ -22,7 +23,7 @@ namespace Acemobe.MMO
                 _instance = value;
             }
         }
-
+*/
         [Header("Components")]
         public GameObject terrainBase;  // holds all the 
         public Dictionary<string, Data.MapData.TerrainData> terrain = new Dictionary<string, Data.MapData.TerrainData>();
@@ -38,20 +39,7 @@ namespace Acemobe.MMO
 
         private void Awake()
         {
-            _instance = this;
-        }
-
-        public void registerTerrainData (Data.MapData.TerrainData terrainData)
-        {
-            string name = terrainData.transform.localPosition.x + ":" + terrainData.transform.localPosition.y + ":" + terrainData.transform.localPosition.z;
-
-            if (terrain.ContainsKey(name))
-            {
-                Debug.Log("Duplicate location: " + terrainData.gameObject.name + " - " + name);
-                terrainData.transform.gameObject.SetActive(false);
-            }
-            else
-                terrain.Add(name, terrainData);
+//            _instance = this;
         }
 
         public override void OnStartServer()
@@ -67,22 +55,21 @@ namespace Acemobe.MMO
             //obj.SetActive(true);
 
             this.createTerrain();
-            /*
-                        // add the quest giver
-                        int x = 0;
-                        int z = 8;
-                        GameItem npc = MMOResourceManager.instance.getItem("NPC");
 
-                        Vector3 pos = new Vector3(x + 0.5f, 0f, z + 0.5f);
-                        Quaternion rotation = new Quaternion();
-                        rotation.eulerAngles = new Vector3(0, 90, 0);
+            int x = -3;
+            int z = 16;
 
-                        obj = Instantiate(npc.prefab, pos, rotation);
-                        MMOObject spawnObj = obj.GetComponent<MMOObject>();
+            GameItem npc = MMOResourceManager.instance.getItem("ScareCrow");
 
-                        addObjectAt(x, z, spawnObj);
-                        NetworkServer.Spawn(obj);
-            */
+            Vector3 pos = new Vector3(x + 0.5f, 0f, z + 0.5f);
+            Quaternion rotation = new Quaternion();
+            rotation.eulerAngles = new Vector3(0, 90, 0);
+
+            obj = Instantiate(npc.prefab, pos, rotation);
+            MMOObject spawnObj = obj.GetComponent<MMOObject>();
+
+            addObjectAt(x, z, spawnObj);
+            NetworkServer.Spawn(obj);
         }
 
         // on client
@@ -97,6 +84,19 @@ namespace Acemobe.MMO
                 GameObject obj = Instantiate(startMap);
                 obj.transform.SetParent(terrainBase.transform);
             }
+        }
+
+        public void registerTerrainData (Data.MapData.TerrainData terrainData)
+        {
+            string name = terrainData.transform.localPosition.x + ":" + terrainData.transform.localPosition.y + ":" + terrainData.transform.localPosition.z;
+
+            if (terrain.ContainsKey(name))
+            {
+                Debug.Log("Duplicate location: " + terrainData.gameObject.name + " - " + name);
+                terrainData.transform.gameObject.SetActive(false);
+            }
+            else
+                terrain.Add(name, terrainData);
         }
 
         public void createTerrain ()

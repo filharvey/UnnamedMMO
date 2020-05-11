@@ -20,14 +20,42 @@ namespace Acemobe.MMO.Data.MapData
         public bool canUse = true;
 
         public MMOObject obj;
-        public MMOObject[] walls;
+        public MMOObject[] walls = new MMOObject[4];
+
+        #region Terrain Manager Finder
+        MMOTerrainManager terrainManager;
+
+        MMOTerrainManager getLocalTerrainManager
+        {
+            get
+            {
+                if (terrainManager)
+                    return terrainManager;
+
+                GameObject[] objs = gameObject.scene.GetRootGameObjects();
+
+                for (var a = 0; a < objs.Length; a++)
+                {
+                    GameObject obj = objs[a];
+
+                    MMOTerrainManager terrainMgr = obj.GetComponent<MMOTerrainManager>();
+
+                    if (terrainMgr)
+                    {
+                        terrainManager = terrainMgr;
+                        return terrainManager;
+                    }
+                }
+
+                return terrainManager;
+            }
+        }
+        #endregion
 
         private void Awake()
         {
-            if (MMOTerrainManager.instance.isServer)
-                MMOTerrainManager.instance.registerTerrainData(this);
-
-            walls = new MMOObject[4];
+            if (getLocalTerrainManager.isServer)
+                getLocalTerrainManager.registerTerrainData(this);
         }
 
         public bool hasWall (float dir)

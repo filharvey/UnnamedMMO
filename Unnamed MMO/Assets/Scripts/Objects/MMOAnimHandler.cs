@@ -8,11 +8,18 @@ namespace Acemobe.MMO.Objects
     {
         public MMOFakePlayer fakePlayer;
 
+        public MMOObject ownerObj;
+
         public void AnimComplete()
         {
             if (fakePlayer && fakePlayer.isServer)
             {
                 fakePlayer.AnimComplete();
+            }
+
+            if (ownerObj && ownerObj.isServer)
+            {
+                ownerObj.AnimComplete();
             }
         }
     }

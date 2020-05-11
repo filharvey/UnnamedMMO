@@ -50,6 +50,9 @@ namespace Acemobe.MMO.Objects
         [SyncVar]
         public string displayItem;
 
+        [SyncVar]
+        public string topTex = "";
+
         Transform activeTool;
 
         public float cameraRotation = 0;
@@ -62,6 +65,10 @@ namespace Acemobe.MMO.Objects
         public Dictionary<string, Transform> weapons = new Dictionary<string, Transform>();
 
         public MMOPlayer player;
+
+        public SkinnedMeshRenderer playerTop;
+        public Material playerTopMaterial;
+        public Texture2D playerTopTexture;
 
         public override void OnStartServer()
         {
@@ -83,6 +90,20 @@ namespace Acemobe.MMO.Objects
             if (isClientOnly)
             {
                 handleMeshStartup();
+            }
+
+            // set the top texture
+            if (topTex != "")
+            {
+                updateTop(topTex);
+            }
+        }
+
+        private void OnDestroy()
+        {
+            if (playerTopMaterial)
+            {
+                Destroy(playerTopMaterial);
             }
         }
 
@@ -148,11 +169,15 @@ namespace Acemobe.MMO.Objects
             weapons.Add("plow", mesh.transform.Find("RigPelvis/RigSpine1/RigSpine2/RigSpine3/RigRibcage/RigRCollarbone/RigRUpperarm/RigRForearm/RigRPalm/+R Hand/VillagerPlow"));
             weapons.Add("axe", mesh.transform.Find("RigPelvis/RigSpine1/RigSpine2/RigSpine3/RigRibcage/RigRCollarbone/RigRUpperarm/RigRForearm/RigRPalm/+R Hand/VillagerAxe"));
             weapons.Add("hammer", mesh.transform.Find("RigPelvis/RigSpine1/RigSpine2/RigSpine3/RigRibcage/RigRCollarbone/RigRUpperarm/RigRForearm/RigRPalm/+R Hand/VillagerHammer"));
+            weapons.Add("sword", mesh.transform.Find("RigPelvis/RigSpine1/RigSpine2/RigSpine3/RigRibcage/RigRCollarbone/RigRUpperarm/RigRForearm/RigRPalm/+R Hand/Sword 02A Blue"));
 
             foreach (var weapon in weapons)
             {
                 weapon.Value.gameObject.SetActive(false);
             }
+
+            playerTopTexture = new Texture2D(64, 64, TextureFormat.ARGB32, false);
+            playerTopTexture.filterMode = FilterMode.Point;
         }
 
         void FixedUpdate()
@@ -256,6 +281,57 @@ namespace Acemobe.MMO.Objects
                     player.AnimComplete();
                 }
             }
+        }
+
+        public void updateTop (string shirt)
+        {
+            Color color = Color.white;
+
+            for (int a = 0; a < shirt.Length; a++)
+            {
+                int x = a % 64;
+                int y = Mathf.FloorToInt(a / 64);
+
+                var index = shirt[a];
+                switch (index)
+                {
+                    case '0':
+                        color = Color.red;
+                        break;
+                    case '1':
+                        color = Color.blue;
+                        break;
+                    case '2':
+                        color = Color.yellow;
+                        break;
+                    case '3':
+                        color = Color.green;
+                        break;
+                    case '4':
+                        color = Color.cyan;
+                        break;
+                    case '5':
+                        color = Color.white;
+                        break;
+                    case '6':
+                        color = Color.black;
+                        break;
+                    case '7':
+                        color = Color.grey;
+                        break;
+
+                }
+
+                playerTopTexture.SetPixel(x, y, color);
+            }
+
+            playerTopTexture.Apply();
+
+            // update material
+            if (!playerTopMaterial)
+                playerTopMaterial = playerTop.material;
+
+            playerTopMaterial.mainTexture = playerTopTexture;
         }
     }
 }

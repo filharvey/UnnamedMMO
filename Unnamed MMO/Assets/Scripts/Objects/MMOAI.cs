@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿using Acemobe.MMO.Data;
+using Acemobe.MMO.Objects.Tools;
+using UnityEngine;
+using UnityEngine.AI;
 
 namespace Acemobe.MMO.Objects
 {
@@ -11,6 +14,14 @@ namespace Acemobe.MMO.Objects
             WALK,
             ATTACK
         }
+
+
+
+        public Animator animator;
+
+        public Collider collider;
+
+        public NavMeshObstacle navMeshObs;
 
         Vector3 spawnLocation;
 
@@ -28,6 +39,7 @@ namespace Acemobe.MMO.Objects
 
             state = AI_STATE.NONE;
             stateTimer = 0;
+
         }
 
         public override void OnStartClient()
@@ -37,21 +49,24 @@ namespace Acemobe.MMO.Objects
 
         void FixedUpdate()
         {
-            switch (state)
+            if (isServer)
             {
-                case AI_STATE.NONE:
-                    state = AI_STATE.IDLE;
-                    break;
+                switch (state)
+                {
+                    case AI_STATE.NONE:
+                        state = AI_STATE.IDLE;
+                        break;
 
-                case AI_STATE.IDLE:
-                    doIdleState();
-                    break;
+                    case AI_STATE.IDLE:
+                        doIdleState();
+                        break;
 
-                case AI_STATE.WALK:
-                    break;
+                    case AI_STATE.WALK:
+                        break;
 
-                case AI_STATE.ATTACK:
-                    break;
+                    case AI_STATE.ATTACK:
+                        break;
+                }
             }
         }
 
@@ -64,7 +79,6 @@ namespace Acemobe.MMO.Objects
             {
                 float rand = Random.Range(0, 100);
 
-                // walk to new location around the spawn point
                 if (rand < 30)
                 {
 
@@ -76,9 +90,42 @@ namespace Acemobe.MMO.Objects
             }
         }
 
-        public void OnCollisionEnter(Collision collision)
+        public void OnTriggerEnter(Collider collider)
         {
+            if (isServer)
+            {
+                Debug.Log("Hit");
+                MMOHeldItem item = collider.gameObject.GetComponent<MMOHeldItem>();
 
+                if (item)
+                {
+                    if (item.fakePlayer.player.curAction == MMOResourceAction.Attack)
+                    {
+                        if (this.health > 0 && !animator.GetBool("Hit"))
+                        {
+                            this.health -= 5;
+
+                            if (this.health > 0)
+                                animator.SetBool("Hit", true);
+                            else
+                            {
+                                animator.SetBool("Dead", true);
+
+                                if (collider)
+                                    collider.enabled = false;
+
+                                if (navMeshObs)
+                                    navMeshObs.enabled = false;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        public override void AnimComplete ()
+        {
+            animator.SetBool("Hit", false);
         }
     }
 }

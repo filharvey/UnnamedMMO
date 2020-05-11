@@ -65,7 +65,7 @@ namespace Acemobe.MMO
                 pos.z += (int)Random.Range(-height / 2, height / 2);
                 checks++;
             }
-            while (checks < 5 && !MMOTerrainManager.instance.checkPosition((int)pos.x, (int)pos.z, radius, radius));
+            while (checks < 5 && !getLocalTerrainManager.checkPosition((int)pos.x, (int)pos.z, radius, radius));
 
             if (checks >= 5)
                 return;
@@ -76,7 +76,7 @@ namespace Acemobe.MMO
             // give link to manager
             mmoObj.manager = this;
 
-            MMOTerrainManager.instance.addObjectAt((int)pos.x, (int)pos.z, mmoObj);
+            getLocalTerrainManager.addObjectAt((int)pos.x, (int)pos.z, mmoObj);
 
             objects.Add(mmoObj);
 
@@ -88,9 +88,40 @@ namespace Acemobe.MMO
             int x = (int)obj.gameObject.transform.position.x;
             int z = (int)obj.gameObject.transform.position.z;
 
-            MMOTerrainManager.instance.removeObjectAt(x, z);
+            getLocalTerrainManager.removeObjectAt(x, z);
             NetworkServer.Destroy(obj.gameObject);
             objects.Remove(obj);
         }
+
+        #region Terrain Manager Finder
+        MMOTerrainManager terrainManager;
+
+        MMOTerrainManager getLocalTerrainManager
+        {
+            get
+            {
+                if (terrainManager)
+                    return terrainManager;
+
+                GameObject[] objs = gameObject.scene.GetRootGameObjects();
+
+                for (var a = 0; a < objs.Length; a++)
+                {
+                    GameObject obj = objs[a];
+
+                    MMOTerrainManager terrainMgr = obj.GetComponent<MMOTerrainManager>();
+
+                    if (terrainMgr)
+                    {
+                        terrainManager = terrainMgr;
+                        return terrainManager;
+                    }
+                }
+
+                return terrainManager;
+            }
+        }
+        #endregion
+
     }
 }

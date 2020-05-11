@@ -7,6 +7,7 @@ using Rewired;
 using Acemobe.MMO.UI;
 using Acemobe.MMO.AI;
 using UnityEngine.SceneManagement;
+using System.Text;
 
 namespace Acemobe.MMO.Objects
 {
@@ -162,6 +163,11 @@ namespace Acemobe.MMO.Objects
                     if (player.GetButtonDown("Craft"))
                     {
                         UIManager.instance.craftUI.onShow();
+                    }
+
+                    if (player.GetButtonDown ("Customize"))
+                    {
+                        UIManager.instance.customizeUI.onShow();
                     }
 
                     if (player.GetButtonDown("Rotate"))
@@ -496,6 +502,19 @@ namespace Acemobe.MMO.Objects
                         }
                         break;
 
+                    case MMOObjectTypes.Monster:
+                        if (curHeldAction == MMOResourceAction.Attack)
+                        {
+                            curAction = MMOResourceAction.Attack;
+                            actionTarget = obj;
+
+                            Vector3 pos = actionTarget.transform.position;
+                            pos.y = serverobj.transform.position.y;
+
+                            serverobj.transform.LookAt(pos, Vector3.up);
+                        }
+                        break;
+
                     case MMOObjectTypes.Object:
                     case MMOObjectTypes.Resource:
                         if (obj.gameItem.isHarvestable)
@@ -547,6 +566,13 @@ namespace Acemobe.MMO.Objects
                         startBuildAction(activeItem, actionX, actionZ);
                     }
                 }
+                else if (curHeldAction == MMOResourceAction.Attack)
+                {
+                    Vector3 pos = new Vector3(actionX + 0.5f, transform.position.y, actionZ + 0.5f);
+                    pos.y = serverobj.transform.position.y;
+
+                    serverobj.transform.LookAt(pos, Vector3.up);
+                }
             }
 
             // set animation
@@ -569,15 +595,17 @@ namespace Acemobe.MMO.Objects
                     serverobj.animator.SetBool("Chop", true);
                     break;
                 case MMOResourceAction.Mining:
-                    // show item needed
                     serverobj.animator.SetBool("Mining", true);
+                    break;
+                case MMOResourceAction.Attack:
+                    serverobj.animator.SetBool("Attack", true);
                     break;
             }
         }
 
         public void startPlantAction(GameItem activeItem, int x, int z)
         {
-            Data.MapData.TerrainData terrainData = MMOTerrainManager.instance.getTerrainData(x, z);
+            Data.MapData.TerrainData terrainData = getLocalTerrainManager.getTerrainData(x, z);
 
             if (terrainData && 
                 !terrainData.isInUse && 
@@ -598,7 +626,7 @@ namespace Acemobe.MMO.Objects
 
         public void startBuildAction (GameItem activeItem, int x, int z)
         {
-            Data.MapData.TerrainData terrainData = MMOTerrainManager.instance.getTerrainData(x, z);
+            Data.MapData.TerrainData terrainData = getLocalTerrainManager.getTerrainData(x, z);
 
             bool good = false;
 
@@ -682,16 +710,14 @@ namespace Acemobe.MMO.Objects
             bool stopAnim = false;
             MMOInventoryItem item;
 
-            if (actionTarget)
-            {
-                serverobj.transform.LookAt(actionTarget.transform, Vector3.up);
-            }
-
             switch (curAction)
             {
+                case MMOResourceAction.Attack:
+                    stopAnim = true;
+                    break;
+
                 case MMOResourceAction.Talk:
                     return;
-                    break;
 
                 case MMOResourceAction.Craft:
                     stopAnim = true;
@@ -726,7 +752,7 @@ namespace Acemobe.MMO.Objects
                             int x = (int)actionTarget.transform.position.x;
                             int z = (int)actionTarget.transform.position.z;
 
-                            MMOTerrainManager.instance.removeObjectAt(x, z);
+                            getLocalTerrainManager.removeObjectAt(x, z);
                             NetworkServer.Destroy(cropItem.gameObject);
                         }
 
@@ -741,7 +767,7 @@ namespace Acemobe.MMO.Objects
                         var z = actionZ;
 
                         // we hit empty ground?
-                        Data.MapData.TerrainData terrainData = MMOTerrainManager.instance.getTerrainData(x, z);
+                        Data.MapData.TerrainData terrainData = getLocalTerrainManager.getTerrainData(x, z);
 
                         if (terrainData && terrainData.isPublic && terrainData.obj == null)
                         {
@@ -761,7 +787,7 @@ namespace Acemobe.MMO.Objects
                                     GameObject obj = Instantiate(crop.prefab, pos, rotation);
                                     MMOCrop spawnObj = obj.GetComponent<MMOCrop>();
 
-                                    MMOTerrainManager.instance.addObjectAt(x, z, spawnObj);
+                                    getLocalTerrainManager.addObjectAt(x, z, spawnObj);
                                     NetworkServer.Spawn(obj);
                                 }
                             }
@@ -835,7 +861,7 @@ namespace Acemobe.MMO.Objects
                         var z = actionZ;
 
                         // we hit empty ground?
-                        Data.MapData.TerrainData terrainData = MMOTerrainManager.instance.getTerrainData(x, z);
+                        Data.MapData.TerrainData terrainData = getLocalTerrainManager.getTerrainData(x, z);
 
                         if (terrainData && terrainData.isPublic)
                         {
@@ -865,16 +891,16 @@ namespace Acemobe.MMO.Objects
                                     MMOBuilding spawnObj = obj.GetComponent<MMOBuilding>();
 
                                     if (activeItem.requiresBase)
-                                        MMOTerrainManager.instance.addWallAt(x, z, buildAngle, spawnObj);
+                                        getLocalTerrainManager.addWallAt(x, z, buildAngle, spawnObj);
                                     else
-                                        MMOTerrainManager.instance.addObjectAt(x, z, spawnObj);
+                                        getLocalTerrainManager.addObjectAt(x, z, spawnObj);
 
                                     NetworkServer.Spawn(obj);
 
                                     inventory.removeItem(activeItem.itemType, 1);
 
-                                    MMOTerrainManager.instance.islandMap.navMeshSurface.RemoveData();
-                                    MMOTerrainManager.instance.islandMap.navMeshSurface.BuildNavMesh();
+                                    getLocalTerrainManager.islandMap.navMeshSurface.RemoveData();
+                                    getLocalTerrainManager.islandMap.navMeshSurface.BuildNavMesh();
                                 }
                             }
 
@@ -937,6 +963,9 @@ namespace Acemobe.MMO.Objects
                         break;
                     case MMOResourceAction.Build:
                         serverobj.animator.SetBool("Build", false);
+                        break;
+                    case MMOResourceAction.Attack:
+                        serverobj.animator.SetBool("Attack", false);
                         break;
                 }
 
@@ -1064,7 +1093,7 @@ namespace Acemobe.MMO.Objects
             actionZ = z;
 
             // check action on cell to see if something can happen
-            MMOObject mmoObj = MMOTerrainManager.instance.getObjectAt (x, z);
+            MMOObject mmoObj = getLocalTerrainManager.getObjectAt (x, z);
             if (mmoObj && checkDist(transform.position, mmoObj.transform.position, mouseRange))
             {
                 startAction(mmoObj);
@@ -1072,7 +1101,7 @@ namespace Acemobe.MMO.Objects
             else
             {
                 // we hit empty ground?
-                Data.MapData.TerrainData terrainData = MMOTerrainManager.instance.getTerrainData(x, z);
+                Data.MapData.TerrainData terrainData = getLocalTerrainManager.getTerrainData(x, z);
 
                 if (terrainData && terrainData.isPublic && terrainData.obj == null)
                 {
@@ -1100,7 +1129,7 @@ namespace Acemobe.MMO.Objects
             actionX = x;
             actionZ = z;
 
-            MMOObject obj = MMOTerrainManager.instance.getObjectAt(x, z);
+            MMOObject obj = getLocalTerrainManager.getObjectAt(x, z);
 
             updateAction(obj);
         }
@@ -1171,6 +1200,9 @@ namespace Acemobe.MMO.Objects
                         break;
                     case MMOResourceAction.Mining:
                         serverobj.displayItem = "pickaxe";
+                        break;
+                    case MMOResourceAction.Attack:
+                        serverobj.displayItem = "sword";
                         break;
                     case MMOResourceAction.Build:
                         if (activeItem.itemType == MMOItemType.Hammer ||
@@ -1258,6 +1290,90 @@ namespace Acemobe.MMO.Objects
                         action = dest.action
                     };
         }
+
+        [Command]
+        void CmdUpdateShirt(string shirt)
+        {
+            HandleUpdateShirt(shirt);
+        }
+
+        void HandleUpdateShirt(string shirt)
+        {
+            serverobj.topTex = shirt;
+
+            RpcUpdateShirtClient(shirt);
+        }
+
+        [ClientRpc]
+        void RpcUpdateShirtClient (string shirt)
+        {
+            if (serverobj && MMOPlayer.localPlayer != this)
+            {
+                serverobj.updateTop(shirt);
+            }
+        }
         #endregion
+
+        public string shirt = "";
+        public void updateShirtColor(int x, int y, Color color, int index)
+        {
+            if (shirt.Length == 0)
+            {
+                for (int x1 = 0; x1 < 64; x1++)
+                {
+                    for (int y1 = 0; y1 < 64; y1++)
+                    {
+                        shirt += "5";
+                    }
+                }
+            }
+
+            int pos = (x + 8) + (64 * ((64 - 6) - y));
+
+            StringBuilder sb = new StringBuilder(shirt);
+            sb[pos] = index.ToString()[0];
+            shirt = sb.ToString();
+
+            CmdUpdateShirt(shirt);
+
+            serverobj.playerTopTexture.SetPixel(x + 8, (64 - 6) - y, color);
+            serverobj.playerTopTexture.Apply();
+
+            if (!serverobj.playerTopMaterial)
+                serverobj.playerTopMaterial = serverobj.playerTop.material;
+            serverobj.playerTopMaterial.mainTexture = serverobj.playerTopTexture;
+        }
+
+        #region Terrain Manager Finder
+        MMOTerrainManager terrainManager;
+
+        MMOTerrainManager getLocalTerrainManager
+        {
+            get
+            {
+                if (terrainManager)
+                    return terrainManager;
+
+                GameObject[] objs = gameObject.scene.GetRootGameObjects();
+
+                for (var a = 0; a < objs.Length; a++)
+                {
+                    GameObject obj = objs[a];
+
+                    MMOTerrainManager terrainMgr = obj.GetComponent<MMOTerrainManager>();
+
+                    if (terrainMgr)
+                    {
+                        terrainManager = terrainMgr;
+                        return terrainManager;
+                    }
+                }
+
+                return terrainManager;
+            }
+        }
+        #endregion
+
+
     }
 }
