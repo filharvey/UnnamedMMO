@@ -4782,16 +4782,16 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1740468825}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &576272627 stripped
+--- !u!114 &576272628 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4451247000517194773, guid: dd060fed78483fe488209d8b0542605c,
+  m_CorrespondingSourceObject: {fileID: 7760663566653647681, guid: dd060fed78483fe488209d8b0542605c,
     type: 3}
   m_PrefabInstance: {fileID: 1740468825}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 576272626}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0551426503a64f840bd64fef93741f9c, type: 3}
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!4 &576272629 stripped
@@ -5482,6 +5482,8 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   resourceManager: {fileID: 1894327005}
+  spawnerPrefab: {fileID: 8879466349793046817, guid: 3824bd61819bef946b43c693d3b29074,
+    type: 3}
 --- !u!114 &688686444
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6759,8 +6761,6 @@ MonoBehaviour:
   smallMap: {fileID: 6670175765474141896, guid: af7264dc91141a94aa4d55d89cabb3ed,
     type: 3}
   mainIsland: {fileID: 1742377705}
-  spawnerPrefab: {fileID: 8879466349793046817, guid: 3824bd61819bef946b43c693d3b29074,
-    type: 3}
 --- !u!114 &872501542
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15288,6 +15288,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 4903592823842731880, guid: dd060fed78483fe488209d8b0542605c, type: 3}
+    - {fileID: 4451247000517194773, guid: dd060fed78483fe488209d8b0542605c, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: dd060fed78483fe488209d8b0542605c, type: 3}
 --- !u!1 &1742377704
 GameObject:
@@ -15299,6 +15300,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1742377707}
   - component: {fileID: 1742377705}
+  - component: {fileID: 1742377706}
   m_Layer: 0
   m_Name: MainIsland
   m_TagString: Untagged
@@ -15321,7 +15323,7 @@ MonoBehaviour:
   terrainBase: {fileID: 634998676}
   map: {fileID: 576272626}
   startMap: {fileID: 576272626}
-  islandMap: {fileID: 576272627}
+  islandMap: {fileID: 1742377706}
   bounds:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0, y: 0, z: 0}
@@ -15332,6 +15334,21 @@ MonoBehaviour:
   mapDepth: 0
   originX: 0
   originZ: 0
+--- !u!114 &1742377706
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1742377704}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0551426503a64f840bd64fef93741f9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  navMeshSurface: {fileID: 576272628}
+  terrainMap: {fileID: 1742377705}
+  isMain: 1
 --- !u!4 &1742377707
 Transform:
   m_ObjectHideFlags: 0

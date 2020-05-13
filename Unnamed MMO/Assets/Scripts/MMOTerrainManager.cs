@@ -27,9 +27,6 @@ namespace Acemobe.MMO
         public int mapWidth = 0;
         public int mapDepth = 0;
 
-        public int originX = 0;
-        public int originZ = 0;
-
         public void Start()
         {
             if (!startMap)
@@ -41,7 +38,9 @@ namespace Acemobe.MMO
             }
 
             if (!islandMap)
+            {
                 islandMap = map.GetComponent<MMOMap>();
+            }
         }
 
         // added but only used on server
@@ -118,8 +117,8 @@ namespace Acemobe.MMO
                 }
             }
 
-            originX = Mathf.FloorToInt(transform.position.x);
-            originZ = Mathf.FloorToInt(transform.position.z);
+            islandMap.originX = Mathf.FloorToInt(transform.position.x);
+            islandMap.originZ = Mathf.FloorToInt(transform.position.z);
         }
 
         internal void addObj(float x, float z, MMOObject mmoObj)
@@ -129,8 +128,8 @@ namespace Acemobe.MMO
 
         public bool checkPosition(int x, int z, int width, int height)
         {
-            x -= originX;
-            z -= originZ;
+            x -= islandMap.originX;
+            z -= islandMap.originZ;
 
             for (int w = 0; w < width; w++)
             {
@@ -164,8 +163,8 @@ namespace Acemobe.MMO
 
         public Data.MapData.TerrainData getTerrainData (int x, int z)
         {
-            var posX = (int)(x - bounds.min.x) - originX;
-            var posZ = (int)(z - bounds.min.z) - originZ;
+            var posX = (int)(x - bounds.min.x) - islandMap.originX;
+            var posZ = (int)(z - bounds.min.z) - islandMap.originZ;
 
             if (posX >= 0 && posZ >= 0 && posX < mapWidth && posZ < mapDepth && mapData[posX, posZ])
                 return mapData[posX, posZ];
@@ -180,8 +179,8 @@ namespace Acemobe.MMO
 
         public MMOObject getObjectAt (int x, int z)
         {
-            var posX = (int)(x - bounds.min.x) - originX;
-            var posZ = (int)(z - bounds.min.z) - originZ;
+            var posX = (int)(x - bounds.min.x) - islandMap.originX;
+            var posZ = (int)(z - bounds.min.z) - islandMap.originZ;
 
             if (posX >= 0 && posZ >= 0 && posX < mapWidth && posZ < mapDepth && mapData[posX, posZ])
             {
@@ -193,8 +192,8 @@ namespace Acemobe.MMO
 
         public void addObjectAt (int x, int z, MMOObject obj)
         {
-            var posX = (int)(x - bounds.min.x) - originX;
-            var posZ = (int)(z - bounds.min.z) - originZ;
+            var posX = (int)(x - bounds.min.x) - islandMap.originX;
+            var posZ = (int)(z - bounds.min.z) - islandMap.originZ;
 
             if (posX >= 0 && posZ >= 0 && posX < mapWidth && posZ < mapDepth && mapData[posX, posZ])
             {
@@ -204,8 +203,8 @@ namespace Acemobe.MMO
 
         public void removeObjectAt (int x, int z)
         {
-            var posX = (int)(x - bounds.min.x) - originX;
-            var posZ = (int)(z - bounds.min.z) - originZ;
+            var posX = (int)(x - bounds.min.x) - islandMap.originX;
+            var posZ = (int)(z - bounds.min.z) - islandMap.originZ;
 
             if (posX >= 0 && posZ >= 0 && posX < mapWidth && posZ < mapDepth && mapData[posX, posZ])
             {
@@ -215,15 +214,15 @@ namespace Acemobe.MMO
 
         public MMOObject getWallAt(int x, int z, MAP_DIRECTION dir)
         {
-            var posX = (int)(x - bounds.min.x) - originX;
-            var posZ = (int)(z - bounds.min.z) - originZ;
+            var posX = (int)(x - bounds.min.x) - islandMap.originX;
+            var posZ = (int)(z - bounds.min.z) - islandMap.originZ;
 
             if (posX >= 0 && posZ >= 0 && posX < mapWidth && posZ < mapDepth && mapData[posX, posZ])
             {
                 if (mapData[posX, posZ].obj &&
                     mapData[posX, posZ].obj.gameItem.itemType == Data.MMOItemType.Building_Base)
                 {
-
+                    return mapData[posX, posZ].walls[(int)dir];
                 }
             }
 
@@ -232,15 +231,15 @@ namespace Acemobe.MMO
 
         public void addWallAt(int x, int z, MAP_DIRECTION dir, MMOObject obj)
         {
-            var posX = (int)(x - bounds.min.x) - originX;
-            var posZ = (int)(z - bounds.min.z) - originZ;
+            var posX = (int)(x - bounds.min.x) - islandMap.originX;
+            var posZ = (int)(z - bounds.min.z) - islandMap.originZ;
 
             if (posX >= 0 && posZ >= 0 && posX < mapWidth && posZ < mapDepth && mapData[posX, posZ])
             {
                 if (mapData[posX, posZ].obj &&
                     mapData[posX, posZ].obj.gameItem.itemType == Data.MMOItemType.Building_Base)
                 {
-
+                    mapData[posX, posZ].walls[(int)dir] = obj;
                 }
             }
         }
@@ -259,15 +258,15 @@ namespace Acemobe.MMO
 
         public void removeWallAt(int x, int z, MAP_DIRECTION dir)
         {
-            var posX = (int)(x - bounds.min.x) - originX;
-            var posZ = (int)(z - bounds.min.z) - originZ;
+            var posX = (int)(x - bounds.min.x) - islandMap.originX;
+            var posZ = (int)(z - bounds.min.z) - islandMap.originZ;
 
             if (posX >= 0 && posZ >= 0 && posX < mapWidth && posZ < mapDepth && mapData[posX, posZ])
             {
                 if (mapData[posX, posZ].obj &&
                     mapData[posX, posZ].obj.gameItem.itemType == Data.MMOItemType.Building_Base)
                 {
-
+                    mapData[posX, posZ].walls[(int)dir] = null;
                 }
             }
         }

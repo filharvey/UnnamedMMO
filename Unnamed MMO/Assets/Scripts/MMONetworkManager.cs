@@ -20,8 +20,6 @@ namespace Acemobe.MMO
 
         public MMOTerrainManager mainIsland;
 
-        public GameObject spawnerPrefab;
-
         public override void OnStartServer()
         {
             base.OnStartServer();
@@ -118,20 +116,8 @@ namespace Acemobe.MMO
         {
             GameObject gameobject = Instantiate(map, new Vector3(x, 0f, z), Quaternion.identity);
             MMOMap island = gameobject.GetComponent<MMOMap>();
-            island.terrainMap.createTerrain();
 
-            // create a spwaner
-            Vector3 pos = new Vector3(x + 0.5f, 0f, z + 0.5f);
-            Quaternion rotation = new Quaternion();
-            rotation.eulerAngles = new Vector3(0, 0, 0);
-
-            GameObject obj = Instantiate(spawnerPrefab, pos, rotation);
-            MMOObject mmoObj = obj.GetComponent<MMOObject>();
-            MMOSpawnManager spawnObj = obj.GetComponent<MMOSpawnManager>();
-            spawnObj.spawnItem = MMOResourceManager.instance.getItem("Tree");
-
-            island.terrainMap.addObjectAt (0, 0, mmoObj);
-            NetworkServer.Spawn(obj);
+            island.loadMap (x, z);
         }
     }
 }

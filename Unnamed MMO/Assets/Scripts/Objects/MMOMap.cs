@@ -1,9 +1,10 @@
 ﻿using BestHTTP;
+using Mirror;
 using SimpleJSON;
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace Acemobe.MMO
+namespace Acemobe.MMO.Objects
 {
     public class MMOMap : MonoBehaviour
     {
@@ -11,7 +12,12 @@ namespace Acemobe.MMO
 
         public MMOTerrainManager terrainMap;
 
+        public bool isMain;
+
         float saveTimer = 0.0f;
+
+        public int originX;
+        public int originZ;
 
         void Update()
         {
@@ -24,9 +30,28 @@ namespace Acemobe.MMO
             }
         }
 
-        void loadWorld ()
+        public void loadMap (int x, int z)
         {
+            originX = x;
+            originZ = z;
 
+            if (!isMain)
+            {
+                terrainMap.createTerrain();
+
+                // create a spwaner
+                Vector3 pos = new Vector3(x + 0.5f, 0f, z + 0.5f);
+                Quaternion rotation = new Quaternion();
+                rotation.eulerAngles = new Vector3(0, 0, 0);
+
+                GameObject obj = Instantiate(MMOGameManager.instance.spawnerPrefab, pos, rotation);
+                MMOObject mmoObj = obj.GetComponent<MMOObject>();
+                MMOSpawnManager spawnObj = obj.GetComponent<MMOSpawnManager>();
+                spawnObj.spawnItem = MMOResourceManager.instance.getItem("Tree");
+
+                terrainMap.addObjectAt(0, 0, mmoObj);
+                NetworkServer.Spawn(obj);
+            }
         }
 
         void saveWorld ()
