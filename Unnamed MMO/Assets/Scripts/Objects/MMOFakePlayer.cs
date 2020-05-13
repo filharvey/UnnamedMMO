@@ -244,7 +244,6 @@ namespace Acemobe.MMO.Objects
             move *= (speed * Time.fixedDeltaTime);
 
             bool newMove = (move != Vector3.zero);
-//            rigidBody.velocity = move;
 
             // send move flag
             if (isMoving != newMove)

@@ -14,9 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Tree
   icon: {fileID: 0}
-  type: 1
+  prefab: {fileID: 5745688069507950927, guid: a8b88657a3c12ab4883e23813aaebac1, type: 3}
   itemType: 750
+  type: 1
+  actionType: 0
   maxStack: 0
   isHarvestable: 1
-  isStorable: 0
   isPickable: 0
+  isBuildingBase: 0
+  requiresBase: 0
+  dropItems: []
+  growthTime: 0

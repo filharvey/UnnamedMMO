@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 using Mirror;
-using BestHTTP;
 using Acemobe.MMO.UI;
 using Acemobe.MMO.Objects;
-using SimpleJSON;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
+using System.Collections;
 
 namespace Acemobe.MMO
 {
@@ -16,16 +16,29 @@ namespace Acemobe.MMO
 
     public class MMONetworkManager : NetworkManager
     {
+        public GameObject smallMap;
+
+        public MMOTerrainManager mainIsland;
+
+        public GameObject spawnerPrefab;
+
         public override void OnStartServer()
         {
             base.OnStartServer();
 
             NetworkServer.RegisterHandler<MMOCharacterCreateMessage>(OnCreateCharacter);
+
+            mainIsland.gameObject.SetActive(true);
+            mainIsland.createTerrain();
+
+            loadIsland(smallMap, 500, 0);
         }
 
         public override void OnStartClient ()
         {
             base.OnStartClient();
+
+            mainIsland.gameObject.SetActive(true);
 
             UIManager.instance.gameUI.gameObject.SetActive(true);
 
@@ -60,14 +73,10 @@ namespace Acemobe.MMO
         {
             Debug.Log("OnCreateCharacter");
 
-            // get start position
-            Transform startPos = GetStartPosition();
-
-            Vector3 pos = startPos.position;
-            Quaternion rotation = startPos.rotation;
-
-            GameObject gameobject = Instantiate(playerPrefab, new Vector3(0f, 0f, 0f), startPos.rotation);
+//            Transform startPos = GetStartPosition();
+            GameObject gameobject = Instantiate(playerPrefab, new Vector3(0f, 0f, 0f), Quaternion.identity);
             MMOPlayer player = gameobject.GetComponent<MMOPlayer>();
+
             player.name = message.username;
             player.characterInfo = MMOGameManager.instance.userData[message.username];
             player.characterInfo.setPlayer(player, message.username, message.hash);
@@ -83,27 +92,6 @@ namespace Acemobe.MMO
             // call this to use this gameobject as the primary controller
             NetworkServer.AddPlayerForConnection(conn, player.gameObject);
             MMOGameManager.instance.addPlayer(player, conn);
-        }
-
-        public override void OnServerAddPlayer(NetworkConnection conn)
-        {
-            Transform startPos = GetStartPosition();
-            float dist = 20;
-
-            // get random position around the world
-            float x = UnityEngine.Random.Range(-dist, dist);
-            float z = UnityEngine.Random.Range(-dist, dist);
-
-            Vector3 pos = startPos.position;
-            Quaternion rotation = startPos.rotation;
-
-            pos.x = x;
-            pos.y = 1.6f;
-            pos.z = z;
-
-            // get starting spawn point
-            GameObject player = Instantiate(playerPrefab, pos, startPos.rotation);
-            NetworkServer.AddPlayerForConnection(conn, player);
         }
 
         public override void OnServerDisconnect(NetworkConnection conn)
@@ -124,6 +112,25 @@ namespace Acemobe.MMO
         public void Update()
         {
             
+        }
+
+        public void loadIsland (GameObject map, int x, int z)
+        {
+            GameObject gameobject = Instantiate(map, new Vector3(x, 0f, z), Quaternion.identity);
+            MMOMap island = gameobject.GetComponent<MMOMap>();
+            island.terrainMap.createTerrain();
+
+            Vector3 pos = new Vector3(x + 0.5f, 0f, z + 0.5f);
+            Quaternion rotation = new Quaternion();
+            rotation.eulerAngles = new Vector3(0, 0, 0);
+
+            GameObject obj = Instantiate(spawnerPrefab, pos, rotation);
+            MMOObject mmoObj = obj.GetComponent<MMOObject>();
+            MMOSpawnManager spawnObj = obj.GetComponent<MMOSpawnManager>();
+            spawnObj.spawnItem = MMOResourceManager.instance.getItem("Tree");
+
+            island.terrainMap.addObjectAt (0, 0, mmoObj);
+            NetworkServer.Spawn(obj);
         }
     }
 }

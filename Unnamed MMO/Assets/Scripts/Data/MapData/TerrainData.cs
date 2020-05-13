@@ -32,30 +32,30 @@ namespace Acemobe.MMO.Data.MapData
                 if (terrainManager)
                     return terrainManager;
 
-                GameObject[] objs = gameObject.scene.GetRootGameObjects();
-
-                for (var a = 0; a < objs.Length; a++)
-                {
-                    GameObject obj = objs[a];
-
-                    MMOTerrainManager terrainMgr = obj.GetComponent<MMOTerrainManager>();
-
-                    if (terrainMgr)
-                    {
-                        terrainManager = terrainMgr;
-                        return terrainManager;
-                    }
-                }
+                terrainManager = findTerrainManager(gameObject);
 
                 return terrainManager;
             }
         }
+
+        MMOTerrainManager findTerrainManager(GameObject obj)
+        {
+            MMOTerrainManager terrain = obj.GetComponent<MMOTerrainManager>();
+
+            if (terrain)
+                return terrain;
+
+            if (obj.transform.parent)
+                terrain = findTerrainManager(obj.transform.parent.gameObject);
+
+            return terrain;
+        }
+
         #endregion
 
         private void Awake()
         {
-            if (getLocalTerrainManager.isServer)
-                getLocalTerrainManager.registerTerrainData(this);
+            getLocalTerrainManager.registerTerrainData(this);
         }
 
         public bool hasWall (float dir)

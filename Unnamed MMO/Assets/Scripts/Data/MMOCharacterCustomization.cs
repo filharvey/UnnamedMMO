@@ -47,6 +47,7 @@ namespace Acemobe.MMO
 
                 // first character
                 data["char"] = new JSONClass();
+
                 data["char"]["head"].AsInt = head;
                 data["char"]["torso"].AsInt = torso;
                 data["char"]["bottom"].AsInt = bottom;

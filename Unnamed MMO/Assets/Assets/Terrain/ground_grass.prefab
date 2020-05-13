@@ -51,6 +51,7 @@ MonoBehaviour:
   isInUse: 0
   canUse: 1
   obj: {fileID: 0}
+  walls: []
 --- !u!114 &-5078806560381347236
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -88,7 +89,7 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 3
+  serializedVersion: 4
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 5738778707072835271, guid: 518890eae3af2284b83aa669b7629f44, type: 3}

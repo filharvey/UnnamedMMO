@@ -12,10 +12,10 @@ GameObject:
   - component: {fileID: 4979898890993844659}
   - component: {fileID: 9024533989848404116}
   - component: {fileID: 9024533989848404115}
-  - component: {fileID: 9024533989848404114}
   - component: {fileID: 9024533989848404113}
   - component: {fileID: 8081157636708825444}
   - component: {fileID: 109557573956708080}
+  - component: {fileID: 2914222280562412401}
   m_Layer: 16
   m_Name: BuildingBase
   m_TagString: Untagged
@@ -80,23 +80,6 @@ MonoBehaviour:
   localPositionSensitivity: 0.01
   localRotationSensitivity: 0.01
   localScaleSensitivity: 0.01
---- !u!114 &9024533989848404114
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1016820450196785558}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1731d8de2d0c84333b08ebe1e79f4118, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  visRange: 30
-  visUpdateInterval: 1
-  forceHidden: 0
 --- !u!114 &9024533989848404113
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -147,6 +130,23 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: -0.3, z: 0}
+--- !u!114 &2914222280562412401
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1016820450196785558}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1731d8de2d0c84333b08ebe1e79f4118, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  visRange: 30
+  visUpdateInterval: 1
+  forceHidden: 0
 --- !u!114 &8736344647508378837
 MonoBehaviour:
   m_ObjectHideFlags: 0

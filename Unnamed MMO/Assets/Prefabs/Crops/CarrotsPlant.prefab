@@ -14,9 +14,8 @@ GameObject:
   - component: {fileID: 1766333557175742120}
   - component: {fileID: 4596110284567958081}
   - component: {fileID: -4906012347232315069}
-  - component: {fileID: -7189018000865826543}
-  - component: {fileID: -1838398862472247638}
   - component: {fileID: 4874550423148030958}
+  - component: {fileID: 2076258518956716920}
   m_Layer: 0
   m_Name: CarrotsPlant
   m_TagString: Untagged
@@ -645,38 +644,6 @@ MonoBehaviour:
   localPositionSensitivity: 0.01
   localRotationSensitivity: 0.01
   localScaleSensitivity: 0.01
---- !u!114 &-7189018000865826543
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5040940490070232708}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1731d8de2d0c84333b08ebe1e79f4118, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  visRange: 30
-  visUpdateInterval: 1
-  forceHidden: 0
---- !u!114 &-1838398862472247638
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5040940490070232708}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b7fdb599e1359924bad6255660370252, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  forceHidden: 0
 --- !u!114 &4874550423148030958
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -704,6 +671,23 @@ MonoBehaviour:
   - {fileID: 8655183844855107889}
   - {fileID: 9153740155354935332}
   - {fileID: 5746019569234722516}
+--- !u!114 &2076258518956716920
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5040940490070232708}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1731d8de2d0c84333b08ebe1e79f4118, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  visRange: 30
+  visUpdateInterval: 1
+  forceHidden: 0
 --- !u!1 &5746019569234722516
 GameObject:
   m_ObjectHideFlags: 0

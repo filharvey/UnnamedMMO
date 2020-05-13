@@ -1,7 +1,9 @@
-﻿using Acemobe.MMO.Objects;
+﻿using Acemobe.MMO.Data.ScriptableObjects;
+using Acemobe.MMO.Objects;
 using Mirror;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Acemobe.MMO
 {
@@ -11,6 +13,7 @@ namespace Acemobe.MMO
         public int height = 5;
 
         public GameObject spawnObj;
+        public GameItem spawnItem;
 
         public int maxNum = 5;
         public int respawnTimer = 6;
@@ -52,6 +55,15 @@ namespace Acemobe.MMO
 
         void spawnObject()
         {
+            if (!spawnItem)
+                return;
+
+            if (!spawnItem.prefab)
+                return;
+
+            if (!getLocalTerrainManager)
+                return;
+
             Vector3 pos = transform.position;
             Quaternion rotation = new Quaternion();
             rotation.eulerAngles = new Vector3(0, Random.Range(0, 360), 0);
@@ -63,21 +75,19 @@ namespace Acemobe.MMO
                 pos = transform.position;
                 pos.x += (int)Random.Range(-width / 2, width / 2);
                 pos.z += (int)Random.Range(-height / 2, height / 2);
-                checks++;
             }
-            while (checks < 5 && !getLocalTerrainManager.checkPosition((int)pos.x, (int)pos.z, radius, radius));
+            while (++checks < 5 && !getLocalTerrainManager.checkPosition((int)pos.x, (int)pos.z, radius, radius));
 
             if (checks >= 5)
                 return;
 
-            GameObject obj = Instantiate(spawnObj, pos + new Vector3 (0.5f, 0f, 0.5f), rotation);
+            GameObject obj = Instantiate(spawnItem.prefab, pos + new Vector3 (0.5f, 0f, 0.5f), rotation);
             MMOObject mmoObj = obj.GetComponent<MMOObject>();
 
             // give link to manager
             mmoObj.manager = this;
 
             getLocalTerrainManager.addObjectAt((int)pos.x, (int)pos.z, mmoObj);
-
             objects.Add(mmoObj);
 
             NetworkServer.Spawn(obj);
@@ -103,18 +113,12 @@ namespace Acemobe.MMO
                 if (terrainManager)
                     return terrainManager;
 
-                GameObject[] objs = gameObject.scene.GetRootGameObjects();
-
-                for (var a = 0; a < objs.Length; a++)
+                foreach (var t in MMOTerrainManager.terrains)
                 {
-                    GameObject obj = objs[a];
-
-                    MMOTerrainManager terrainMgr = obj.GetComponent<MMOTerrainManager>();
-
-                    if (terrainMgr)
+                    if (t.Value.worldBounds.Contains(transform.position))
                     {
-                        terrainManager = terrainMgr;
-                        return terrainManager;
+                        terrainManager = t.Value;
+                        break;
                     }
                 }
 
@@ -122,6 +126,5 @@ namespace Acemobe.MMO
             }
         }
         #endregion
-
     }
 }

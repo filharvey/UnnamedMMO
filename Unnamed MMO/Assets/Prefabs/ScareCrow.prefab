@@ -11,12 +11,11 @@ GameObject:
   - component: {fileID: 745553583341571812}
   - component: {fileID: 1049111173788105577}
   - component: {fileID: 4938569798500463415}
-  - component: {fileID: 6456794957962741920}
   - component: {fileID: 2527395549930640446}
-  - component: {fileID: 7641753226372003528}
   - component: {fileID: 5748151688456953421}
   - component: {fileID: 1252432734532994925}
   - component: {fileID: 1296123276676641215}
+  - component: {fileID: 5814297926300506130}
   m_Layer: 11
   m_Name: ScareCrow
   m_TagString: Untagged
@@ -73,23 +72,6 @@ MonoBehaviour:
   localPositionSensitivity: 0.01
   localRotationSensitivity: 0.01
   localScaleSensitivity: 0.01
---- !u!114 &6456794957962741920
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3030436124231026707}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1731d8de2d0c84333b08ebe1e79f4118, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  visRange: 30
-  visUpdateInterval: 1
-  forceHidden: 0
 --- !u!136 &2527395549930640446
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -104,21 +86,6 @@ CapsuleCollider:
   m_Height: 1.5
   m_Direction: 1
   m_Center: {x: 0, y: 0.75, z: 0}
---- !u!114 &7641753226372003528
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3030436124231026707}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b7fdb599e1359924bad6255660370252, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  forceHidden: 0
 --- !u!114 &5748151688456953421
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -173,6 +140,23 @@ MonoBehaviour:
   animator: {fileID: 5471778712209401946}
   collider: {fileID: 2527395549930640446}
   navMeshObs: {fileID: 1252432734532994925}
+--- !u!114 &5814297926300506130
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3030436124231026707}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1731d8de2d0c84333b08ebe1e79f4118, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  visRange: 30
+  visUpdateInterval: 1
+  forceHidden: 0
 --- !u!114 &6980582012389399863
 MonoBehaviour:
   m_ObjectHideFlags: 0

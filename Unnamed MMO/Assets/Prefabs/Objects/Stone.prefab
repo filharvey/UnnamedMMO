@@ -11,10 +11,9 @@ GameObject:
   - component: {fileID: 8829867460826140724}
   - component: {fileID: 6679829403934476606}
   - component: {fileID: 1333022794300558203}
-  - component: {fileID: 5978997238207050462}
-  - component: {fileID: -2735574388111796578}
   - component: {fileID: 8272691489877758592}
   - component: {fileID: 3273249810627016080}
+  - component: {fileID: 3434858022016945627}
   m_Layer: 15
   m_Name: Stone
   m_TagString: Untagged
@@ -71,38 +70,6 @@ MonoBehaviour:
   localPositionSensitivity: 0.01
   localRotationSensitivity: 0.01
   localScaleSensitivity: 0.01
---- !u!114 &5978997238207050462
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5535667712929587751}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1731d8de2d0c84333b08ebe1e79f4118, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  visRange: 30
-  visUpdateInterval: 1
-  forceHidden: 0
---- !u!114 &-2735574388111796578
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5535667712929587751}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b7fdb599e1359924bad6255660370252, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  forceHidden: 0
 --- !u!65 &8272691489877758592
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -146,6 +113,23 @@ MonoBehaviour:
   growthTime: 20
   finalSize: 1
   startScale: 1
+--- !u!114 &3434858022016945627
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5535667712929587751}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1731d8de2d0c84333b08ebe1e79f4118, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  visRange: 30
+  visUpdateInterval: 1
+  forceHidden: 0
 --- !u!1001 &6306875301047144792
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -12,11 +12,10 @@ GameObject:
   - component: {fileID: 341314507838153066}
   - component: {fileID: 6907934535888241238}
   - component: {fileID: 1229963755567464467}
-  - component: {fileID: 5879386506927520182}
-  - component: {fileID: 3551791744260128928}
   - component: {fileID: 196475513101578904}
   - component: {fileID: 3315361757428809464}
   - component: {fileID: 8804022501665649366}
+  - component: {fileID: 5492106822188610474}
   m_Layer: 13
   m_Name: Tree
   m_TagString: Untagged
@@ -83,38 +82,6 @@ MonoBehaviour:
   localPositionSensitivity: 0.01
   localRotationSensitivity: 0.01
   localScaleSensitivity: 0.01
---- !u!114 &5879386506927520182
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5745688069507950927}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1731d8de2d0c84333b08ebe1e79f4118, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  visRange: 30
-  visUpdateInterval: 1
-  forceHidden: 0
---- !u!114 &3551791744260128928
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5745688069507950927}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b7fdb599e1359924bad6255660370252, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  forceHidden: 0
 --- !u!136 &196475513101578904
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -178,6 +145,23 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 0
   m_Center: {x: 0, y: 0.53, z: 0}
   m_TimeToStationary: 0.1
+--- !u!114 &5492106822188610474
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5745688069507950927}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1731d8de2d0c84333b08ebe1e79f4118, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  visRange: 30
+  visUpdateInterval: 1
+  forceHidden: 0
 --- !u!1001 &55578874239866948
 PrefabInstance:
   m_ObjectHideFlags: 0

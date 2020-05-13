@@ -402,8 +402,8 @@ namespace Acemobe.MMO.Objects
                     serverobj.feet = feet;
                     serverobj.hand = hand;
                     serverobj.belt = belt;
-
                     serverobj.player = this;
+
                     NetworkServer.Spawn(obj);
                 }
                 else
@@ -1354,18 +1354,12 @@ namespace Acemobe.MMO.Objects
                 if (terrainManager)
                     return terrainManager;
 
-                GameObject[] objs = gameObject.scene.GetRootGameObjects();
-
-                for (var a = 0; a < objs.Length; a++)
+                foreach (var t in MMOTerrainManager.terrains)
                 {
-                    GameObject obj = objs[a];
-
-                    MMOTerrainManager terrainMgr = obj.GetComponent<MMOTerrainManager>();
-
-                    if (terrainMgr)
+                    if (t.Value.worldBounds.Contains (transform.position))
                     {
-                        terrainManager = terrainMgr;
-                        return terrainManager;
+                        terrainManager = t.Value;
+                        break;
                     }
                 }
 

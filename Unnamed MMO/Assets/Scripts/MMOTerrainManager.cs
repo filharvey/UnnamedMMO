@@ -8,84 +8,43 @@ using Acemobe.MMO.Data.ScriptableObjects;
 
 namespace Acemobe.MMO
 {
-    public class MMOTerrainManager : NetworkBehaviour
+    public class MMOTerrainManager : MonoBehaviour
     {
-/*        static MMOTerrainManager _instance;
+        public static Dictionary<string, MMOTerrainManager> terrains = new Dictionary<string, MMOTerrainManager>();
 
-        public static MMOTerrainManager instance
-        {
-            get
-            {
-                return _instance;
-            }
-            set
-            {
-                _instance = value;
-            }
-        }
-*/
         [Header("Components")]
         public GameObject terrainBase;  // holds all the 
         public Dictionary<string, Data.MapData.TerrainData> terrain = new Dictionary<string, Data.MapData.TerrainData>();
         public Data.MapData.TerrainData[,] mapData;
-        public GameObject startMap;
 
+        public GameObject map;
+        public GameObject startMap;
         public MMOMap islandMap;
 
         // map loaded in
-        Bounds bounds;
-        int mapWidth;
-        int mapDepth;
+        public Bounds bounds = new Bounds();
+        public Bounds worldBounds = new Bounds();
+        public int mapWidth = 0;
+        public int mapDepth = 0;
 
-        private void Awake()
+        public int originX = 0;
+        public int originZ = 0;
+
+        public void Start()
         {
-//            _instance = this;
-        }
-
-        public override void OnStartServer()
-        {
-            base.OnStartServer();
-
-            startMap = Resources.Load<GameObject>("Maps/Map1");
-
-            GameObject obj = Instantiate(startMap);
-            obj.transform.SetParent(terrainBase.transform);
-            islandMap = obj.GetComponent<MMOMap>();
-
-            //obj.SetActive(true);
-
-            this.createTerrain();
-
-            int x = -3;
-            int z = 16;
-
-            GameItem npc = MMOResourceManager.instance.getItem("ScareCrow");
-
-            Vector3 pos = new Vector3(x + 0.5f, 0f, z + 0.5f);
-            Quaternion rotation = new Quaternion();
-            rotation.eulerAngles = new Vector3(0, 90, 0);
-
-            obj = Instantiate(npc.prefab, pos, rotation);
-            MMOObject spawnObj = obj.GetComponent<MMOObject>();
-
-            addObjectAt(x, z, spawnObj);
-            NetworkServer.Spawn(obj);
-        }
-
-        // on client
-        public override void OnStartClient()
-        {
-            base.OnStartClient();
-
-            if (isClientOnly)
+            if (!startMap)
             {
                 startMap = Resources.Load<GameObject>("Maps/Map1");
 
-                GameObject obj = Instantiate(startMap);
-                obj.transform.SetParent(terrainBase.transform);
+                map = Instantiate(startMap);
+                map.transform.SetParent(terrainBase.transform);
             }
+
+            if (!islandMap)
+                islandMap = map.GetComponent<MMOMap>();
         }
 
+        // added but only used on server
         public void registerTerrainData (Data.MapData.TerrainData terrainData)
         {
             string name = terrainData.transform.localPosition.x + ":" + terrainData.transform.localPosition.y + ":" + terrainData.transform.localPosition.z;
@@ -96,22 +55,35 @@ namespace Acemobe.MMO
                 terrainData.transform.gameObject.SetActive(false);
             }
             else
+            {
+                if (terrain.Count == 0)
+                {
+                    bounds = new Bounds(terrainData.transform.localPosition, Vector3.one);
+                    worldBounds = new Bounds(terrainData.transform.position, Vector3.one);
+                }
+                else
+                {
+                    bounds.Encapsulate(terrainData.transform.localPosition);
+                    worldBounds.Encapsulate(terrainData.transform.position);
+                }
+
                 terrain.Add(name, terrainData);
+                
+                mapWidth = (int)(bounds.max.x - bounds.min.x) + 1;
+                mapDepth = (int)(bounds.max.z - bounds.min.z) + 1;
+            }
         }
 
         public void createTerrain ()
         {
-            bounds = new Bounds();
+            islandMap.navMeshSurface.RemoveData();
+            islandMap.navMeshSurface.BuildNavMesh();
 
-            foreach (var k in terrain)
-            {
-                Data.MapData.TerrainData terrain = k.Value;
+            worldBounds.Encapsulate(worldBounds.center + new Vector3(0, -10, 0));
+            worldBounds.Encapsulate(worldBounds.center + new Vector3(0, 10, 0));
 
-                bounds.Encapsulate(terrain.transform.localPosition);
-            }
-
-            mapWidth = (int)(bounds.max.x - bounds.min.x) + 1;
-            mapDepth = (int)(bounds.max.z - bounds.min.z) + 1;
+            name = bounds.ToString();
+            terrains.Add(name, this);
 
             Debug.Log("Size: " + mapWidth + ", " + mapDepth);
 
@@ -145,6 +117,9 @@ namespace Acemobe.MMO
                     }
                 }
             }
+
+            originX = Mathf.FloorToInt(transform.position.x);
+            originZ = Mathf.FloorToInt(transform.position.z);
         }
 
         internal void addObj(float x, float z, MMOObject mmoObj)
@@ -154,6 +129,9 @@ namespace Acemobe.MMO
 
         public bool checkPosition(int x, int z, int width, int height)
         {
+            x -= originX;
+            z -= originZ;
+
             for (int w = 0; w < width; w++)
             {
                 for (int d = 0; d < height; d++)
@@ -186,8 +164,8 @@ namespace Acemobe.MMO
 
         public Data.MapData.TerrainData getTerrainData (int x, int z)
         {
-            var posX = (int)(x - bounds.min.x);
-            var posZ = (int)(z - bounds.min.z);
+            var posX = (int)(x - bounds.min.x) - originX;
+            var posZ = (int)(z - bounds.min.z) - originZ;
 
             if (posX >= 0 && posZ >= 0 && posX < mapWidth && posZ < mapDepth && mapData[posX, posZ])
                 return mapData[posX, posZ];
@@ -202,8 +180,8 @@ namespace Acemobe.MMO
 
         public MMOObject getObjectAt (int x, int z)
         {
-            var posX = (int)(x - bounds.min.x);
-            var posZ = (int)(z - bounds.min.z);
+            var posX = (int)(x - bounds.min.x) - originX;
+            var posZ = (int)(z - bounds.min.z) - originZ;
 
             if (posX >= 0 && posZ >= 0 && posX < mapWidth && posZ < mapDepth && mapData[posX, posZ])
             {
@@ -215,8 +193,8 @@ namespace Acemobe.MMO
 
         public void addObjectAt (int x, int z, MMOObject obj)
         {
-            var posX = (int)(x - bounds.min.x);
-            var posZ = (int)(z - bounds.min.z);
+            var posX = (int)(x - bounds.min.x) - originX;
+            var posZ = (int)(z - bounds.min.z) - originZ;
 
             if (posX >= 0 && posZ >= 0 && posX < mapWidth && posZ < mapDepth && mapData[posX, posZ])
             {
@@ -226,8 +204,8 @@ namespace Acemobe.MMO
 
         public void removeObjectAt (int x, int z)
         {
-            var posX = (int)(x - bounds.min.x);
-            var posZ = (int)(z - bounds.min.z);
+            var posX = (int)(x - bounds.min.x) - originX;
+            var posZ = (int)(z - bounds.min.z) - originZ;
 
             if (posX >= 0 && posZ >= 0 && posX < mapWidth && posZ < mapDepth && mapData[posX, posZ])
             {
@@ -237,8 +215,8 @@ namespace Acemobe.MMO
 
         public MMOObject getWallAt(int x, int z, MAP_DIRECTION dir)
         {
-            var posX = (int)(x - bounds.min.x);
-            var posZ = (int)(z - bounds.min.z);
+            var posX = (int)(x - bounds.min.x) - originX;
+            var posZ = (int)(z - bounds.min.z) - originZ;
 
             if (posX >= 0 && posZ >= 0 && posX < mapWidth && posZ < mapDepth && mapData[posX, posZ])
             {
@@ -254,8 +232,8 @@ namespace Acemobe.MMO
 
         public void addWallAt(int x, int z, MAP_DIRECTION dir, MMOObject obj)
         {
-            var posX = (int)(x - bounds.min.x);
-            var posZ = (int)(z - bounds.min.z);
+            var posX = (int)(x - bounds.min.x) - originX;
+            var posZ = (int)(z - bounds.min.z) - originZ;
 
             if (posX >= 0 && posZ >= 0 && posX < mapWidth && posZ < mapDepth && mapData[posX, posZ])
             {
@@ -281,8 +259,8 @@ namespace Acemobe.MMO
 
         public void removeWallAt(int x, int z, MAP_DIRECTION dir)
         {
-            var posX = (int)(x - bounds.min.x);
-            var posZ = (int)(z - bounds.min.z);
+            var posX = (int)(x - bounds.min.x) - originX;
+            var posZ = (int)(z - bounds.min.z) - originZ;
 
             if (posX >= 0 && posZ >= 0 && posX < mapWidth && posZ < mapDepth && mapData[posX, posZ])
             {

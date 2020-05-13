@@ -11,10 +11,9 @@ GameObject:
   - component: {fileID: 8560645307604016572}
   - component: {fileID: 5834410374571607222}
   - component: {fileID: 2178511911035864819}
-  - component: {fileID: 6826843980720242518}
-  - component: {fileID: -1441605241345780824}
   - component: {fileID: 751209752755632017}
   - component: {fileID: 2389321769413589016}
+  - component: {fileID: 645306657013856719}
   m_Layer: 15
   m_Name: Branch
   m_TagString: Untagged
@@ -71,38 +70,6 @@ MonoBehaviour:
   localPositionSensitivity: 0.01
   localRotationSensitivity: 0.01
   localScaleSensitivity: 0.01
---- !u!114 &6826843980720242518
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4654149526327455663}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1731d8de2d0c84333b08ebe1e79f4118, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  visRange: 30
-  visUpdateInterval: 1
-  forceHidden: 0
---- !u!114 &-1441605241345780824
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4654149526327455663}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b7fdb599e1359924bad6255660370252, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  forceHidden: 0
 --- !u!65 &751209752755632017
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -146,6 +113,23 @@ MonoBehaviour:
   growthTime: 20
   finalSize: 1
   startScale: 1
+--- !u!114 &645306657013856719
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4654149526327455663}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1731d8de2d0c84333b08ebe1e79f4118, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  visRange: 30
+  visUpdateInterval: 1
+  forceHidden: 0
 --- !u!1001 &854635178736205031
 PrefabInstance:
   m_ObjectHideFlags: 0
