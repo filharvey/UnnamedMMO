@@ -1,7 +1,9 @@
-﻿
-using Acemobe.MMO.Data.ScriptableObjects;
-using UnityEditor;
+﻿using Acemobe.MMO.Data.ScriptableObjects;
 using UnityEngine;
+
+#if UNITY_EDITOR
+
+using UnityEditor;
 
 namespace Acemobe.MMO
 {
@@ -52,3 +54,6 @@ namespace Acemobe.MMO
         }
     }
 }
+
+#endif
+

@@ -120,6 +120,7 @@ namespace Acemobe.MMO
             MMOMap island = gameobject.GetComponent<MMOMap>();
             island.terrainMap.createTerrain();
 
+            // create a spwaner
             Vector3 pos = new Vector3(x + 0.5f, 0f, z + 0.5f);
             Quaternion rotation = new Quaternion();
             rotation.eulerAngles = new Vector3(0, 0, 0);
