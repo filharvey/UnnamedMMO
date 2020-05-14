@@ -15,8 +15,6 @@ namespace Acemobe.MMO
 
         public MMOResourceManager resourceManager;
 
-        public GameObject spawnerPrefab;
-
         public static MMOGameManager instance
         {
             get

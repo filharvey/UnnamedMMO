@@ -9,6 +9,8 @@ namespace Acemobe.MMO
     {
         static MMOResourceManager _instance;
 
+        public GameObject spawnerPrefab;
+
         public static MMOResourceManager instance
         {
             get

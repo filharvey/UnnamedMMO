@@ -5482,8 +5482,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   resourceManager: {fileID: 1894327005}
-  spawnerPrefab: {fileID: 8879466349793046817, guid: 3824bd61819bef946b43c693d3b29074,
-    type: 3}
 --- !u!114 &688686444
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15332,8 +15330,6 @@ MonoBehaviour:
     m_Extent: {x: 0, y: 0, z: 0}
   mapWidth: 0
   mapDepth: 0
-  originX: 0
-  originZ: 0
 --- !u!114 &1742377706
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15349,6 +15345,8 @@ MonoBehaviour:
   navMeshSurface: {fileID: 576272628}
   terrainMap: {fileID: 1742377705}
   isMain: 1
+  originX: 0
+  originZ: 0
 --- !u!4 &1742377707
 Transform:
   m_ObjectHideFlags: 0
@@ -17269,6 +17267,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da818780885ce614c89df6c83fe044a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spawnerPrefab: {fileID: 8879466349793046817, guid: 3824bd61819bef946b43c693d3b29074,
+    type: 3}
   gameItems:
   - {fileID: 11400000, guid: 840d6eaa3804db344bb86a7f352e2fe2, type: 2}
   - {fileID: 11400000, guid: e66f5264173e78c4d881d5047293ff07, type: 2}

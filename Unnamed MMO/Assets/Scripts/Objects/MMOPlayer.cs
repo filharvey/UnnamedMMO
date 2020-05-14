@@ -181,11 +181,13 @@ namespace Acemobe.MMO.Objects
                     // select inventory 1
                     if (player.GetButtonDown("Num1"))
                     {
-                        changeActionItem(0);
+                        TeleportPlayer(500, 0);
+//                        changeActionItem(0);
                     }
                     else if (player.GetButtonDown("Num2"))
                     {
-                        changeActionItem(1);
+                        TeleportPlayer(0, 0);
+//                        changeActionItem(1);
                     }
                     else if (player.GetButtonDown("Num3"))
                     {
@@ -1289,6 +1291,26 @@ namespace Acemobe.MMO.Objects
                         idx = dest.idx,
                         action = dest.action
                     };
+        }
+
+        void TeleportPlayer (int x, int z)
+        {
+            CmdTeleportPlayer(x, z);
+        }
+
+        [Command]
+        void CmdTeleportPlayer(int x, int z)
+        {
+            HandleTeleportPlayer(x, z);
+        }
+
+        void HandleTeleportPlayer(int x, int z)
+        {
+            if (serverobj)
+            {
+                serverobj.navMeshAgent.Warp(new Vector3(x, 0, z));
+                transform.position = new Vector3(x, 0, z);
+            }
         }
 
         [Command]
