@@ -47,25 +47,7 @@ namespace Acemobe.MMO.Objects
         void saveWorld ()
         {
             JSONClass map = new JSONClass();
-
-            map["terrain"] = new JSONArray();
-
-            foreach (var t in terrainMap.terrain)
-            {
-                Data.MapData.TerrainData terrainData = t.Value;
-
-                JSONClass data = new JSONClass();
-                map["terrain"].Add(data);
-
-                // add object
-                if (terrainData.obj)
-                {
-                    data["obj"] = new JSONClass();
-
-                    // add walls
-                    data["walls"] = new JSONClass();
-                }
-            }
+            map["terrain"] = terrainMap.writeData ();
 
             /*            HTTPRequest request = new HTTPRequest(new System.Uri("http://157.245.226.33:3000/updateIsland"), HTTPMethods.Post, (req, response) =>
                         {

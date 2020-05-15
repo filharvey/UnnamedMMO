@@ -5,6 +5,7 @@ using UnityEngine;
 using Acemobe.MMO.Objects;
 using Acemobe.MMO.Data.MapData;
 using Acemobe.MMO.Data.ScriptableObjects;
+using SimpleJSON;
 
 namespace Acemobe.MMO
 {
@@ -269,6 +270,19 @@ namespace Acemobe.MMO
                     mapData[posX, posZ].walls[(int)dir] = null;
                 }
             }
+        }
+
+        public JSONClass writeData ()
+        {
+            JSONClass data = new JSONClass();
+
+            foreach (var t in terrain)
+            {
+                Data.MapData.TerrainData terrainData = t.Value;
+                data.Add(terrainData.writeData());
+            }
+
+            return data;
         }
     }
 }

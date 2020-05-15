@@ -1,4 +1,5 @@
 ﻿using Acemobe.MMO.Objects;
+using SimpleJSON;
 using UnityEngine;
 
 namespace Acemobe.MMO.Data.MapData
@@ -83,5 +84,39 @@ namespace Acemobe.MMO.Data.MapData
 
             return false;
         }
+
+        public JSONClass writeData ()
+        {
+            JSONClass data = new JSONClass();
+
+            data["flags"] = new JSONClass();
+            data["flags"]["walkable"].AsBool = isWalkable;
+
+            // add object
+            if (obj)
+            {
+                data["obj"] = obj.writeData ();
+
+
+                // add walls
+                data["walls"] = new JSONClass();
+                for (var a = 0; a < walls.Length; a++)
+                {
+                    if (walls[a])
+                    {
+                        data["walls"][a] = walls[a].writeData ();
+                    }
+                }
+            }
+
+
+            return data;
+        }
+
+        public void readData (JSONClass json)
+        {
+
+        }
+
     }
 }

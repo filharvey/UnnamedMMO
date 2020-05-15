@@ -1,5 +1,6 @@
 ﻿using Acemobe.MMO.Data;
 using Mirror;
+using SimpleJSON;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,25 +9,22 @@ namespace Acemobe.MMO.Objects
     public class MMOHarvestable : MMOObject
     {
         [Header("Harvesting")]
-        public MMOResourceAction    action;
+        public MMOResourceAction    action;             
         public float                harvestTime = 2;
         public int                  harvestGain = 1;
         public MMOItemType          harvestResource;
 
-        public float variation = 0.1f;
-
         [SyncVar]
+        [Header("DisplayStates")]
         public int                  meshIdx;
         public List<GameObject>     displayMesh;
 
         [Header("GrowthStates")]
-        public bool canGrow = false;
-        public int growthTime = 20;
-
-        public float finalSize = 1f;
-        public float startScale = 0.25f;
-
-        MeshRenderer render;
+        public bool                 canGrow = false;                // move to gameItem?
+        public int                  growthTime = 20;
+        public float                finalSize = 1f;
+        public float                startScale = 0.25f;
+        public float                variation = 0.1f;
 
         public override void OnStartServer()
         {
@@ -84,5 +82,13 @@ namespace Acemobe.MMO.Objects
             }
         }
 
+        public override JSONClass writeData()
+        {
+            JSONClass data = this.writeData();
+            data["finalSize"].AsFloat = finalSize;
+            data["startScale"].AsFloat = startScale;
+
+            return data;
+        }
     }
 }

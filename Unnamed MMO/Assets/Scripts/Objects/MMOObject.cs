@@ -1,5 +1,6 @@
 ﻿using Acemobe.MMO.Data.ScriptableObjects;
 using Mirror;
+using SimpleJSON;
 using UnityEngine;
 
 namespace Acemobe.MMO.Objects
@@ -35,5 +36,19 @@ namespace Acemobe.MMO.Objects
         public virtual void AnimComplete()
         {
         }
+
+        public virtual JSONClass writeData ()
+        {
+            JSONClass data = new JSONClass();
+
+            data["health"].AsInt = health;
+            data["maxHealth"].AsInt = maxHealth;
+            data["lifeTime"].AsFloat = lifeTime;
+            data["gameItem"].AsInt = (int) gameItem.itemType;
+
+            return data;
+        }
+
+
     }
 }
