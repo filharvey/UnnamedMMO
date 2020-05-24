@@ -3,7 +3,6 @@ using Acemobe.MMO.Objects;
 using Mirror;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace Acemobe.MMO
 {
@@ -12,11 +11,11 @@ namespace Acemobe.MMO
         public int width = 5;
         public int height = 5;
 
-        public GameObject spawnObj;
         public GameItem spawnItem;
 
         public int maxNum = 5;
         public int respawnTimer = 6;
+        public float respawnVariation = 1;
         public int radius = 1;
 
         float lastRespawn = 0;
@@ -25,14 +24,7 @@ namespace Acemobe.MMO
 
         void Start()
         {
-            Debug.Log("Spawn");
-            int a = 0;
-
-            while (a < 20 && objects.Count < maxNum)
-            {
-                spawnObject();
-                a++;
-            }
+            lastRespawn = Random.Range(0, respawnVariation);
         }
 
         void Update()
@@ -43,7 +35,7 @@ namespace Acemobe.MMO
 
                 if (lastRespawn > respawnTimer)
                 {
-                    lastRespawn = 0;
+                    lastRespawn = Random.Range(0, respawnVariation);
 
                     if (objects.Count < maxNum)
                     {
@@ -69,12 +61,18 @@ namespace Acemobe.MMO
             rotation.eulerAngles = new Vector3(0, Random.Range(0, 360), 0);
             int checks = 0;
 
+            Data.MapData.TerrainData data1 = getLocalTerrainManager.getTerrainData(17, 1);
+            Data.MapData.TerrainData data2 = getLocalTerrainManager.getTerrainData(17, 2);
+            Data.MapData.TerrainData data3 = getLocalTerrainManager.getTerrainData(Mathf.FloorToInt(17.5f), Mathf.FloorToInt(2.5f));
+            Data.MapData.TerrainData data4 = getLocalTerrainManager.getTerrainData(16, 2);
+            Data.MapData.TerrainData data5 = getLocalTerrainManager.getTerrainData(Mathf.FloorToInt (-4.5f), Mathf.FloorToInt(-6.5f));
+
             // want to check terrain manager for other Objects on this location
             do
             {
                 pos = transform.position;
-                pos.x += (int)Random.Range(-width / 2, width / 2);
-                pos.z += (int)Random.Range(-height / 2, height / 2);
+                pos.x += Mathf.FloorToInt (Random.Range(-width / 2, width / 2));
+                pos.z += Mathf.FloorToInt (Random.Range(-height / 2, height / 2));
             }
             while (++checks < 5 && !getLocalTerrainManager.checkPosition((int)pos.x, (int)pos.z, radius, radius));
 
@@ -95,8 +93,8 @@ namespace Acemobe.MMO
 
         public void killObject (MMOObject obj)
         {
-            int x = (int)obj.gameObject.transform.position.x;
-            int z = (int)obj.gameObject.transform.position.z;
+            int x = Mathf.FloorToInt(obj.gameObject.transform.position.x);
+            int z = Mathf.FloorToInt(obj.gameObject.transform.position.z);
 
             getLocalTerrainManager.removeObjectAt(x, z);
             NetworkServer.Destroy(obj.gameObject);

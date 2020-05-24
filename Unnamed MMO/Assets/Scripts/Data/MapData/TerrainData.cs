@@ -87,16 +87,16 @@ namespace Acemobe.MMO.Data.MapData
 
         public JSONClass writeData ()
         {
-            JSONClass data = new JSONClass();
-
-            data["flags"] = new JSONClass();
-            data["flags"]["walkable"].AsBool = isWalkable;
-
             // add object
             if (obj)
             {
-                data["obj"] = obj.writeData ();
+                JSONClass data = new JSONClass();
 
+                data["pos"] = new JSONClass();
+                data["pos"]["x"].AsInt = Mathf.FloorToInt(transform.localPosition.x);
+                data["pos"]["z"].AsInt = Mathf.FloorToInt(transform.localPosition.z);
+
+                data["obj"] = obj.writeData ();
 
                 // add walls
                 data["walls"] = new JSONClass();
@@ -107,10 +107,11 @@ namespace Acemobe.MMO.Data.MapData
                         data["walls"][a] = walls[a].writeData ();
                     }
                 }
+
+                return data;
             }
 
-
-            return data;
+            return null;
         }
 
         public void readData (JSONClass json)

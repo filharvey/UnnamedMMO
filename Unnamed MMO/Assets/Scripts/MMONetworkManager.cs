@@ -28,8 +28,10 @@ namespace Acemobe.MMO
 
             mainIsland.gameObject.SetActive(true);
             mainIsland.createTerrain();
+            mainIsland.islandMap.owner = "mainIsland";
 
-            loadIsland(smallMap, 500, 0);
+            // load an island
+//            loadIsland(smallMap, 500, 0);
         }
 
         public override void OnStartClient ()
@@ -54,7 +56,6 @@ namespace Acemobe.MMO
         // client
         public override void OnClientConnect(NetworkConnection conn)
         {
-            Debug.Log("OnClientConnect");
             base.OnClientConnect(conn);
 
             MMOCharacterCreateMessage characterMessage = new MMOCharacterCreateMessage
@@ -69,8 +70,6 @@ namespace Acemobe.MMO
         // server handler
         void OnCreateCharacter(NetworkConnection conn, MMOCharacterCreateMessage message)
         {
-            Debug.Log("OnCreateCharacter");
-
 //            Transform startPos = GetStartPosition();
             GameObject gameobject = Instantiate(playerPrefab, new Vector3(0f, 0f, 0f), Quaternion.identity);
             MMOPlayer player = gameobject.GetComponent<MMOPlayer>();

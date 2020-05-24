@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffd7c63431cb1964f961bb2c5a965288, type: 3}
+  m_Name: ChatManager
+  m_EditorClassIdentifier: 
+  playerName: 
+  dialogueIsActive: 1
+  npcNumber: 0
+  noteText: "Use this text area as a note section to help you keep track of your NPC
+    Index Numbers.\n\n\nNPC Index 0\tGeneric NPC Notifications\nNPC Index 1\tRobot
+    Kyle\n\n"
+  npcConversationIndexes: 00000000
+  numberOfSlots: 50

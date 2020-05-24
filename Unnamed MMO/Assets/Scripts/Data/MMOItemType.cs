@@ -26,5 +26,7 @@
 
         Building_Base = 10000,
         Building_Wall,
+
+        Fence = 15000,
     };
 }

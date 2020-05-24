@@ -16,18 +16,29 @@ namespace Acemobe.MMO.Objects
         public bool isMain;
 
         float saveTimer = 0.0f;
+        bool isSending = false;
 
         public int originX;
         public int originZ;
 
+        public string owner;
+
         void Update()
         {
-            saveTimer += Time.deltaTime;
-
-            if (saveTimer > 5)
+            if (MMOGameManager.instance &&
+                MMOGameManager.instance.isServer)
             {
-//                saveWorld();
-                saveTimer = 0;
+                if (!isSending)
+                {
+                    saveTimer += Time.deltaTime;
+
+                    if (saveTimer > 20)
+                    {
+                        isSending = true;
+                        saveWorld();
+                        saveTimer = 0;
+                    }
+                }
             }
         }
 
@@ -49,19 +60,23 @@ namespace Acemobe.MMO.Objects
             JSONClass map = new JSONClass();
             map["terrain"] = terrainMap.writeData ();
 
-            /*            HTTPRequest request = new HTTPRequest(new System.Uri("http://157.245.226.33:3000/updateIsland"), HTTPMethods.Post, (req, response) =>
-                        {
-                            if (response.IsSuccess)
-                            {
-                            }
-                        });
+            string url = "http://server.happyisland.life:3000";
+            HTTPRequest request = new HTTPRequest(new System.Uri(url + "/updateIsland"), HTTPMethods.Post, (req, response) =>
+            {
+                if (response != null && response.IsSuccess)
+                {
+                }
 
-                        var json = map.ToString();
+                isSending = false;
+            });
 
-                        request.SetHeader("Content-Type", "application/json; charset=UTF-8");
-                        request.RawData = System.Text.Encoding.UTF8.GetBytes(json);
-                        request.Send();
-            */
+            var json = map.ToString();
+
+            request.SetHeader("Content-Type", "application/json; charset=UTF-8");
+            request.RawData = System.Text.Encoding.UTF8.GetBytes(json);
+            request.SetHeader("hash", "Happy2020");
+            request.SetHeader("owner", "server");
+            request.Send();
         }
 
         void createSpawner (int x, int z, GameItem item)

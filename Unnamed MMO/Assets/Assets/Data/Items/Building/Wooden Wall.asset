@@ -21,6 +21,8 @@ MonoBehaviour:
   maxStack: 25
   isHarvestable: 0
   isPickable: 0
+  isBuildingBase: 0
+  isWall: 1
   requiresBase: 1
   dropItems: []
   growthTime: 0

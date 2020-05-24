@@ -37,11 +37,6 @@ namespace Acemobe.MMO
                 map = Instantiate(startMap);
                 map.transform.SetParent(terrainBase.transform);
             }
-
-            if (!islandMap)
-            {
-                islandMap = map.GetComponent<MMOMap>();
-            }
         }
 
         // added but only used on server
@@ -63,8 +58,13 @@ namespace Acemobe.MMO
                 }
                 else
                 {
-                    bounds.Encapsulate(terrainData.transform.localPosition);
-                    worldBounds.Encapsulate(terrainData.transform.position);
+                    var pos = new Vector3(
+                        Mathf.FloorToInt(terrainData.transform.localPosition.x), 
+                        0,
+                        Mathf.FloorToInt(terrainData.transform.localPosition.z));
+
+                    bounds.Encapsulate(pos);
+                    worldBounds.Encapsulate(pos);
                 }
 
                 terrain.Add(name, terrainData);
@@ -76,6 +76,11 @@ namespace Acemobe.MMO
 
         public void createTerrain ()
         {
+            if (!islandMap)
+            {
+                islandMap = map.GetComponent<MMOMap>();
+            }
+
             islandMap.navMeshSurface.RemoveData();
             islandMap.navMeshSurface.BuildNavMesh();
 
@@ -85,17 +90,17 @@ namespace Acemobe.MMO
             name = bounds.ToString();
             terrains.Add(name, this);
 
-            Debug.Log("Size: " + mapWidth + ", " + mapDepth);
-
             mapData = new Data.MapData.TerrainData[mapWidth, mapDepth];
 
             foreach (var k in terrain)
             {
                 Data.MapData.TerrainData terrain = k.Value;
-                int x = (int)(terrain.transform.localPosition.x - bounds.min.x);
-                int z = (int)(terrain.transform.localPosition.z - bounds.min.z);
+                terrain.name = (int)terrain.transform.localPosition.x + ":" + (int)terrain.transform.localPosition.z;
 
-                if (mapData[x,z] == null)
+                int x = (int)(Mathf.FloorToInt(terrain.transform.localPosition.x) - bounds.min.x);
+                int z = (int)(Mathf.FloorToInt(terrain.transform.localPosition.z) - bounds.min.z);
+
+                if (mapData[x, z] == null)
                 {
                     mapData[x, z] = terrain;
                 }
@@ -132,22 +137,25 @@ namespace Acemobe.MMO
             x -= islandMap.originX;
             z -= islandMap.originZ;
 
-            for (int w = 0; w < width; w++)
+            int w2 = width / 2;
+            int h2 = height / 2;
+
+            for (int w = -w2; w < width; w++)
             {
-                for (int d = 0; d < height; d++)
+                for (int d = -h2; d < height; d++)
                 {
-                    var posX = (int)((x + w - width / 2) - bounds.min.x);
-                    var posZ = (int)((z + d - height / 2) - bounds.min.z);
+                    var posX = Mathf.FloorToInt((x + w) - bounds.min.x);
+                    var posZ = Mathf.FloorToInt((z + d) - bounds.min.z);
 
                     if (posX >= 0 && posZ >= 0 && posX < mapWidth && posZ < mapDepth)
                     {
-                        if (!mapData[posX, posZ])
+                        Data.MapData.TerrainData data = mapData[posX, posZ];
+
+                        if (!data)
                         {
                             return false;
                         }
-
-                        if (mapData[posX, posZ] && 
-                            (mapData[posX, posZ].obj || mapData[posX, posZ].isInUse || !mapData[posX, posZ].canUse))
+                        else if (data.obj || data.isInUse || !data.canUse)
                         {
                             return false;
                         }
@@ -164,8 +172,8 @@ namespace Acemobe.MMO
 
         public Data.MapData.TerrainData getTerrainData (int x, int z)
         {
-            var posX = (int)(x - bounds.min.x) - islandMap.originX;
-            var posZ = (int)(z - bounds.min.z) - islandMap.originZ;
+            var posX = (int)(Mathf.FloorToInt(x) - bounds.min.x - islandMap.originX);
+            var posZ = (int)(Mathf.FloorToInt(z) - bounds.min.z - islandMap.originZ);
 
             if (posX >= 0 && posZ >= 0 && posX < mapWidth && posZ < mapDepth && mapData[posX, posZ])
                 return mapData[posX, posZ];
@@ -180,8 +188,8 @@ namespace Acemobe.MMO
 
         public MMOObject getObjectAt (int x, int z)
         {
-            var posX = (int)(x - bounds.min.x) - islandMap.originX;
-            var posZ = (int)(z - bounds.min.z) - islandMap.originZ;
+            var posX = (int)(Mathf.FloorToInt(x) - bounds.min.x - islandMap.originX);
+            var posZ = (int)(Mathf.FloorToInt(z) - bounds.min.z - islandMap.originZ);
 
             if (posX >= 0 && posZ >= 0 && posX < mapWidth && posZ < mapDepth && mapData[posX, posZ])
             {
@@ -193,8 +201,8 @@ namespace Acemobe.MMO
 
         public void addObjectAt (int x, int z, MMOObject obj)
         {
-            var posX = (int)(x - bounds.min.x) - islandMap.originX;
-            var posZ = (int)(z - bounds.min.z) - islandMap.originZ;
+            var posX = (int)(Mathf.FloorToInt(x) - bounds.min.x - islandMap.originX);
+            var posZ = (int)(Mathf.FloorToInt(z) - bounds.min.z - islandMap.originZ);
 
             if (posX >= 0 && posZ >= 0 && posX < mapWidth && posZ < mapDepth && mapData[posX, posZ])
             {
@@ -204,8 +212,8 @@ namespace Acemobe.MMO
 
         public void removeObjectAt (int x, int z)
         {
-            var posX = (int)(x - bounds.min.x) - islandMap.originX;
-            var posZ = (int)(z - bounds.min.z) - islandMap.originZ;
+            var posX = (int)(Mathf.FloorToInt(x) - bounds.min.x - islandMap.originX);
+            var posZ = (int)(Mathf.FloorToInt(z) - bounds.min.z - islandMap.originZ);
 
             if (posX >= 0 && posZ >= 0 && posX < mapWidth && posZ < mapDepth && mapData[posX, posZ])
             {
@@ -215,8 +223,8 @@ namespace Acemobe.MMO
 
         public MMOObject getWallAt(int x, int z, MAP_DIRECTION dir)
         {
-            var posX = (int)(x - bounds.min.x) - islandMap.originX;
-            var posZ = (int)(z - bounds.min.z) - islandMap.originZ;
+            var posX = (int)(Mathf.FloorToInt(x) - bounds.min.x - islandMap.originX);
+            var posZ = (int)(Mathf.FloorToInt(z) - bounds.min.z - islandMap.originZ);
 
             if (posX >= 0 && posZ >= 0 && posX < mapWidth && posZ < mapDepth && mapData[posX, posZ])
             {
@@ -232,8 +240,8 @@ namespace Acemobe.MMO
 
         public void addWallAt(int x, int z, MAP_DIRECTION dir, MMOObject obj)
         {
-            var posX = (int)(x - bounds.min.x) - islandMap.originX;
-            var posZ = (int)(z - bounds.min.z) - islandMap.originZ;
+            var posX = (int)(Mathf.FloorToInt(x) - bounds.min.x - islandMap.originX);
+            var posZ = (int)(Mathf.FloorToInt(z) - bounds.min.z - islandMap.originZ);
 
             if (posX >= 0 && posZ >= 0 && posX < mapWidth && posZ < mapDepth && mapData[posX, posZ])
             {
@@ -259,8 +267,8 @@ namespace Acemobe.MMO
 
         public void removeWallAt(int x, int z, MAP_DIRECTION dir)
         {
-            var posX = (int)(x - bounds.min.x) - islandMap.originX;
-            var posZ = (int)(z - bounds.min.z) - islandMap.originZ;
+            var posX = (int)(Mathf.FloorToInt(x) - bounds.min.x - islandMap.originX);
+            var posZ = (int)(Mathf.FloorToInt(z) - bounds.min.z - islandMap.originZ);
 
             if (posX >= 0 && posZ >= 0 && posX < mapWidth && posZ < mapDepth && mapData[posX, posZ])
             {
@@ -272,14 +280,21 @@ namespace Acemobe.MMO
             }
         }
 
-        public JSONClass writeData ()
+        public JSONArray writeData ()
         {
-            JSONClass data = new JSONClass();
+            JSONArray data = new JSONArray();
+            int count = 0;
 
             foreach (var t in terrain)
             {
                 Data.MapData.TerrainData terrainData = t.Value;
-                data.Add(terrainData.writeData());
+                JSONClass terrain = terrainData.writeData();
+
+                if (terrain != null)
+                {
+                    data.Add(terrain);
+                    count++;
+                }
             }
 
             return data;

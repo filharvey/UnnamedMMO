@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: b4a46834fa249d343a7f7ed1999ef4b6
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - NPCOutline: {fileID: 2100000, guid: b484efea2e0bbe34599e0f1d799f149c, type: 2}
+  - NPCOutlineSprite: {fileID: 2100000, guid: 2f3eb53e229ece245be36305d02bf649, type: 2}
+  executionOrder: 0
+  icon: {fileID: 2800000, guid: 9b22e74967d2b9c46bb139cfd02ee4cc, type: 3}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

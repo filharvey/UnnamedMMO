@@ -84,7 +84,7 @@ namespace Acemobe.MMO.Objects
 
         public override JSONClass writeData()
         {
-            JSONClass data = this.writeData();
+            JSONClass data = base.writeData();
             data["finalSize"].AsFloat = finalSize;
             data["startScale"].AsFloat = startScale;
 

@@ -32,13 +32,14 @@ namespace Acemobe.MMO
 
         public void updatePlayer()
         {
+            string url = "http://server.happyisland.life:3000";
             if (player.isServer)
             {
-                HTTPRequest request = new HTTPRequest(new System.Uri("http://157.245.226.33:3000/updateUser"), HTTPMethods.Post, (req, response) =>
+                HTTPRequest request = new HTTPRequest(new System.Uri(url + "/updateUser"), HTTPMethods.Post, (req, response) =>
                 {
                     player.isUpdating = false;
 
-                    if (response.IsSuccess)
+                    if (response != null && response.IsSuccess)
                     {
                     }
                 });

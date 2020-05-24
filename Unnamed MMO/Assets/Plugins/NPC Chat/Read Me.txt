@@ -1,0 +1,43 @@
+Thank you for purchasing NPC Chat.
+
+User Manual: https://www.turnthegameon.net/manuals/unity-asset-store/1/en/topic/npc-chat-event-dialogue-triggers
+Discussion Forum: https://forum.unity.com/threads/231618/
+Contact: stephen@turnthegameon.com
+
+
+Quick Start Guide:
+
+NPC Chat requires 2 primary objects to function, a "Chat Box" and "NPC Chat Object".
+
+
+
+First, create a UI chat box on a canvas.
+
+1. Add an "NPC Chat Box" object to your scene
+ - Right Click in Hierarchy, select "UI > NPC Chat > Default Chat Box"
+ or
+ - Select "GameObject > UI > NPC Chat > Default Chat Box" from the Unity Menu Bar
+
+2. Customize the UI layout and style of the "Chat Box" object for your needs.
+
+
+Second, create the npc chat object to use your chat box.
+
+1. Add an "NPC Chat" object to your scene.
+ - Right Click in Hierarchy, select "UI > NPC Chat > NPC Chat Object"
+ or
+ - Select "GameObject > UI > NPC Chat > NPC Chat Object" from the Unity Menu Bar
+
+2. Attach the NPC Chat object to another object or position it in your scene.
+
+3. Assign the "Player" Transform reference in the NPC Chat inspector.
+
+4. Assign the "Chat Box" reference.
+
+5. Configure Title Text, Dialogue Text, Audio, Buttons, or Chat Start/Stop Events.
+
+6. Additional "NPC Chat" options are available on the assigned "NPC Chat Options" ScriptableObject to control all other settings.
+
+
+
+Please reference the user manual for advanced configuration details and tutorials.

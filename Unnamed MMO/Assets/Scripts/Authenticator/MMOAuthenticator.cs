@@ -48,8 +48,6 @@ namespace Acemobe.MMO
 
         public override void OnClientAuthenticate(NetworkConnection conn)
         {
-            Debug.Log("OnClientAuthenticate, " + PlayerPrefs.GetString("username"));
-
             AuthRequestMessage authRequestMessage = new AuthRequestMessage
             {
                 authUsername = PlayerPrefs.GetString("username"),
@@ -61,32 +59,16 @@ namespace Acemobe.MMO
 
         public void OnAuthRequestMessage(NetworkConnection conn, AuthRequestMessage msg)
         {
-            Debug.LogFormat("Authentication Request: {0} {1}", msg.authUsername, msg.authPassword);
-
-/*            AuthResponseMessage authResponseMessage = new AuthResponseMessage
-            {
-                code = 100,
-                message = "Success"
-            };
-
-            conn.Send(authResponseMessage);
-
-            // Invoke the event to complete a successful authentication
-            base.OnServerAuthenticated.Invoke(conn);
-*/
-            HTTPRequest request = new HTTPRequest(new System.Uri("http://157.245.226.33:3000/login"), HTTPMethods.Post, (request2, response) =>
+            string url = "http://server.happyisland.life:3000";
+            HTTPRequest request = new HTTPRequest(new System.Uri(url + "/login"), HTTPMethods.Post, (request2, response) =>
             {
                 if (response != null && response.IsSuccess)
                 {
                     bool ok = false;
                     JSONNode result = JSON.Parse(response.DataAsText);
 
-                    Debug.Log("Request Finished! Text received: " + response.DataAsText);
-
                     if (result["ok"].AsBool == true)
                     {
-                        Debug.Log("ok");
-
                         var json = result["json"];
 
                         // create and send msg to client so it knows to proceed
@@ -135,15 +117,10 @@ namespace Acemobe.MMO
 
         public void OnAuthResponseMessage(NetworkConnection conn, AuthResponseMessage msg)
         {
-            Debug.Log("OnAuthResponseMessage, " + msg.code);
             if (msg.code == 100)
             {
-                Debug.LogFormat("Authentication Response: {0}", msg.message);
-
                 MMOPlayer.userName = PlayerPrefs.GetString("username");
                 MMOPlayer.userHash = msg.hash;
-
-                Debug.Log(conn.identity);
 
                 // Invoke the event to complete a successful authentication
                 base.OnClientAuthenticated.Invoke(conn);

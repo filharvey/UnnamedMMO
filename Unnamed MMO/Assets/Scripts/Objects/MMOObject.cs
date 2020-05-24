@@ -41,14 +41,13 @@ namespace Acemobe.MMO.Objects
         {
             JSONClass data = new JSONClass();
 
+            data["gameItem"].AsInt = (int)gameItem.itemType;
             data["health"].AsInt = health;
             data["maxHealth"].AsInt = maxHealth;
             data["lifeTime"].AsFloat = lifeTime;
-            data["gameItem"].AsInt = (int) gameItem.itemType;
+            data["angle"].AsFloat = transform.eulerAngles.y;
 
             return data;
         }
-
-
     }
 }

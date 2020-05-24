@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 5ed10130208957940befe67d81146292
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - chatManager: {fileID: 11400000, guid: b0e0ab3378031154a8724c050346144f, type: 2}
+  - player: {instanceID: 0}
+  - _NPCChatOptions: {fileID: 11400000, guid: 9a6bcdc61e47c9d4d8c4d98da60b949a, type: 2}
+  executionOrder: 0
+  icon: {fileID: 2800000, guid: 9b22e74967d2b9c46bb139cfd02ee4cc, type: 3}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

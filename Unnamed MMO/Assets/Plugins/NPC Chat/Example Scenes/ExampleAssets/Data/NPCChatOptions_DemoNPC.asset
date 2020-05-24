@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4a46834fa249d343a7f7ed1999ef4b6, type: 3}
+  m_Name: NPCChatOptions_DemoNPC
+  m_EditorClassIdentifier: 
+  allowChatIfOtherIsActive: 0
+  disableOnComplete: 0
+  destroyOnComplete: 0
+  chatOnCollision: 1
+  chatOnMouseUp: 1
+  closeOnTriggerExit: 1
+  closeOnMouseOrKeyUp: 1
+  chatOnKeyUp: 0
+  chatOnKeyDown: 0
+  chatOnJoystickUp: 0
+  _chatOnJoystickUp: 0
+  chatOnJoystickDown: 0
+  _chatOnJoystickDown: 0
+  distanceCheck: 1
+  distanceToChat: 5
+  distanceCheckOffset: {x: 0, y: 0, z: 0}
+  scrollingText: 1
+  textScrollSpeed: 0.0001
+  outline: 1
+  NPCOutline: {fileID: 2100000, guid: b484efea2e0bbe34599e0f1d799f149c, type: 2}
+  NPCOutlineSprite: {fileID: 2100000, guid: 2f3eb53e229ece245be36305d02bf649, type: 2}
+  inRangeSize: 0.49
+  outOfRangeSize: 0
+  mouseOverSize: 0.35
+  dialogueSize: 0.01
+  inRangeSpriteSize: 32
+  outOfRangeSpriteSize: 0
+  mouseOverSpriteSize: 64
+  dialogueSpriteSize: 0
+  inRangeColor: {r: 0, g: 0.49019608, b: 0.6901961, a: 1}
+  outOfRangeColor: {r: 0.003921569, g: 0.30980393, b: 0.3529412, a: 1}
+  mouseOverColor: {r: 1, g: 1, b: 1, a: 1}
+  dialogueColor: {r: 0.39607844, g: 0.99215686, b: 0.99215686, a: 1}

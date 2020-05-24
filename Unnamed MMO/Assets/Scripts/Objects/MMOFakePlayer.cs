@@ -76,16 +76,12 @@ namespace Acemobe.MMO.Objects
 
             rigidBody.isKinematic = false;
 
-            Debug.Log("OnStartServer," + torso + "," + head);
             handleMeshStartup();
         }
 
         public override void OnStartClient()
         {
             base.OnStartClient();
-
-            // find parent object
-            Debug.Log("OnStartClient," + torso + "," + this.head);
 
             if (isClientOnly)
             {

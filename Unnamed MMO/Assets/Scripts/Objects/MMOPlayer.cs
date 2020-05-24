@@ -93,8 +93,6 @@ namespace Acemobe.MMO.Objects
         {
             base.OnStartServer();
 
-            Debug.Log("Player OnStartServer," + torso + "," + head);
-
             characterInfo.updateInventory(inventory);
         }
 
@@ -635,13 +633,16 @@ namespace Acemobe.MMO.Objects
             // if we require a base, is there a base
             if (activeItem.requiresBase)
             {
-                if (terrainData &&
-                    terrainData.isPublic &&
-                    terrainData.obj &&
-                    terrainData.obj.gameItem.itemType == MMOItemType.Building_Base &&
-                    !terrainData.hasWall (buildAngle))
+                if (activeItem.isWall)
                 {
-                    good = true;
+                    if (terrainData &&
+                        terrainData.isPublic &&
+                        terrainData.obj &&
+                        terrainData.obj.gameItem.itemType == MMOItemType.Building_Base &&
+                        !terrainData.hasWall(buildAngle))
+                    {
+                        good = true;
+                    }
                 }
             }
             else if (terrainData &&
@@ -893,7 +894,10 @@ namespace Acemobe.MMO.Objects
                                     MMOBuilding spawnObj = obj.GetComponent<MMOBuilding>();
 
                                     if (activeItem.requiresBase)
-                                        getLocalTerrainManager.addWallAt(x, z, buildAngle, spawnObj);
+                                    {
+                                        if (activeItem.isWall)
+                                            getLocalTerrainManager.addWallAt(x, z, buildAngle, spawnObj);
+                                    }
                                     else
                                         getLocalTerrainManager.addObjectAt(x, z, spawnObj);
 
