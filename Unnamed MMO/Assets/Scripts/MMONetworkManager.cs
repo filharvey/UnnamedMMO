@@ -28,10 +28,11 @@ namespace Acemobe.MMO
 
             mainIsland.gameObject.SetActive(true);
             mainIsland.createTerrain();
-            mainIsland.islandMap.owner = "mainIsland";
+            mainIsland.islandMap.owner = "server";
+            mainIsland.islandMap.loadWorld();
 
             // load an island
-//            loadIsland(smallMap, 500, 0);
+            //            loadIsland(smallMap, 500, 0);
         }
 
         public override void OnStartClient ()

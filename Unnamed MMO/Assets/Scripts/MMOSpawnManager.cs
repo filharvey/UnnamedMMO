@@ -1,6 +1,8 @@
-﻿using Acemobe.MMO.Data.ScriptableObjects;
+﻿using Acemobe.MMO.Data;
+using Acemobe.MMO.Data.ScriptableObjects;
 using Acemobe.MMO.Objects;
 using Mirror;
+using SimpleJSON;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,6 +12,8 @@ namespace Acemobe.MMO
     {
         public int width = 5;
         public int height = 5;
+
+        public string saveName;
 
         public GameItem spawnItem;
 
@@ -24,12 +28,22 @@ namespace Acemobe.MMO
 
         void Start()
         {
+            int count = 1;
+            saveName = "Spawn:" + spawnItem.name;
+
+            while (getLocalTerrainManager.spawnManagers.ContainsKey (name))
+            {
+                saveName = "Spawn:" + spawnItem.name + ":" + (++count);
+            }
+
+            getLocalTerrainManager.spawnManagers.Add(saveName, this);
+
             lastRespawn = Random.Range(0, respawnVariation);
         }
 
         void Update()
         {
-            if (isServer)
+            if (isServer && getLocalTerrainManager.isLoaded)
             {
                 lastRespawn += Time.deltaTime;
 
@@ -99,6 +113,63 @@ namespace Acemobe.MMO
             getLocalTerrainManager.removeObjectAt(x, z);
             NetworkServer.Destroy(obj.gameObject);
             objects.Remove(obj);
+        }
+
+        public JSONClass writeData()
+        {
+            JSONClass json = new JSONClass();
+            json["name"] = saveName;
+            json["pos"] = new JSONClass();
+            json["pos"]["x"].AsInt = Mathf.FloorToInt(transform.localPosition.x);
+            json["pos"]["z"].AsInt = Mathf.FloorToInt(transform.localPosition.z);
+            json["objs"] = new JSONArray();
+
+            foreach (var o in objects)
+            {
+                JSONClass objData = o.writeData();
+
+                json["objs"].Add(objData);
+            }
+
+            return json;
+        }
+
+        public void readData (JSONClass json)
+        {
+            JSONArray objs = json["objs"].AsArray;
+
+            for (int a = 0; a < objs.Count; a++)
+            {
+                JSONClass obj = objs[a].AsObject;
+
+                if (obj != null)
+                {
+                    int x = json["pos"]["x"].AsInt;
+                    int z = json["pos"]["z"].AsInt;
+                    float angle = json["angle"].AsFloat;
+                    int gI = json["gameItem"].AsInt;
+
+                    Vector3 pos = new Vector3(x + 0.5f, 0, z + 0.5f);
+                    Quaternion rotation = new Quaternion();
+                    rotation.eulerAngles = new Vector3(0, angle, 0);
+
+                    GameItem gameItem = MMOResourceManager.instance.getItemByType((MMOItemType)gI);
+
+                    GameObject newObj = Instantiate(gameItem.prefab, pos, rotation);
+                    MMOObject mmoObj = newObj.GetComponent<MMOObject>();
+
+
+                    mmoObj.readData(json);
+
+                    // give link to manager
+                    mmoObj.manager = this;
+
+                    getLocalTerrainManager.addObjectAt((int)pos.x, (int)pos.z, mmoObj);
+                    objects.Add(mmoObj);
+
+                    NetworkServer.Spawn(newObj);
+                }
+            }
         }
 
         #region Terrain Manager Finder

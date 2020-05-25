@@ -1197,6 +1197,7 @@ MonoBehaviour:
     m_Extent: {x: 0, y: 0, z: 0}
   mapWidth: 0
   mapDepth: 0
+  isLoaded: 0
 --- !u!4 &125513809
 Transform:
   m_ObjectHideFlags: 0
@@ -1286,7 +1287,7 @@ MonoBehaviour:
   syncInterval: 0.1
   width: 40
   height: 40
-  spawnItem: {fileID: 11400000, guid: e66f5264173e78c4d881d5047293ff07, type: 2}
+  spawnItem: {fileID: 11400000, guid: 1b7618e62dd58b6429e55d48509ac002, type: 2}
   maxNum: 10
   respawnTimer: 15
   respawnVariation: 3

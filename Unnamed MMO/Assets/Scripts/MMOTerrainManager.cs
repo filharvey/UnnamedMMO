@@ -6,6 +6,7 @@ using Acemobe.MMO.Objects;
 using Acemobe.MMO.Data.MapData;
 using Acemobe.MMO.Data.ScriptableObjects;
 using SimpleJSON;
+using BestHTTP;
 
 namespace Acemobe.MMO
 {
@@ -27,6 +28,9 @@ namespace Acemobe.MMO
         public Bounds worldBounds = new Bounds();
         public int mapWidth = 0;
         public int mapDepth = 0;
+        public bool isLoaded = false;
+
+        public Dictionary<string, MMOSpawnManager> spawnManagers = new Dictionary<string, MMOSpawnManager>();
 
         public void Start()
         {
@@ -280,10 +284,19 @@ namespace Acemobe.MMO
             }
         }
 
-        public JSONArray writeData ()
+        public JSONClass writeData ()
         {
-            JSONArray data = new JSONArray();
-            int count = 0;
+            JSONClass data = new JSONClass();
+            data["terrains"] = new JSONArray();
+            data["spawners"] = new JSONArray();
+
+            foreach (var s in spawnManagers)
+            {
+                MMOSpawnManager sMgr = s.Value;
+                JSONClass spawner = sMgr.writeData();
+
+                data["spawners"].Add(spawner);
+            }
 
             foreach (var t in terrain)
             {
@@ -292,12 +305,36 @@ namespace Acemobe.MMO
 
                 if (terrain != null)
                 {
-                    data.Add(terrain);
-                    count++;
+                    data["terrains"].Add(terrain);
                 }
             }
 
             return data;
+        }
+
+        public void readData(JSONClass json)
+        {
+            JSONArray terrain = json["terrains"].AsArray;
+            JSONArray spawners = json["spawners"].AsArray;
+
+            for (int s = 0; s < spawners.Count; s++)
+            {
+                JSONClass spawnJson = spawners[s].AsObject;
+                string name = spawnJson["name"];
+
+                spawnManagers[name].readData(spawnJson);
+            }
+
+            for (int s = 0; s < terrain.Count; s++)
+            {
+                JSONClass terrainJson = terrain[s].AsObject;
+                int x = terrainJson["pos"]["x"].AsInt;
+                int z = terrainJson["pos"]["z"].AsInt;
+
+                Data.MapData.TerrainData terrainData = getTerrainData(x, z);
+
+                terrainData.readData(terrainJson);
+            }
         }
     }
 }

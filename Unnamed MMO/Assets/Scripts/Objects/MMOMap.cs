@@ -55,10 +55,37 @@ namespace Acemobe.MMO.Objects
             }
         }
 
+        public void loadWorld ()
+        {
+            string url = "http://server.happyisland.life:3000";
+            HTTPRequest request = new HTTPRequest(new System.Uri(url + "/getIsland"), HTTPMethods.Post, (request2, response) =>
+            {
+                if (response != null && response.IsSuccess)
+                {
+                    JSONNode result = JSON.Parse(response.DataAsText);
+
+                    if (result["ok"].AsBool == true)
+                    {
+                        JSONClass data = result["data"].AsObject;
+
+                        if (data != null)
+                        {
+                            terrainMap.readData (data);
+                        }
+                    }
+                }
+
+                terrainMap.isLoaded = true;
+            });
+
+            request.SetHeader("hash", "Happy2020");
+            request.SetHeader("owner", owner);
+            request.Send();
+        }
+
         void saveWorld ()
         {
-            JSONClass map = new JSONClass();
-            map["terrain"] = terrainMap.writeData ();
+            JSONClass map = terrainMap.writeData ();
 
             string url = "http://server.happyisland.life:3000";
             HTTPRequest request = new HTTPRequest(new System.Uri(url + "/updateIsland"), HTTPMethods.Post, (req, response) =>
@@ -75,7 +102,7 @@ namespace Acemobe.MMO.Objects
             request.SetHeader("Content-Type", "application/json; charset=UTF-8");
             request.RawData = System.Text.Encoding.UTF8.GetBytes(json);
             request.SetHeader("hash", "Happy2020");
-            request.SetHeader("owner", "server");
+            request.SetHeader("owner", owner);
             request.Send();
         }
 

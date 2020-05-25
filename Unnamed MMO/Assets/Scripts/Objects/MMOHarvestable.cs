@@ -90,5 +90,13 @@ namespace Acemobe.MMO.Objects
 
             return data;
         }
+
+        public override void readData(JSONClass json)
+        {
+            base.readData(json);
+
+            finalSize = json["finalSize"].AsFloat;
+            startScale = json["startScale"].AsFloat;
+        }
     }
 }

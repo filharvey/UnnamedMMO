@@ -1,4 +1,6 @@
-﻿using Acemobe.MMO.Objects;
+﻿using Acemobe.MMO.Data.ScriptableObjects;
+using Acemobe.MMO.Objects;
+using Mirror;
 using SimpleJSON;
 using UnityEngine;
 
@@ -90,34 +92,97 @@ namespace Acemobe.MMO.Data.MapData
             // add object
             if (obj)
             {
+                int count = 0;
                 JSONClass data = new JSONClass();
 
                 data["pos"] = new JSONClass();
                 data["pos"]["x"].AsInt = Mathf.FloorToInt(transform.localPosition.x);
                 data["pos"]["z"].AsInt = Mathf.FloorToInt(transform.localPosition.z);
 
-                data["obj"] = obj.writeData ();
+                if (obj.manager == null)
+                {
+                    data["obj"] = obj.writeData();
+                    count++;
+                }
 
                 // add walls
-                data["walls"] = new JSONClass();
                 for (var a = 0; a < walls.Length; a++)
                 {
                     if (walls[a])
                     {
+                        if (data["walls"].AsObject == null)
+                            data["walls"] = new JSONClass();
+
                         data["walls"][a] = walls[a].writeData ();
+                        count++;
                     }
                 }
 
-                return data;
+                if (count > 0)
+                    return data;
             }
 
             return null;
         }
 
-        public void readData (JSONClass json)
+        public void readData(JSONClass json)
         {
+            JSONClass objJson = json["obj"].AsObject;
+            JSONClass wallJson = json["walls"].AsObject;
 
+            if (objJson != null)
+            {
+                int x = json["pos"]["x"].AsInt;
+                int z = json["pos"]["z"].AsInt;
+                float angle = json["angle"].AsFloat;
+                int gI = json["gameItem"].AsInt;
+
+                Vector3 pos = new Vector3(x + 0.5f, 0, z + 0.5f);
+                Quaternion rotation = new Quaternion();
+                rotation.eulerAngles = new Vector3(0, angle, 0);
+
+                GameItem gameItem = MMOResourceManager.instance.getItemByType((MMOItemType)gI);
+
+                GameObject newObj = Instantiate(gameItem.prefab, pos, rotation);
+                MMOObject mmoObj = newObj.GetComponent<MMOObject>();
+
+                mmoObj.readData(json);
+
+                getLocalTerrainManager.addObjectAt((int)pos.x, (int)pos.z, mmoObj);
+
+                NetworkServer.Spawn(newObj);
+            }
+
+            if (wallJson != null)
+            {
+                for (var a = 0; a < walls.Length; a++)
+                {
+                    JSONClass wall = wallJson[a].AsObject;
+                    if (wall != null)
+                    {
+                        /*                        int x = json["pos"]["x"].AsInt;
+                                                int z = json["pos"]["z"].AsInt;
+                                                float angle = json["angle"].AsFloat;
+                                                int gI = json["gameItem"].AsInt;
+
+                                                Vector3 pos = new Vector3(x + 0.5f, 0, z + 0.5f);
+                                                Quaternion rotation = new Quaternion();
+                                                rotation.eulerAngles = new Vector3(0, angle, 0);
+
+                                                GameItem gameItem = MMOResourceManager.instance.getItemByType((MMOItemType)gI);
+
+                                                GameObject newObj = Instantiate(gameItem.prefab, pos, rotation);
+                                                MMOObject mmoObj = newObj.GetComponent<MMOObject>();
+
+                                                mmoObj.readData(json);
+
+                                                getLocalTerrainManager.addObjectAt((int)pos.x, (int)pos.z, mmoObj);
+
+                                                NetworkServer.Spawn(newObj);
+                        */
+                    }
+                }
+            }
         }
-
     }
 }
