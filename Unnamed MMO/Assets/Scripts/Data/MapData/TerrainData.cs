@@ -87,17 +87,18 @@ namespace Acemobe.MMO.Data.MapData
             return false;
         }
 
-        public JSONClass writeData ()
+        public JSONObject writeData ()
         {
             // add object
             if (obj)
             {
                 int count = 0;
-                JSONClass data = new JSONClass();
+                JSONObject data = new JSONObject();
 
-                data["pos"] = new JSONClass();
+                data["pos"] = new JSONObject();
                 data["pos"]["x"].AsInt = Mathf.FloorToInt(transform.localPosition.x);
                 data["pos"]["z"].AsInt = Mathf.FloorToInt(transform.localPosition.z);
+                data["angle"].AsInt = Mathf.FloorToInt(transform.eulerAngles.y);
 
                 if (obj.manager == null)
                 {
@@ -111,7 +112,7 @@ namespace Acemobe.MMO.Data.MapData
                     if (walls[a])
                     {
                         if (data["walls"].AsObject == null)
-                            data["walls"] = new JSONClass();
+                            data["walls"] = new JSONObject();
 
                         data["walls"][a] = walls[a].writeData ();
                         count++;
@@ -125,16 +126,16 @@ namespace Acemobe.MMO.Data.MapData
             return null;
         }
 
-        public void readData(JSONClass json)
+        public void readData(JSONObject json)
         {
-            JSONClass objJson = json["obj"].AsObject;
-            JSONClass wallJson = json["walls"].AsObject;
+            JSONObject objJson = json["obj"].AsObject;
+            JSONObject wallJson = json["walls"].AsObject;
 
             if (objJson != null)
             {
                 int x = objJson["pos"]["x"].AsInt;
                 int z = objJson["pos"]["z"].AsInt;
-                float angle = objJson["angle"].AsFloat;
+                int angle = objJson["angle"].AsInt;
                 int gI = objJson["gameItem"].AsInt;
 
                 Vector3 pos = new Vector3(x + 0.5f, 0, z + 0.5f);
@@ -148,7 +149,7 @@ namespace Acemobe.MMO.Data.MapData
 
                 mmoObj.readData(objJson);
 
-                getLocalTerrainManager.addObjectAt((int)pos.x, (int)pos.z, mmoObj);
+                getLocalTerrainManager.addObjectAt(x, z, mmoObj);
 
                 NetworkServer.Spawn(newObj);
             }
@@ -157,12 +158,13 @@ namespace Acemobe.MMO.Data.MapData
             {
                 for (var a = 0; a < walls.Length; a++)
                 {
-                    JSONClass wall = wallJson[a].AsObject;
-                    if (wall != null)
+                    if (wallJson[a] != null)
                     {
+                        JSONObject wall = wallJson[a].AsObject;
+
                         int x = wall["pos"]["x"].AsInt;
                         int z = wall["pos"]["z"].AsInt;
-                        float angle = wall["angle"].AsFloat;
+                        int angle = wall["angle"].AsInt;
                         int gI = wall["gameItem"].AsInt;
 
                         Vector3 pos = new Vector3(x + 0.5f, 0, z + 0.5f);
@@ -175,8 +177,7 @@ namespace Acemobe.MMO.Data.MapData
                         MMOObject mmoObj = newObj.GetComponent<MMOObject>();
 
                         mmoObj.readData(wall);
-
-                        getLocalTerrainManager.addObjectAt((int)pos.x, (int)pos.z, mmoObj);
+                        getLocalTerrainManager.addObjectAt(x, z, mmoObj);
 
                         NetworkServer.Spawn(newObj);
                     }
