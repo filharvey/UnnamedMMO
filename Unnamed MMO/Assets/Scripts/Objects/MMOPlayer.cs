@@ -353,6 +353,10 @@ namespace Acemobe.MMO.Objects
 
                                 if (textureId >= buildItem.textures.Count)
                                     textureId = 0;
+                                else
+                                    buildItem.baseTexture = textureId;
+
+                                buildItem.updateMaterial();
                             }
 
                             buildItem.transform.eulerAngles = new Vector3(0, buildAngle, 0);

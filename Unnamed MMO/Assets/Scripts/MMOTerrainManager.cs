@@ -41,6 +41,8 @@ namespace Acemobe.MMO
                 map = Instantiate(startMap);
                 map.transform.SetParent(terrainBase.transform);
             }
+
+            terrains.Add(name, this);
         }
 
         // added but only used on server
@@ -92,7 +94,6 @@ namespace Acemobe.MMO
             worldBounds.Encapsulate(worldBounds.center + new Vector3(0, 10, 0));
 
             name = bounds.ToString();
-            terrains.Add(name, this);
 
             mapData = new Data.MapData.TerrainData[mapWidth, mapDepth];
 

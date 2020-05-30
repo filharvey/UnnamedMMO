@@ -1,5 +1,5 @@
-﻿using SimpleJSON;
-using System.Collections;
+﻿using Mirror;
+using SimpleJSON;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,6 +11,7 @@ namespace Acemobe.MMO.Objects
         public List<Texture> textures;
         public MeshRenderer meshRender;
 
+        [SyncVar(hook = nameof(SetTexture))]
         public int baseTexture = 0;
 
         private void Awake()
@@ -29,6 +30,12 @@ namespace Acemobe.MMO.Objects
         {
             base.OnStartClient();
 
+            updateMaterial();
+        }
+
+        void SetTexture(int oldTex, int tex)
+        {
+            baseTexture = tex;
             updateMaterial();
         }
 
@@ -70,6 +77,9 @@ namespace Acemobe.MMO.Objects
 
             if (textures.Count > 0)
             {
+                if (baseTexture >= textures.Count)
+                    baseTexture = 0;
+
                 materialInstance.mainTexture = textures[baseTexture];
             }
         }

@@ -89,12 +89,13 @@ namespace Acemobe.MMO.Data.MapData
 
         public JSONObject writeData ()
         {
+            JSONObject data = null;
+            bool ret = false;
+
             // add object
             if (obj)
             {
-                int count = 0;
-                JSONObject data = new JSONObject();
-
+                data = new JSONObject();
                 data["pos"] = new JSONObject();
                 data["pos"]["x"].AsInt = Mathf.FloorToInt(transform.localPosition.x);
                 data["pos"]["z"].AsInt = Mathf.FloorToInt(transform.localPosition.z);
@@ -103,36 +104,43 @@ namespace Acemobe.MMO.Data.MapData
                 if (obj.manager == null)
                 {
                     data["obj"] = obj.writeData();
-                    count++;
+                    ret = true;
                 }
-
-                // add walls
-                for (var a = 0; a < walls.Length; a++)
-                {
-                    if (walls[a])
-                    {
-                        if (data["walls"].AsObject == null)
-                            data["walls"] = new JSONObject();
-
-                        data["walls"][a] = walls[a].writeData ();
-                        count++;
-                    }
-                }
-
-                if (count > 0)
-                    return data;
             }
+
+            // add walls
+            for (var a = 0; a < walls.Length; a++)
+            {
+                if (walls[a])
+                {
+                    if (data == null)
+                    {
+                        data = new JSONObject();
+                        data["pos"] = new JSONObject();
+                        data["pos"]["x"].AsInt = Mathf.FloorToInt(transform.localPosition.x);
+                        data["pos"]["z"].AsInt = Mathf.FloorToInt(transform.localPosition.z);
+                        data["angle"].AsInt = Mathf.FloorToInt(transform.eulerAngles.y);
+                    }
+
+                    if (data["walls"] == null)
+                        data["walls"] = new JSONObject();
+
+                    data["walls"][a.ToString ()] = walls[a].writeData ();
+                    ret = true;
+                }
+            }
+
+            if (ret)
+                return data;
 
             return null;
         }
 
         public void readData(JSONObject json)
         {
-            JSONObject objJson = json["obj"].AsObject;
-            JSONObject wallJson = json["walls"].AsObject;
-
-            if (objJson != null)
+            if (json["obj"] != null)
             {
+                JSONObject objJson = json["obj"].AsObject;
                 int x = objJson["pos"]["x"].AsInt;
                 int z = objJson["pos"]["z"].AsInt;
                 int angle = objJson["angle"].AsInt;
@@ -154,13 +162,15 @@ namespace Acemobe.MMO.Data.MapData
                 NetworkServer.Spawn(newObj);
             }
 
-            if (wallJson != null)
+            if (json["walls"] != null)
             {
+                JSONObject wallJson = json["walls"].AsObject;
+
                 for (var a = 0; a < walls.Length; a++)
                 {
-                    if (wallJson[a] != null)
+                    if (wallJson[a.ToString()] != null)
                     {
-                        JSONObject wall = wallJson[a].AsObject;
+                        JSONObject wall = wallJson[a.ToString()].AsObject;
 
                         int x = wall["pos"]["x"].AsInt;
                         int z = wall["pos"]["z"].AsInt;
