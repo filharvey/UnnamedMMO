@@ -115,18 +115,18 @@ namespace Acemobe.MMO
             objects.Remove(obj);
         }
 
-        public JSONClass writeData()
+        public JSONObject writeData()
         {
-            JSONClass json = new JSONClass();
+            JSONObject json = new JSONObject();
             json["name"] = saveName;
-            json["pos"] = new JSONClass();
+            json["pos"] = new JSONObject();
             json["pos"]["x"].AsInt = Mathf.FloorToInt(transform.localPosition.x);
             json["pos"]["z"].AsInt = Mathf.FloorToInt(transform.localPosition.z);
             json["objs"] = new JSONArray();
 
             foreach (var o in objects)
             {
-                JSONClass objData = o.writeData();
+                JSONObject objData = o.writeData();
 
                 json["objs"].Add(objData);
             }
@@ -134,20 +134,20 @@ namespace Acemobe.MMO
             return json;
         }
 
-        public void readData (JSONClass json)
+        public void readData (JSONObject json)
         {
             JSONArray objs = json["objs"].AsArray;
 
             for (int a = 0; a < objs.Count; a++)
             {
-                JSONClass obj = objs[a].AsObject;
+                JSONObject obj = objs[a].AsObject;
 
                 if (obj != null)
                 {
-                    int x = json["pos"]["x"].AsInt;
-                    int z = json["pos"]["z"].AsInt;
-                    float angle = json["angle"].AsFloat;
-                    int gI = json["gameItem"].AsInt;
+                    int x = obj["pos"]["x"].AsInt;
+                    int z = obj["pos"]["z"].AsInt;
+                    float angle = obj["angle"].AsFloat;
+                    int gI = obj["gameItem"].AsInt;
 
                     Vector3 pos = new Vector3(x + 0.5f, 0, z + 0.5f);
                     Quaternion rotation = new Quaternion();
@@ -158,8 +158,7 @@ namespace Acemobe.MMO
                     GameObject newObj = Instantiate(gameItem.prefab, pos, rotation);
                     MMOObject mmoObj = newObj.GetComponent<MMOObject>();
 
-
-                    mmoObj.readData(json);
+                    mmoObj.readData(obj);
 
                     // give link to manager
                     mmoObj.manager = this;

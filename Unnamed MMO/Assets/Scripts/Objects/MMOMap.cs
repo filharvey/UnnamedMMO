@@ -66,7 +66,7 @@ namespace Acemobe.MMO.Objects
 
                     if (result["ok"].AsBool == true)
                     {
-                        JSONClass data = result["data"].AsObject;
+                        JSONObject data = result["json"].AsObject;
 
                         if (data != null)
                         {
@@ -85,7 +85,7 @@ namespace Acemobe.MMO.Objects
 
         void saveWorld ()
         {
-            JSONClass map = terrainMap.writeData ();
+            JSONObject map = terrainMap.writeData ();
 
             string url = "http://server.happyisland.life:3000";
             HTTPRequest request = new HTTPRequest(new System.Uri(url + "/updateIsland"), HTTPMethods.Post, (req, response) =>

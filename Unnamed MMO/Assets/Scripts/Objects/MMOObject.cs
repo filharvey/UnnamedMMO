@@ -21,11 +21,14 @@ namespace Acemobe.MMO.Objects
         [HideInInspector]
         public MMOSpawnManager manager;
 
+        private void Awake()
+        {
+            health = maxHealth;
+        }
+
         public override void OnStartServer()
         {
             base.OnStartServer();
-
-            health = maxHealth;
         }
 
         public override void OnStartClient()
@@ -37,11 +40,11 @@ namespace Acemobe.MMO.Objects
         {
         }
 
-        public virtual JSONClass writeData ()
+        public virtual JSONObject writeData ()
         {
-            JSONClass data = new JSONClass();
+            JSONObject data = new JSONObject();
 
-            data["pos"] = new JSONClass();
+            data["pos"] = new JSONObject();
             data["pos"]["x"].AsInt = Mathf.FloorToInt(transform.localPosition.x);
             data["pos"]["z"].AsInt = Mathf.FloorToInt(transform.localPosition.z);
             data["angle"].AsFloat = transform.eulerAngles.y;
@@ -54,7 +57,7 @@ namespace Acemobe.MMO.Objects
             return data;
         }
 
-        public virtual void readData (JSONClass json)
+        public virtual void readData (JSONObject json)
         {
             health = json["health"].AsInt;
             lifeTime = json["lifeTime"].AsFloat;

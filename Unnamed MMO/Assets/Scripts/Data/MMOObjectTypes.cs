@@ -3,13 +3,14 @@
     public enum MMOObjectTypes
     {
         None = 0,
-        Object = 1,
-        Resource = 2,
-        Item = 3,
-        Crop = 4,
+        Object,
+        Resource,
+        Item,
+        Crop,
         AI,
         NPC,
+        Building,
 
-        Monster = 10
+        Monster = 1000
     };
 }

@@ -130,7 +130,23 @@ namespace Acemobe.MMO
                 {
                     if (!found && item.type == inventory[i].type)
                     {
-                        inventory[i] = new MMOInventoryItem {
+                        inventory[i] = new MMOInventoryItem
+                        {
+                            type = inventory[i].type,
+                            amount = inventory[i].amount + item.amount,
+                            idx = inventory[i].idx,
+                            action = inventory[i].action
+                        };
+                        return true;
+                    }
+                }
+
+                for (var i = 0; i < actionBar.Count; i++)
+                {
+                    if (!found && item.type == actionBar[i].type)
+                    {
+                        actionBar[i] = new MMOInventoryItem
+                        {
                             type = inventory[i].type,
                             amount = inventory[i].amount + item.amount,
                             idx = inventory[i].idx,

@@ -101,6 +101,9 @@ MonoBehaviour:
   manager: {fileID: 0}
   colliders:
   - {fileID: 109557573956708080}
+  textures: []
+  meshRender: {fileID: 0}
+  baseTexture: 0
 --- !u!114 &8081157636708825444
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -129,7 +132,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: -0.3, z: 0}
+  m_Center: {x: 0, y: -0.4, z: 0}
 --- !u!114 &2914222280562412401
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -178,7 +181,7 @@ PrefabInstance:
     - target: {fileID: -4216859302048453862, guid: d9e21026e6c37f142a4fe8548c797891,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: d9e21026e6c37f142a4fe8548c797891,
         type: 3}

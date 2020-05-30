@@ -25,7 +25,7 @@ namespace Acemobe.MMO.Data.ScriptableObjects
         public MMOObjectTypes type;
         public MMOResourceAction actionType;
 
-        public int maxStack;
+        public int maxStack = 1;
 
         public bool isHarvestable;              //
         public bool isPickable;                 // pickup

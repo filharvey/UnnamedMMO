@@ -19,6 +19,7 @@ namespace Acemobe.MMO.Data.ScriptableObjects
         public Sprite icon;
 
         public GameItem item;
+        public int count = 1;
 
         public MMOItemType requiredItem;
 

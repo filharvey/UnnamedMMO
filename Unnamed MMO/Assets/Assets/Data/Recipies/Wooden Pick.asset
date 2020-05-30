@@ -15,18 +15,11 @@ MonoBehaviour:
   name: Wooden Pick
   description: A simple wooden Pick
   icon: {fileID: 21300000, guid: 34fcfc15b9e2156468e92aedcd251bda, type: 3}
-  mat:
-    material: {fileID: 0}
-    count: 0
   item: {fileID: 11400000, guid: 33d1411fb8a5ac04cbf564e41f386f7b, type: 2}
+  count: 1
+  requiredItem: 0
   materials:
   - material: {fileID: 11400000, guid: 840d6eaa3804db344bb86a7f352e2fe2, type: 2}
     count: 5
   - material: {fileID: 11400000, guid: e66f5264173e78c4d881d5047293ff07, type: 2}
     count: 2
-  material1: {fileID: 11400000, guid: 840d6eaa3804db344bb86a7f352e2fe2, type: 2}
-  count1: 4
-  material2: {fileID: 11400000, guid: e66f5264173e78c4d881d5047293ff07, type: 2}
-  count2: 2
-  material3: {fileID: 0}
-  count3: 0

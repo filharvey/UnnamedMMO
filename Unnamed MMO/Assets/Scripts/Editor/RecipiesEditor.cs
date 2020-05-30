@@ -52,6 +52,7 @@ namespace Acemobe.MMO
         SerializedProperty materials;
         SerializedProperty required;
         SerializedProperty icon;
+        SerializedProperty count;
 
         void OnEnable()
         {
@@ -63,6 +64,7 @@ namespace Acemobe.MMO
             required = serializedObject.FindProperty("requiredItem");
             materials = serializedObject.FindProperty("materials");
             icon = serializedObject.FindProperty("icon");
+            count = serializedObject.FindProperty("count");
         }
 
         public override void OnInspectorGUI()
@@ -72,6 +74,7 @@ namespace Acemobe.MMO
             EditorGUILayout.PropertyField(name);
             EditorGUILayout.PropertyField(description);
             EditorGUILayout.PropertyField(item);
+            EditorGUILayout.PropertyField(count);
             EditorGUILayout.PropertyField(icon);
             EditorGUILayout.PropertyField(required);
             RecipieEditorList.Show(materials);

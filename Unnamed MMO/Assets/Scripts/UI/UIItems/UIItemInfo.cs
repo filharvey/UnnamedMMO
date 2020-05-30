@@ -14,7 +14,7 @@ namespace Acemobe.MMO.UI.UIItems
         public int idx;
         public bool isInventory;
 
-        UIInventory inventoryBar;
+        public UIInventory inventoryBar;
 
         public MMOInventoryItem invetoryItem;
 

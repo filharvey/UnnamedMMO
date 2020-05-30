@@ -16,6 +16,7 @@ MonoBehaviour:
   description: Sword
   icon: {fileID: 21300010, guid: 7ca9f53c7069a23409fe0556a2facd8d, type: 3}
   item: {fileID: 11400000, guid: cac0d73bcc90044419b09d7b3ef6fbd9, type: 2}
+  count: 1
   requiredItem: 0
   materials:
   - material: {fileID: 11400000, guid: e66f5264173e78c4d881d5047293ff07, type: 2}

@@ -21,11 +21,14 @@
         WateringCan,
         Plow,
         Hammer,
+        CrowBar,
 
         Sword = 2000,
 
         Building_Base = 10000,
         Building_Wall,
+
+        Stone_Pavement = 11000,
 
         Fence = 15000,
     };

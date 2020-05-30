@@ -11,6 +11,7 @@
         Talk,
         Craft,
         Attack,
-        Build
+        Build,
+        Remove
     };
 }

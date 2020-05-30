@@ -225,6 +225,20 @@ namespace Acemobe.MMO
             }
         }
 
+        public MMOObject getWallAt(int x, int z, int dir)
+        {
+            if (dir < 45 || dir >= 315)
+                return getWallAt(x, z, MAP_DIRECTION.NORTH);
+            else if (dir < 135)
+                return getWallAt(x, z, MAP_DIRECTION.EAST);
+            else if (dir == 225)
+                return getWallAt(x, z, MAP_DIRECTION.SOUTH);
+            else
+                return getWallAt(x, z, MAP_DIRECTION.WEST);
+
+            return null;
+        }
+
         public MMOObject getWallAt(int x, int z, MAP_DIRECTION dir)
         {
             var posX = (int)(Mathf.FloorToInt(x) - bounds.min.x - islandMap.originX);
@@ -232,11 +246,7 @@ namespace Acemobe.MMO
 
             if (posX >= 0 && posZ >= 0 && posX < mapWidth && posZ < mapDepth && mapData[posX, posZ])
             {
-                if (mapData[posX, posZ].obj &&
-                    mapData[posX, posZ].obj.gameItem.itemType == Data.MMOItemType.Building_Base)
-                {
-                    return mapData[posX, posZ].walls[(int)dir];
-                }
+                return mapData[posX, posZ].walls[(int)dir];
             }
 
             return null;
@@ -249,11 +259,7 @@ namespace Acemobe.MMO
 
             if (posX >= 0 && posZ >= 0 && posX < mapWidth && posZ < mapDepth && mapData[posX, posZ])
             {
-                if (mapData[posX, posZ].obj &&
-                    mapData[posX, posZ].obj.gameItem.itemType == Data.MMOItemType.Building_Base)
-                {
-                    mapData[posX, posZ].walls[(int)dir] = obj;
-                }
+                mapData[posX, posZ].walls[(int)dir] = obj;
             }
         }
 
@@ -267,6 +273,23 @@ namespace Acemobe.MMO
                 addWallAt(x, z, MAP_DIRECTION.SOUTH, obj);
             else
                 addWallAt(x, z, MAP_DIRECTION.WEST, obj);
+        }
+
+        public void removeWallAt(int x, int z, float dir)
+        {
+            while (dir < 0)
+                dir += 360;
+            while (dir > 360)
+                dir -= 360;
+
+            if (dir < 45 || dir >= 315)
+                removeWallAt(x, z, MAP_DIRECTION.NORTH);
+            else if (dir < 135)
+                removeWallAt(x, z, MAP_DIRECTION.EAST);
+            else if (dir == 225)
+                removeWallAt(x, z, MAP_DIRECTION.SOUTH);
+            else
+                removeWallAt(x, z, MAP_DIRECTION.WEST);
         }
 
         public void removeWallAt(int x, int z, MAP_DIRECTION dir)
@@ -284,16 +307,16 @@ namespace Acemobe.MMO
             }
         }
 
-        public JSONClass writeData ()
+        public JSONObject writeData ()
         {
-            JSONClass data = new JSONClass();
+            JSONObject data = new JSONObject();
             data["terrains"] = new JSONArray();
             data["spawners"] = new JSONArray();
 
             foreach (var s in spawnManagers)
             {
                 MMOSpawnManager sMgr = s.Value;
-                JSONClass spawner = sMgr.writeData();
+                JSONObject spawner = sMgr.writeData();
 
                 data["spawners"].Add(spawner);
             }
@@ -301,7 +324,7 @@ namespace Acemobe.MMO
             foreach (var t in terrain)
             {
                 Data.MapData.TerrainData terrainData = t.Value;
-                JSONClass terrain = terrainData.writeData();
+                JSONObject terrain = terrainData.writeData();
 
                 if (terrain != null)
                 {
@@ -312,14 +335,14 @@ namespace Acemobe.MMO
             return data;
         }
 
-        public void readData(JSONClass json)
+        public void readData(JSONObject json)
         {
             JSONArray terrain = json["terrains"].AsArray;
             JSONArray spawners = json["spawners"].AsArray;
 
             for (int s = 0; s < spawners.Count; s++)
             {
-                JSONClass spawnJson = spawners[s].AsObject;
+                JSONObject spawnJson = spawners[s].AsObject;
                 string name = spawnJson["name"];
 
                 spawnManagers[name].readData(spawnJson);
@@ -327,7 +350,7 @@ namespace Acemobe.MMO
 
             for (int s = 0; s < terrain.Count; s++)
             {
-                JSONClass terrainJson = terrain[s].AsObject;
+                JSONObject terrainJson = terrain[s].AsObject;
                 int x = terrainJson["pos"]["x"].AsInt;
                 int z = terrainJson["pos"]["z"].AsInt;
 

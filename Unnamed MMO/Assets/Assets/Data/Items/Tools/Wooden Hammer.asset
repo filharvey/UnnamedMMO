@@ -18,10 +18,11 @@ MonoBehaviour:
   itemType: 1005
   type: 1
   actionType: 9
-  maxStack: 0
+  maxStack: 1
   isHarvestable: 0
-  isStorable: 0
   isPickable: 0
-  isCrop: 0
+  isBuildingBase: 0
+  isWall: 0
+  requiresBase: 0
   dropItems: []
   growthTime: 0

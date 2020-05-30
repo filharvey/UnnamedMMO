@@ -35,7 +35,8 @@ namespace Acemobe.MMO.UI
             }
             else
             {
-                UIManager.instance.hideAllUIPanels();
+                UIManager.instance.customizeUI.gameObject.SetActive(false);
+                UIManager.instance.chatUI.gameObject.SetActive(false);
 
                 gameObject.SetActive(true);
                 updateInventory();

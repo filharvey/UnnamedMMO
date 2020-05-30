@@ -132,10 +132,10 @@ namespace Acemobe.MMO.Data.MapData
 
             if (objJson != null)
             {
-                int x = json["pos"]["x"].AsInt;
-                int z = json["pos"]["z"].AsInt;
-                float angle = json["angle"].AsFloat;
-                int gI = json["gameItem"].AsInt;
+                int x = objJson["pos"]["x"].AsInt;
+                int z = objJson["pos"]["z"].AsInt;
+                float angle = objJson["angle"].AsFloat;
+                int gI = objJson["gameItem"].AsInt;
 
                 Vector3 pos = new Vector3(x + 0.5f, 0, z + 0.5f);
                 Quaternion rotation = new Quaternion();
@@ -146,7 +146,7 @@ namespace Acemobe.MMO.Data.MapData
                 GameObject newObj = Instantiate(gameItem.prefab, pos, rotation);
                 MMOObject mmoObj = newObj.GetComponent<MMOObject>();
 
-                mmoObj.readData(json);
+                mmoObj.readData(objJson);
 
                 getLocalTerrainManager.addObjectAt((int)pos.x, (int)pos.z, mmoObj);
 
@@ -160,26 +160,25 @@ namespace Acemobe.MMO.Data.MapData
                     JSONClass wall = wallJson[a].AsObject;
                     if (wall != null)
                     {
-                        /*                        int x = json["pos"]["x"].AsInt;
-                                                int z = json["pos"]["z"].AsInt;
-                                                float angle = json["angle"].AsFloat;
-                                                int gI = json["gameItem"].AsInt;
+                        int x = wall["pos"]["x"].AsInt;
+                        int z = wall["pos"]["z"].AsInt;
+                        float angle = wall["angle"].AsFloat;
+                        int gI = wall["gameItem"].AsInt;
 
-                                                Vector3 pos = new Vector3(x + 0.5f, 0, z + 0.5f);
-                                                Quaternion rotation = new Quaternion();
-                                                rotation.eulerAngles = new Vector3(0, angle, 0);
+                        Vector3 pos = new Vector3(x + 0.5f, 0, z + 0.5f);
+                        Quaternion rotation = new Quaternion();
+                        rotation.eulerAngles = new Vector3(0, angle, 0);
 
-                                                GameItem gameItem = MMOResourceManager.instance.getItemByType((MMOItemType)gI);
+                        GameItem gameItem = MMOResourceManager.instance.getItemByType((MMOItemType)gI);
 
-                                                GameObject newObj = Instantiate(gameItem.prefab, pos, rotation);
-                                                MMOObject mmoObj = newObj.GetComponent<MMOObject>();
+                        GameObject newObj = Instantiate(gameItem.prefab, pos, rotation);
+                        MMOObject mmoObj = newObj.GetComponent<MMOObject>();
 
-                                                mmoObj.readData(json);
+                        mmoObj.readData(wall);
 
-                                                getLocalTerrainManager.addObjectAt((int)pos.x, (int)pos.z, mmoObj);
+                        getLocalTerrainManager.addObjectAt((int)pos.x, (int)pos.z, mmoObj);
 
-                                                NetworkServer.Spawn(newObj);
-                        */
+                        NetworkServer.Spawn(newObj);
                     }
                 }
             }

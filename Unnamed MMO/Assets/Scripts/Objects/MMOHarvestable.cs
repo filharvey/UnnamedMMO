@@ -26,9 +26,9 @@ namespace Acemobe.MMO.Objects
         public float                startScale = 0.25f;
         public float                variation = 0.1f;
 
-        public override void OnStartServer()
+        private void Awake()
         {
-            base.OnStartServer();
+            health = maxHealth;
 
             finalSize = finalSize + Random.Range(-variation, variation);
             startScale = Mathf.Min(startScale, finalSize);
@@ -37,22 +37,26 @@ namespace Acemobe.MMO.Objects
 
             if (displayMesh.Count > 0)
             {
-                meshIdx = (int) Mathf.Floor(Random.Range(0, displayMesh.Count - 1));
-
-                for (int a =  0; a < displayMesh.Count; a++)
-                {
-                    if (a == meshIdx)
-                        displayMesh[a].SetActive(true);
-                    else
-                        displayMesh[a].SetActive(false);
-                }
+                meshIdx = (int)Mathf.Floor(Random.Range(0, displayMesh.Count - 1));
             }
+        }
+
+        public override void OnStartServer()
+        {
+            base.OnStartServer();
+
+            updateMesh();
         }
 
         public override void OnStartClient()
         {
             base.OnStartClient();
 
+            updateMesh();
+        }
+
+        void updateMesh ()
+        {
             if (displayMesh.Count > 0)
             {
                 for (int a = 0; a < displayMesh.Count; a++)
@@ -82,21 +86,26 @@ namespace Acemobe.MMO.Objects
             }
         }
 
-        public override JSONClass writeData()
+        public override JSONObject writeData()
         {
-            JSONClass data = base.writeData();
+            JSONObject data = base.writeData();
             data["finalSize"].AsFloat = finalSize;
             data["startScale"].AsFloat = startScale;
-
+            data["meshIdx"].AsInt = meshIdx;
+            
             return data;
         }
 
-        public override void readData(JSONClass json)
+        public override void readData(JSONObject json)
         {
             base.readData(json);
 
             finalSize = json["finalSize"].AsFloat;
             startScale = json["startScale"].AsFloat;
+            meshIdx = json["meshIdx"].AsInt;
+
+            float scale = Mathf.Min(finalSize, startScale + (finalSize - startScale) * (lifeTime / growthTime));
+            transform.localScale = new Vector3(scale, scale, scale);
         }
     }
 }

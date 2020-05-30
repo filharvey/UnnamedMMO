@@ -73,8 +73,9 @@ namespace Acemobe.MMO.UI
         public void hideAllUIPanels ()
         {
             UIManager.instance.customizeUI.gameObject.SetActive(false);
-            UIManager.instance.craftUI.gameObject.SetActive(false);
             UIManager.instance.chatUI.gameObject.SetActive(false);
+
+            UIManager.instance.craftUI.gameObject.SetActive(false);
             UIManager.instance.inventoryUI.gameObject.SetActive(false);
         }
 

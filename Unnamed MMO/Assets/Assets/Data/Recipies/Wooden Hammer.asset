@@ -16,6 +16,7 @@ MonoBehaviour:
   description: Basic Wooden Hammer
   icon: {fileID: 21300000, guid: 57164e75e8ab2ec40aed6ab6c5a60bc5, type: 3}
   item: {fileID: 11400000, guid: 2798ddb62504d474990e6a27ad60b69d, type: 2}
+  count: 1
   requiredItem: 0
   materials:
   - material: {fileID: 11400000, guid: 840d6eaa3804db344bb86a7f352e2fe2, type: 2}

@@ -16,7 +16,7 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: a543301ab0d871640aa1f4cd366b459f, type: 3}
   prefab: {fileID: 516013323242500567, guid: 9b606d4d5fe8fdc48b80a05401811e43, type: 3}
   itemType: 10001
-  type: 1
+  type: 7
   actionType: 9
   maxStack: 25
   isHarvestable: 0

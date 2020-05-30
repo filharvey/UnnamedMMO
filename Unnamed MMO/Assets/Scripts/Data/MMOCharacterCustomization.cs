@@ -44,10 +44,10 @@ namespace Acemobe.MMO
                     }
                 });
 
-                JSONClass data = new JSONClass();
+                JSONObject data = new JSONObject();
 
                 // first character
-                data["char"] = new JSONClass();
+                data["char"] = new JSONObject();
 
                 data["char"]["head"].AsInt = head;
                 data["char"]["torso"].AsInt = torso;
@@ -60,7 +60,7 @@ namespace Acemobe.MMO
                 data["action"] = new JSONArray();
                 for (var a = 0; a < player.inventory.actionBar.Count; a++)
                 {
-                    var item = new JSONClass();
+                    var item = new JSONObject();
                     item["type"].AsInt = (int) player.inventory.actionBar[a].type;
                     item["amount"].AsInt = player.inventory.actionBar[a].amount;
 
@@ -71,7 +71,7 @@ namespace Acemobe.MMO
                 data["inv"] = new JSONArray();
                 for (var a = 0; a < player.inventory.inventory.Count; a++)
                 {
-                    var item = new JSONClass();
+                    var item = new JSONObject();
                     item["type"].AsInt = (int)player.inventory.inventory[a].type;
                     item["amount"].AsInt = player.inventory.inventory[a].amount;
 
@@ -79,7 +79,7 @@ namespace Acemobe.MMO
                 }
 
                 // position????
-                data["pos"] = new JSONClass();
+                data["pos"] = new JSONObject();
                 data["pos"]["x"].AsInt = (int)(player.transform.position.x * 100);
                 data["pos"]["z"].AsInt = (int)(player.transform.position.z * 100);
 
