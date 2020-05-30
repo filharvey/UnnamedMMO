@@ -567,7 +567,7 @@ namespace Acemobe.MMO.Objects
                                 startRemoveAction(obj);
                             }
                         }
-                        else if (obj.gameItem.isBuildingBase)
+                        else if (curHeldAction == MMOResourceAction.Build)
                         {
                             startBuildAction(activeItem, x, z);
                         }
@@ -708,6 +708,15 @@ namespace Acemobe.MMO.Objects
                     {
                         good = true;
                     }
+                }
+            }
+            else if (activeItem.isWall)
+            {
+                if (terrainData &&
+                    terrainData.isPublic &&
+                    !terrainData.hasWall(buildAngle))
+                {
+                    good = true;
                 }
             }
             else if (terrainData &&
