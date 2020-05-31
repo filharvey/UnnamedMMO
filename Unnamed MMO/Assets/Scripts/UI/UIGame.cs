@@ -29,6 +29,19 @@ namespace Acemobe.MMO.UI
 
         }
 
+        public void addNotification(string text)
+        {
+            GameObject obj = Instantiate<GameObject>(notificationPrefab);
+            UINotificatoin notification = obj.GetComponent<UINotificatoin>();
+
+            notification.text.text = text;
+
+            obj.transform.SetParent(notificationPanel.transform);
+            notificationList.Insert(0, obj);
+
+            updateNotifications();
+        }
+
         public void addNotification(MMOInventoryItem item)
         {
             GameItem gameItem = MMOResourceManager.instance.getItemByType(item.type);

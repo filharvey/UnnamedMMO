@@ -12,6 +12,7 @@ namespace Acemobe.MMO
         public SyncListItem inventory = new SyncListItem();
         public SyncListItem actionBar = new SyncListItem();
 
+        [SyncVar]
         public int activeItem = -1;
 
         void Start()
@@ -147,10 +148,10 @@ namespace Acemobe.MMO
                     {
                         actionBar[i] = new MMOInventoryItem
                         {
-                            type = inventory[i].type,
-                            amount = inventory[i].amount + item.amount,
-                            idx = inventory[i].idx,
-                            action = inventory[i].action
+                            type = actionBar[i].type,
+                            amount = actionBar[i].amount + item.amount,
+                            idx = actionBar[i].idx,
+                            action = actionBar[i].action
                         };
                         return true;
                     }

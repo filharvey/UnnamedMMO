@@ -15,13 +15,14 @@ MonoBehaviour:
   name: CarrotPlant
   icon: {fileID: 0}
   prefab: {fileID: 5040940490070232708, guid: 72109e682f1cb8b4e96d1570f5ac14e6, type: 3}
-  itemType: 500
+  itemType: 600
   type: 4
   actionType: 0
   maxStack: 0
   isHarvestable: 1
   isPickable: 0
   isBuildingBase: 0
+  isWall: 0
   requiresBase: 0
   dropItems:
   - material: {fileID: 11400000, guid: d6326a16e914ef24583c36cad3b3320a, type: 2}

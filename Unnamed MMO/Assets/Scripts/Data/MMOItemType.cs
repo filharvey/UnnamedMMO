@@ -12,6 +12,8 @@
 
         CarrotPlant = 600,
 
+        CarrotSeed = 700,
+
         Tree = 750,
         Rock,
 

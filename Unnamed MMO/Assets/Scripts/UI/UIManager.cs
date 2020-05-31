@@ -70,6 +70,11 @@ namespace Acemobe.MMO.UI
             gameUI.addNotification(item);
         }
 
+        public void showNotification(string text)
+        {
+            gameUI.addNotification(text);
+        }
+
         public void hideAllUIPanels ()
         {
             UIManager.instance.customizeUI.gameObject.SetActive(false);

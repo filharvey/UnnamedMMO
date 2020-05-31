@@ -11,11 +11,11 @@ GameObject:
   - component: {fileID: 7840078963103330536}
   - component: {fileID: 5402057413218183650}
   - component: {fileID: 8774860204600774699}
-  - component: {fileID: 4511412114097419080}
   - component: {fileID: 7142207646795755621}
   - component: {fileID: 5020505034155343192}
+  - component: {fileID: 4511412114097419080}
   m_Layer: 13
-  m_Name: Fence
+  m_Name: Wooden Fence
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -69,30 +69,6 @@ MonoBehaviour:
   visRange: 30
   visUpdateInterval: 1
   forceHidden: 0
---- !u!114 &4511412114097419080
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6527641790661493499}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 60d716fe09568aa47a55e200c166367f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  health: 0
-  maxHealth: 0
-  lifeTime: 0
-  gameItem: {fileID: 11400000, guid: d11e48d0d73624e40bbb430aa9538ab0, type: 2}
-  manager: {fileID: 0}
-  colliders:
-  - {fileID: 7142207646795755621}
-  textures: []
-  meshRender: {fileID: 0}
-  baseTexture: 0
 --- !u!65 &7142207646795755621
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -122,6 +98,30 @@ MonoBehaviour:
   m_Area: 1
   m_IgnoreFromBuild: 0
   m_AffectedAgents: ffffffff
+--- !u!114 &4511412114097419080
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6527641790661493499}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60d716fe09568aa47a55e200c166367f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  health: 0
+  maxHealth: 0
+  lifeTime: 0
+  gameItem: {fileID: 11400000, guid: d11e48d0d73624e40bbb430aa9538ab0, type: 2}
+  manager: {fileID: 0}
+  colliders:
+  - {fileID: 7142207646795755621}
+  textures: []
+  meshRender: {fileID: 0}
+  baseTexture: 0
 --- !u!1001 &2874877160846253864
 PrefabInstance:
   m_ObjectHideFlags: 0

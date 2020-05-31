@@ -73,7 +73,7 @@ namespace Acemobe.MMO.Data.MapData
                 if (walls[(int)MAP_DIRECTION.EAST])
                     return true;
             }
-            else if (dir == 225)
+            else if (dir < 225)
             {
                 if (walls[(int)MAP_DIRECTION.SOUTH])
                     return true;
@@ -187,7 +187,7 @@ namespace Acemobe.MMO.Data.MapData
                         MMOObject mmoObj = newObj.GetComponent<MMOObject>();
 
                         mmoObj.readData(wall);
-                        getLocalTerrainManager.addObjectAt(x, z, mmoObj);
+                        getLocalTerrainManager.addWallAt(x, z, angle, mmoObj);
 
                         NetworkServer.Spawn(newObj);
                     }

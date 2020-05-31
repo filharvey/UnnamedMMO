@@ -232,7 +232,7 @@ namespace Acemobe.MMO
                 return getWallAt(x, z, MAP_DIRECTION.NORTH);
             else if (dir < 135)
                 return getWallAt(x, z, MAP_DIRECTION.EAST);
-            else if (dir == 225)
+            else if (dir < 225)
                 return getWallAt(x, z, MAP_DIRECTION.SOUTH);
             else
                 return getWallAt(x, z, MAP_DIRECTION.WEST);
@@ -270,7 +270,7 @@ namespace Acemobe.MMO
                 addWallAt(x, z, MAP_DIRECTION.NORTH, obj);
             else if (dir < 135)
                 addWallAt(x, z, MAP_DIRECTION.EAST, obj);
-            else if (dir == 225)
+            else if (dir < 225)
                 addWallAt(x, z, MAP_DIRECTION.SOUTH, obj);
             else
                 addWallAt(x, z, MAP_DIRECTION.WEST, obj);
@@ -287,7 +287,7 @@ namespace Acemobe.MMO
                 removeWallAt(x, z, MAP_DIRECTION.NORTH);
             else if (dir < 135)
                 removeWallAt(x, z, MAP_DIRECTION.EAST);
-            else if (dir == 225)
+            else if (dir < 225)
                 removeWallAt(x, z, MAP_DIRECTION.SOUTH);
             else
                 removeWallAt(x, z, MAP_DIRECTION.WEST);

@@ -16,7 +16,7 @@ MonoBehaviour:
   description: Wooden Building Base
   icon: {fileID: 0}
   item: {fileID: 11400000, guid: 209bda490d6a47c419341dce0211e944, type: 2}
-  count: 1
+  count: 5
   requiredItem: 1005
   materials:
   - material: {fileID: 11400000, guid: 840d6eaa3804db344bb86a7f352e2fe2, type: 2}

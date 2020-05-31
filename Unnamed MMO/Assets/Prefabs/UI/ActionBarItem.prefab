@@ -365,6 +365,11 @@ PrefabInstance:
       propertyPath: m_margin.z
       value: 0.25221634
       objectReference: {fileID: 0}
+    - target: {fileID: 8690445259521480022, guid: 02c2b074360374344a58d4b284cd2368,
+        type: 3}
+      propertyPath: m_fontStyle
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8691254709806563809, guid: 02c2b074360374344a58d4b284cd2368,
         type: 3}
       propertyPath: m_Enabled

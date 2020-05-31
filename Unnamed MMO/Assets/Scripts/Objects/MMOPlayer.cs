@@ -68,7 +68,6 @@ namespace Acemobe.MMO.Objects
 
         [Header("Action Vars")]
         public MMOResourceAction curAction = MMOResourceAction.None;
-        public int activeItem = 0;
         public MMOObject actionTarget;
         public MMOObject nextActionTarget;
         public int actionX = -1;
@@ -79,7 +78,10 @@ namespace Acemobe.MMO.Objects
         // building controls
         MMOBuilding buildItem;
         GameObject highlightItem;
+        [SyncVar]
         public int buildAngle = 0;
+
+        [SyncVar]
         public int textureId = 0;
 
         // Rewired
@@ -174,7 +176,7 @@ namespace Acemobe.MMO.Objects
                     {
                         if (buildItem)
                         {
-                            buildAngle = (buildAngle + 90) % 360;
+                            CmdUpdateBuildAngle((buildAngle + 90) % 360);
                         }
                     }
 
@@ -226,7 +228,7 @@ namespace Acemobe.MMO.Objects
                         {
                             buildItem.changeMaterial();
 
-                            textureId = buildItem.baseTexture;
+                            CmdUpdateTexture(buildItem.baseTexture);
                         }
                     }
 
@@ -688,6 +690,7 @@ namespace Acemobe.MMO.Objects
         {
             if (!inventory.hasItemCount(MMOItemType.Hammer, 1))
             {
+                UIManager.instance.showNotification("Requires Hammer");
                 return;
             }
 
@@ -1176,6 +1179,18 @@ namespace Acemobe.MMO.Objects
         }
 
         [Command]
+        public void CmdUpdateBuildAngle(int angle)
+        {
+            buildAngle = angle;
+        }
+
+        [Command]
+        public void CmdUpdateTexture(int id)
+        {
+            textureId = id;
+        }
+
+        [Command]
         public void CmdMouseUpdateObject(uint netId)
         {
             if (!serverobj)
@@ -1319,7 +1334,15 @@ namespace Acemobe.MMO.Objects
                 switch (activeItem.actionType)
                 {
                     case MMOResourceAction.Plant:
-                        serverobj.displayItem = "plow";
+                        if (activeItem.itemType == MMOItemType.Plow ||
+                            inventory.hasItemCount(MMOItemType.Plow, 1))
+                        {
+                            serverobj.displayItem = "plow";
+                        }
+                        else
+                        {
+                            serverobj.displayItem = "";
+                        }
                         break;
                     case MMOResourceAction.Chop:
                         serverobj.displayItem = "axe";

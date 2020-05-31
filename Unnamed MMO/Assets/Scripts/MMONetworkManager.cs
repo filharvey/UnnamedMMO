@@ -5,6 +5,7 @@ using Acemobe.MMO.Objects;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using System.Collections;
+using Acemobe.MMO.Data.ScriptableObjects;
 
 namespace Acemobe.MMO
 {
@@ -30,6 +31,13 @@ namespace Acemobe.MMO
             mainIsland.createTerrain();
             mainIsland.islandMap.owner = "server";
             mainIsland.islandMap.loadWorld();
+
+            GameItem npc = MMOResourceManager.instance.getItem("NPC");
+
+            if (npc)
+            {
+                mainIsland.islandMap.spawnObject (2, -6, 45, npc, false);
+            }
 
             // load an island
             //            loadIsland(smallMap, 500, 0);

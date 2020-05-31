@@ -106,20 +106,36 @@ namespace Acemobe.MMO.Objects
             request.Send();
         }
 
-        void createSpawner (int x, int z, GameItem item)
+        public void createSpawner (int x, int z, GameItem item)
         {
             // create a spwaner
             Vector3 pos = new Vector3(x + 0.5f, 0f, z + 0.5f);
             Quaternion rotation = new Quaternion();
-            rotation.eulerAngles = new Vector3(0, 0, 0);
 
             GameObject spawner = MMOResourceManager.instance.spawnerPrefab;
             GameObject obj = Instantiate(spawner, pos, rotation);
             MMOObject mmoObj = obj.GetComponent<MMOObject>();
             MMOSpawnManager spawnObj = obj.GetComponent<MMOSpawnManager>();
-            spawnObj.spawnItem = MMOResourceManager.instance.getItem("Tree");
+            spawnObj.spawnItem = item;
 
-            terrainMap.addObjectAt(0, 0, mmoObj);
+            terrainMap.addObjectAt(x, z, mmoObj);
+            NetworkServer.Spawn(obj);
+        }
+
+        public void spawnObject(int x, int z, int angle, GameItem item, bool addToTerrain)
+        {
+            // create a spwaner
+            Vector3 pos = new Vector3(x + 0.5f, 0f, z + 0.5f);
+            Quaternion rotation = new Quaternion();
+            rotation.eulerAngles = new Vector3(0, angle, 0);
+
+            GameObject spawner = item.prefab;
+            GameObject obj = Instantiate(spawner, pos, rotation);
+            MMOObject mmoObj = obj.GetComponent<MMOObject>();
+
+            if (addToTerrain)
+                terrainMap.addObjectAt(x, z, mmoObj);
+
             NetworkServer.Spawn(obj);
         }
     }

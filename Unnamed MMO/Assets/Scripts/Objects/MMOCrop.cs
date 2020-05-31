@@ -42,8 +42,10 @@ namespace Acemobe.MMO.Objects
             if (states.Count > 0)
             {
                 int count = states.Count;
-                float step = lifeTime / count;
-                int lifeState = Mathf.Min((int)(lifeTime / (crop.growthTime / count)), states.Count - 1);
+                float stepTime = crop.growthTime / count;
+                int lifeState = (int)(lifeTime / stepTime);
+
+                lifeState = Mathf.Min(lifeState, count - 1);
 
                 for (var a = 0; a < states.Count; a++)
                 {
